@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::group(['prefix' => 'shoping.'], function() {
-    Route::get('/home/index', [HomeController::class, 'home'])->name('home');
-// });
+Route::group(['as' => 'shoping.'], function() {
+    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('/blog-list', [HomeController::class, 'blogList'])->name('blog_list');
+});
