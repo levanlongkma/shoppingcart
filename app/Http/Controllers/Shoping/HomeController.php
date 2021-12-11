@@ -11,9 +11,9 @@ class HomeController extends Controller
     {
         return view('shoping.pages.home');
     }
+
     public function blogList()
     {
         return view('shoping.pages.blog.blog_list');
     }
-    
 }
