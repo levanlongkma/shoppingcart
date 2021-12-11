@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Shoping\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::group(['prefix' => 'shoping.'], function() {
+    Route::get('/home/index', [HomeController::class, 'home'])->name('home');
+// });
