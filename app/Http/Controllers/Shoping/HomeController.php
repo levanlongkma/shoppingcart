@@ -15,12 +15,12 @@ class HomeController extends Controller
     
     public function blogList()
     {
-        return view('shoping.pages.blog.blog_list');
+        return view('shoping.pages.blog.blog-list');
     }
 
     public function blogSingle()
     {
-        return view('shoping.pages.blog.blog_single');
+        return view('shoping.pages.blog.blog-single');
 
     }
 
@@ -31,7 +31,7 @@ class HomeController extends Controller
 
     public function productDetails()
     {
-        return view('shoping.pages.shop.product_details');
+        return view('shoping.pages.shop.product-details');
     }
 
     public function Checkout()
@@ -53,6 +53,6 @@ class HomeController extends Controller
 
     public function ContactUs()
     {
-        return view('shoping.pages.contact_us.contact_us');
+        return view('shoping.pages.contact_us.contact-us');
     }
 }
