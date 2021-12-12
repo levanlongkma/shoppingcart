@@ -17,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'shoping.'], function() {
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::get('/blog-list', [HomeController::class, 'blogList'])->name('blog_list');
+    Route::get('/blog-single', [HomeController::class, 'blogSingle'])->name('blog_single');
+    Route::get('/products', [HomeController::class, 'products'])->name('products');
+    Route::get('/product-details', [HomeController::class, 'productDetails'])->name('product_details');
+    Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
+    Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
+    Route::get('/login', [HomeController::class, 'Login'])->name('login');
+    Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
 });

@@ -1,4 +1,9 @@
 @extends('shoping.index')
+@push('title')
+Home | E-Shop
+@endpush
+
+
 @section('content')  
     <section id="slider"><!--slider-->
         <div class="container">

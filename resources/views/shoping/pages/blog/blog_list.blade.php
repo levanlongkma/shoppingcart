@@ -1,5 +1,9 @@
 @extends('shoping.index')
 
+@push('title')
+Blog | E-Shop
+@endpush
+
 @section('content')
 <section>
     <div class="container">
