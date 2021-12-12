@@ -1,4 +1,4 @@
-@extends('shoping.index')
+@extends('shopping.index')
 
 @push('title')
 Blog Single | E-Shop

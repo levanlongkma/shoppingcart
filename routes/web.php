@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Shoping\HomeController;
+use App\Http\Controllers\Shopping\HomeController;
+use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['as' => 'shoping.'], function() {
+Route::group(['as' => 'shopping.'], function() {
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::get('/blog-list', [HomeController::class, 'blogList'])->name('blog_list');
     Route::get('/blog-single', [HomeController::class, 'blogSingle'])->name('blog_single');

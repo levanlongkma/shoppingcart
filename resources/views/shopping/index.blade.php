@@ -21,11 +21,11 @@
 </head><!--/head-->
 
 <body>
-	@include('shoping.layouts.header')
+	@include('shopping.layouts.header')
 
     @yield('content')
 
-    @include('shoping.layouts.footer')
+    @include('shopping.layouts.footer')
   
     <script src="{{ asset('/js/jquery.js') }}"></script>
 	<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
