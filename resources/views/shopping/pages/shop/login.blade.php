@@ -11,13 +11,20 @@ Login | E-Shopper
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
-                    <form action="#">
-                        <input type="text" placeholder="Name" />
-                        <input type="email" placeholder="Email Address" />
-                        <span>
+                    <form method="POST" action="/login">
+                        @csrf
+                        <input type="text" name="name" placeholder="Name" />
+                        @error('name_login')
+                            {{ $message }}
+                        @enderror
+                        <input type="password" name="password" placeholder="Password" />
+                        @error('password_login')
+                            {{ $message }}
+                        @enderror
+                        {{-- <span>
                             <input type="checkbox" class="checkbox"> 
                             Keep me signed in
-                        </span>
+                        </span> --}}
                         <button type="submit" class="btn btn-default">Login</button>
                     </form>
                 </div><!--/login form-->
@@ -28,10 +35,20 @@ Login | E-Shopper
             <div class="col-sm-4">
                 <div class="signup-form"><!--sign up form-->
                     <h2>New User Signup!</h2>
-                    <form action="#">
-                        <input type="text" placeholder="Name"/>
-                        <input type="email" placeholder="Email Address"/>
-                        <input type="password" placeholder="Password"/>
+                    <form method="POST" action="/register">
+                        @csrf
+                        <input type="text" name="name" placeholder="Name"/>
+                        @error('name')
+                            {{ $message }}
+                        @enderror
+                        <input type="email" name="email" placeholder="Email Address"/>
+                        @error('email')
+                            {{ $message }}
+                        @enderror
+                        <input type="password" name="password" placeholder="Password"/>
+                        @error('password')
+                            {{ $message }}
+                        @enderror
                         <button type="submit" class="btn btn-default">Signup</button>
                     </form>
                 </div><!--/sign up form-->

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +27,9 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
     Route::get('/login', [HomeController::class, 'Login'])->name('login');
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
+    Route::get('/logout', [AuthController::class, 'LogOut'])->name('logout');
 });
+Route::post('/register', [AuthController::class,'SignUp']);
+Route::post('/login', [AuthController::class, 'LogIn']);
+
+
