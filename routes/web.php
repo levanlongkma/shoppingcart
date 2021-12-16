@@ -28,8 +28,11 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/login', [HomeController::class, 'Login'])->name('login');
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
+    Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
+    Route::post('/register', [AuthController::class,'signUp'])->name('register');
+
 });
-Route::post('/register', [AuthController::class,'signUp']);
-Route::post('/login', [AuthController::class, 'logIn']);
+
+
 
 

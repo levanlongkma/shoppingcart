@@ -23,18 +23,19 @@ class AuthController extends Controller
 
     public function logIn(Request $request)
     {
+
+        if(Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')])){
+
+            return redirect()->route('shopping.home');
+        }
         $validated = $request->validate([
             'name_login'=>'required',
             'password_login'=>'required',
         ]);
 
-    if(Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')]))
-    {
-        return redirect()->route('shopping.home');
-    }
-        $request->session()->flash('error','Đăng nhập thất bại');
+        $request->session()->flash('error','Login failed');
 
-        return redirect('/login');
+        return redirect()->route('shopping.login');
     }
 
     public function logOut()

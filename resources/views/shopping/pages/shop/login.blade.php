@@ -11,7 +11,11 @@ Login | E-Shopper
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
-                    <form method="POST" action="/login">
+                    @if (request()->session()->has('error'))
+                        <p style="color: red">{{ request()->session()->get('error') }}</p>
+                
+                    @endif
+                    <form method="POST" action="{{ route('shopping.login_post') }}">
                         @csrf
                         <input type="text" name="name" placeholder="Name" />
                         @error('name_login')
@@ -35,7 +39,7 @@ Login | E-Shopper
             <div class="col-sm-4">
                 <div class="signup-form"><!--sign up form-->
                     <h2>New User Signup!</h2>
-                    <form method="POST" action="/register">
+                    <form method="POST" action="{{ route('shopping.register') }}">
                         @csrf
                         <input type="text" name="name" placeholder="Name"/>
                         @error('name')
