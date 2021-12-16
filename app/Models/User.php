@@ -42,7 +42,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function SetPasswordAttribute($value)
+    public function setPasswordAttribute($value)
     {
         $this->attributes['password']=Hash::make($value);
     }
