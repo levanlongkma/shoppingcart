@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function SignUp( Request $request )
+    public function signUp( Request $request )
     {
         $validated = $request->validate([
             'name'=>'required',
@@ -18,30 +18,29 @@ class AuthController extends Controller
         $user = User::create($request->input());
         Auth::login($user);
 
-        return redirect('/');
+        return redirect()->route('shopping.home');
     }
 
-    public function LogIn(Request $request)
+    public function logIn(Request $request)
     {
         $validated = $request->validate([
             'name_login'=>'required',
-            
             'password_login'=>'required',
         ]);
 
-        if(Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')]))
-        {
-            return redirect('/');
-        }
+    if(Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')]))
+    {
+        return redirect()->route('shopping.home');
+    }
         $request->session()->flash('error','Đăng nhập thất bại');
 
         return redirect('/login');
     }
 
-    public function LogOut()
+    public function logOut()
     {
         Auth::logout();
 
-        return redirect('/');
+        return redirect()->route('shopping.home');
     }
 }
