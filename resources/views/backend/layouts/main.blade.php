@@ -1,8 +1,5 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+ <html class="no-js" lang="">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,7 +41,7 @@
             padding-bottom: 10px;
         }
         #flotLine5  {
-             height: 105px;
+            height: 105px;
         }
 
         #flotBarChart {
@@ -58,10 +55,10 @@
 </head>
 
 <body>
-    @include('backend.layouts._header')
+    @include('backend.layouts.header')
     @yield('content')
     <div class="clearfix"></div>
-    @include('backend.layouts._footer')
+    @include('backend.layouts.footer')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
