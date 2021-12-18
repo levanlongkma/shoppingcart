@@ -10,7 +10,11 @@
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Tags: html, themplate, Ela Admin
 --------------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* 
+
 
 
 Googel Fonts  */
