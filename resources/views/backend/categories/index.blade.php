@@ -137,7 +137,7 @@
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created at</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated at</th>
-                        <th class="text-secondary opacity-7">Actions</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -190,7 +190,7 @@
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created at</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated at</th>
-                        <th class="text-secondary opacity-7">Actions</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -199,7 +199,7 @@
                                 <h6 class="mb-0 text-sm text-center">1</h6>
                             </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0 text-center">Men shirt</p>
+                                <p class="text-xs font-weight-bold mb-0 text-center">Gentlemen Fashion</p>
                             </td>
                             <td class="align-middle text-center text-sm text-center">
                                 <p class="text-xs font-weight-bold mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
