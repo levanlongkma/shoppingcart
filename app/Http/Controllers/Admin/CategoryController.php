@@ -8,6 +8,7 @@ class CategoryController extends Controller
 {
     public function categories() 
     {
-        return view('backend.categories.index');
+        $active = "categories";
+        return view('backend.categories.index', compact('active'));
     }
 }

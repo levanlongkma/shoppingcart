@@ -8,6 +8,7 @@ class ProductController extends Controller
 {
     public function products() 
     {
-        return view('backend.products.index');
+        $active = "products";
+        return view('backend.products.index', compact('active'));
     }
 }
