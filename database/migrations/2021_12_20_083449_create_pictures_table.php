@@ -17,7 +17,7 @@ class CreatePicturesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('color')->nullable();
-            $table->unsignedBigInteger('type_id'); //Do we need to add constrant to type id?
+            $table->foreignId('type_id')->references('id')->on('types'); 
             $table->timestamps();
         });
     }
