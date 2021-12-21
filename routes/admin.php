@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\PromotionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::get('/login', [AuthController::class, 'showLoginForm']);
+    Route::group(['middleware' => 'authisadmin'], function() {
     // Admin role 1-2-3
     Route::get('/dashboard', [DashboardController::class, 'dashboard']);
     Route::get('/categories', [CategoryController::class, 'categories']);
@@ -23,4 +23,6 @@ Route::group(['prefix' => 'admin'], function() {
     // Only admin with <strong>ROLE 1(one)</strong> can access these below features 
     Route::get('/manager/managerUsers', [ManagerController::class, 'managerUsers']);
     Route::get('/manager/managerAdmins', [ManagerController::class, 'managerAdmins']);
+    });
+    Route::get('/login', [AuthController::class, 'showLoginForm']);
 });
