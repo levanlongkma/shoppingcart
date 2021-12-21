@@ -26,12 +26,13 @@ class AuthController extends Controller
             return redirect('admin/dashboard');
         }
         else {
-            $request->session()->flash('fail', 'Login fail, please check your email and password again');
+            $request->session()->flash('message', 'Login fail, please check your email and password again');
             return redirect('admin/login');
         }
     }
-    public function logout() {
+    public function logout(Request $request) {
         Auth::guard('admin')->logout();
+        $request->session()->flash('message', 'Logout success!');
         return redirect('/admin/login');
     }
 }
