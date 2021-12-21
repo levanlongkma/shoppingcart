@@ -26,6 +26,8 @@
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  {{-- Alpine --}}
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@2.8.2/dist/alpine.min.js"></script>
   <!-- Nucleo Icons -->
   <link href="{{ asset('backend/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
   <link href="{{ asset('backend/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -64,11 +66,11 @@
         </div>
         <a href="javascript:void(0)" class="switch-trigger background-color">
           <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning active" data-color="warning" onclick="sidebarColor(this)"></span>
             <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
             <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
             <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-primary" data-color="primary" onclick="sidebarColor(this)"></span>
             <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
           </div>
         </a>
@@ -89,9 +91,12 @@
         <div class="form-check form-switch ps-0">
           <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
         </div>
+        <hr class="horizontal dark my-2">
+        <a href="/admin/logout" class="w-100 btn bg-gradient-warning btn-lg mt-2">Logout</a>
       </div>
     </div>
   </div>
+  
   <!--   Core JS Files   -->
   <script src="{{ asset('backend/assets/js/core/popper.min.js') }}"></script>
   <script src="{{ asset('backend/assets/js/core/bootstrap.min.js')}}"></script>

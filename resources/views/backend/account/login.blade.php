@@ -10,6 +10,8 @@
 	</title>
 	<!--     Fonts and icons     -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	{{-- Alpine --}}
+	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@2.8.2/dist/alpine.min.js"></script>
 	<!-- Nucleo Icons -->
 	<link href="{{ asset('backend/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
 	<link href="{{ asset('backend/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -23,6 +25,14 @@
 <body class="">
 <main class="main-content  mt-0">
 <section>
+	@if (request()->session()->has('fail'))
+	<div x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 4000)"
+        x-show="show"
+        class="bg-gradient-primary text-white py-2 px-4  bottom-3 right-3 text-sm">
+        <p>{{ request()->session()->get('fail') }}</p>
+    </div>
+	@endif
 	<div class="page-header min-vh-75">
 	<div class="container">
 		<div class="row">
@@ -33,22 +43,23 @@
 					<p class="mb-0">Enter your email and password to sign in</p>
 				</div>
 				<div class="card-body">
-					<form role="form">
-					<label>Email</label>
-					<div class="mb-3">
-						<input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
-					</div>
-					<label>Password</label>
-					<div class="mb-3">
-						<input type="email" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
-					</div>
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="rememberMe" checked="">
-						<label class="form-check-label" for="rememberMe">Remember me</label>
-					</div>
-					<div class="text-center">
-						<button type="button" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
-					</div>
+					<form role="form" method="POST">
+						@csrf
+						<label>Email</label>
+						<div class="mb-3">
+							<input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email" value=" {{ old('email') }} ">
+						</div>
+						<label>Password</label>
+						<div class="mb-3">
+							<input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password">
+						</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="rememberMe" checked="" name="remember">
+							<label class="form-check-label" for="rememberMe">Remember me</label>
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+						</div>
 					</form>
 				</div>
 			</div>
