@@ -9,11 +9,15 @@ class ManagerController extends Controller
     public function managerAdmins() 
     {
         $active = "managerAdmins";
-        return view('backend.manager.managerAdmins', compact('active'));
+        return view('backend.manager.admins.index', compact('active'));
     }
     public function managerUsers() 
     {
         $active = "managerUsers";
-        return view('backend.manager.managerUsers', compact('active'));
+        return view('backend.manager.users.index', compact('active'));
     }
+    public function createAdmin() {
+        return view('backend.manager.admins.create');
+    }
+    
 }

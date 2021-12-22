@@ -118,7 +118,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0 d-flex align-items-center justify-content-between">
                         <h6>Manager Admin</h6>
-                        <a href="#"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
+                        <a href="/admin/manager/admins/create"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -155,9 +155,9 @@
                                         <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-info">View</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
+                                        <a href="/manager/admins/{id}/view"><span class="badge badge-sm bg-gradient-info">View</span></a>
+                                        <a href="/manager/admins/{id}/edit"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                        <a href="/manager/admins/{id}/delete"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
                                     </td>
                                 </tr>
                                 <tr>
