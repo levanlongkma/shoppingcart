@@ -3,6 +3,7 @@
 @section('content')
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
     <!-- Navbar -->
+    @include('backend.successMessage')
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
@@ -135,56 +136,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <h6 class="mb-0 text-sm text-center">1</h6>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Tuong Vit</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">1</p>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-success">Active</span></a>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="/manager/admins/{id}/view"><span class="badge badge-sm bg-gradient-info">View</span></a>
-                                        <a href="/manager/admins/{id}/edit"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                        <a href="/manager/admins/{id}/delete"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h6 class="mb-0 text-sm text-center">2</h6>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Nam Doi</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">1</p>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-secondary">NotActive</span></a>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-info">View</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
-                                    </td>
-                                </tr>
+                                @if (count($admins) > 1)
+                                    @foreach ($admins as $admin)
+                                    <tr>
+                                        <td>
+                                            <h6 class="mb-0 text-sm text-center">{{ $admin['id'] }}</h6>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $admin['name'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $admin['role'] }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="#"><span class="badge badge-sm bg-gradient-success">Active</span></a>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $admin['created_at'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $admin['updated_at'] }}</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="/admin/manager/admins/{{ $admin['name'] }}/show"><span class="badge badge-sm bg-gradient-info">View</span></a>
+                                            <a href="/admin/manager/admins/{{ $admin['name'] }}/edit"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                            <a href="/admin/manager/admins/{{ $admin['name'] }}/delete"><span class="badge badge-sm bg-gradient-danger" onclick="return confirm('Do you want to delete this user?')">Delete</span></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

@@ -2,14 +2,7 @@
 @section('content')
 
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
-  @if (request()->session()->has('success'))
-	<div x-data="{ show: true }"
-        x-init="setTimeout(() => show = false, 4000)"
-        x-show="show"
-        class="bg-gradient-warning text-center text-white py-2 px-4 h2">
-        <p>{{ request()->session()->get('success') }}</p>
-    </div>
-	@endif  
+    @include('backend.successMessage')
   <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="container-fluid py-1 px-3">

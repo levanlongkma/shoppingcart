@@ -17,14 +17,14 @@ Route::group(['prefix' => '/admin'], function() {
 
             Route::get('/manager/admins/create', [ManagerController::class, 'createAdmin']);
             Route::post('/manager/admins/create', [ManagerController::class, 'storeAdmin']);
-            Route::get('/manager/admins/{id}/view', [ManagerController::class, 'viewAdmin']);
-            Route::get('/manager/admins/{id}/edit', [ManagerController::class, 'editAdmin']);
-            Route::post('/manager/admins/{id}/edit', [ManagerController::class, 'updateAdmin']);
-            Route::get('/manager/admins/{id}/delete', [ManagerController::class, 'deleteAdmin']);
+            Route::get('/manager/admins/{admin:name}/show', [ManagerController::class, 'showAdmin']);
+            Route::get('/manager/admins/{admin:name}/edit', [ManagerController::class, 'editAdmin']);
+            Route::post('/manager/admins/{admin:name}/edit', [ManagerController::class, 'updateAdmin']);
+            Route::get('/manager/admins/{admin:name}/delete', [ManagerController::class, 'deleteAdmin']);
 
             Route::get('/manager/users/create', [ManagerController::class, 'createUser']);
             Route::post('/manager/users/create', [ManagerController::class, 'storeUser']);
-            Route::get('/manager/users/{id}/view', [ManagerController::class, 'viewUser']);
+            Route::get('/manager/users/{id}/show', [ManagerController::class, 'showUser']);
             Route::get('/manager/users/{id}/edit', [ManagerController::class, 'editUser']);
             Route::post('/manager/users/{id}/edit', [ManagerController::class, 'updateUser']);
             Route::get('/manager/users/{id}/delete', [ManagerController::class, 'deleteUser']);
@@ -38,8 +38,8 @@ Route::group(['prefix' => '/admin'], function() {
         Route::get('/promotions', [PromotionController::class, 'promotions']);
         Route::get('/orders', [OrderController::class, 'orders']);
  
-        Route::get('/manager/managerUsers', [ManagerController::class, 'managerUsers']);
-        Route::get('/manager/managerAdmins', [ManagerController::class, 'managerAdmins']);
+        Route::get('/manager/users', [ManagerController::class, 'indexUsers']);
+        Route::get('/manager/admins', [ManagerController::class, 'indexAdmins']);
     });
     Route::get('/login', [AuthController::class, 'showLoginForm']);
     Route::post('/login', [AuthController::class, 'login']);
