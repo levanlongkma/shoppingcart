@@ -3,6 +3,7 @@
 @section('content')
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
     <!-- Navbar -->
+    @include('backend.successMessage')
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
@@ -118,7 +119,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0 d-flex align-items-center justify-content-between">
                         <h6>Manager Users</h6>
-                        <a href="#"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
+                        <a href="/admin/manager/users/create"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -135,32 +136,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <h6 class="mb-0 text-sm text-center">1</h6>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Customer A</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">18/12/2021</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">098xxxxxxx</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-info">View</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
-                                    </td>
-                                </tr>
-                                
+                                @if (count($users) > 1)
+                                    @foreach ($users as $user)
+                                    <tr>
+                                        <td>
+                                            <h6 class="mb-0 text-sm text-center">{{ $user['id'] }}</h6>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $user['name'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $user['email_verified_at'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $user['phonenumber'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $user['created_at'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $user['updated_at'] }}</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="/admin/manager/users/{{ $user['name'] }}/show"><span class="badge badge-sm bg-gradient-info">View</span></a>
+                                            <a href="/admin/manager/users/{{ $user['name'] }}/edit"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                            <a href="/admin/manager/users/{{ $user['name'] }}/delete"><span class="badge badge-sm bg-gradient-danger" onclick="return confirm('Proceed to delete this user record {{ $user['name'] }}?')">Delete</span></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

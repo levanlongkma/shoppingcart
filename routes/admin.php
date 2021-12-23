@@ -24,10 +24,10 @@ Route::group(['prefix' => '/admin'], function() {
 
             Route::get('/manager/users/create', [ManagerController::class, 'createUser']);
             Route::post('/manager/users/create', [ManagerController::class, 'storeUser']);
-            Route::get('/manager/users/{id}/show', [ManagerController::class, 'showUser']);
-            Route::get('/manager/users/{id}/edit', [ManagerController::class, 'editUser']);
-            Route::post('/manager/users/{id}/edit', [ManagerController::class, 'updateUser']);
-            Route::get('/manager/users/{id}/delete', [ManagerController::class, 'deleteUser']);
+            Route::get('/manager/users/{user:name}/show', [ManagerController::class, 'showUser']);
+            Route::get('/manager/users/{user:name}/edit', [ManagerController::class, 'editUser']);
+            Route::post('/manager/users/{user:name}/edit', [ManagerController::class, 'updateUser']);
+            Route::get('/manager/users/{user:name}/delete', [ManagerController::class, 'deleteUser']);
 
         });
         Route::get('/dashboard', [DashboardController::class, 'dashboard']);
