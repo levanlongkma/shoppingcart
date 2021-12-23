@@ -14,7 +14,7 @@ class ManagerController extends Controller
     public function indexAdmins() 
     {
         $active = "managerAdmins";
-        $admins = Admin::paginate(5);
+        $admins = Admin::paginate(10);
         return view('backend.manager.admins.index', compact('active','admins'));
     }
 
@@ -72,7 +72,7 @@ class ManagerController extends Controller
     public function indexUsers() 
     {
         $active = "managerUsers";
-        $users = User::paginate(15);
+        $users = User::paginate(10);
         return view('backend.manager.users.index', compact('active', 'users'));
     }
     public function createUser() 
