@@ -118,7 +118,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0 d-flex align-items-center justify-content-between">
                         <h6>Posts</h6>
-                        <a href="#"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
+                        <a href="/admin/posts/create"><button type="button" class="btn bg-gradient-warning">Create new one</button></a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -135,31 +135,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <h6 class="mb-0 text-sm text-center">1</h6>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">How a real man choose outfits</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">Gentlemen Fashion</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold text-center">lorem ipsum</span>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="#"><span class="badge badge-sm bg-gradient-info">View</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                        <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
-                                    </td>
-                                </tr>
+                                @if (count($posts) > 1)
+                                    @foreach ($posts as $post)
+                                    <tr>
+                                        <td>
+                                            <h6 class="mb-0 text-sm text-center">{{ $post['id'] }}</h6>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $post['title'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $post->category->name }}</p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold text-center">{{ $post['slug'] }}</span>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $post['created_at'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-center">{{ $post['updated_at'] }}</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="#"><span class="badge badge-sm bg-gradient-info">View</span></a>
+                                            <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                            <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

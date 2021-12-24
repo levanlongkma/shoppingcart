@@ -30,6 +30,10 @@ Route::group(['prefix' => '/admin'], function() {
             Route::get('/manager/users/{user:name}/delete', [ManagerController::class, 'deleteUser']);
 
         });
+        Route::group(['middleware' => 'adminisrole12'], function(){
+            Route::get('/posts/create', [PostController::class, 'create']);
+            Route::post('/posts/create', [PostController::class, 'store']);
+        });
         Route::get('/dashboard', [DashboardController::class, 'dashboard']);
         Route::get('/categories', [CategoryController::class, 'categories']);
         Route::get('/products', [ProductController::class, 'products']);
