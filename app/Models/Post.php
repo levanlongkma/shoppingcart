@@ -17,9 +17,9 @@ class Post extends Model
         $this->attributes['slug'] = Str::slug($value, '-');
     }
 
-    public function setBodyAtrribute($value) {
+    public function setBodyAttribute($value) {
         $this->attributes['body'] = $value;
-        $this->attributes['excerpt'] = Str::limit($value, 10);
+        $this->attributes['excerpt'] = Str::words(strip_tags($value), 20);
     }
 
     public function category() {

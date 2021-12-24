@@ -33,6 +33,9 @@ Route::group(['prefix' => '/admin'], function() {
         Route::group(['middleware' => 'adminisrole12'], function(){
             Route::get('/posts/create', [PostController::class, 'create']);
             Route::post('/posts/create', [PostController::class, 'store']);
+            Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit']);
+            Route::post('/posts/{post:slug}/edit', [PostController::class, 'update']);
+            Route::get('/posts/{post:slug}/delete', [PostController::class, 'delete']);
         });
         Route::get('/dashboard', [DashboardController::class, 'dashboard']);
         Route::get('/categories', [CategoryController::class, 'categories']);
