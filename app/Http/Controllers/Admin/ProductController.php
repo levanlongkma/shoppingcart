@@ -4,88 +4,80 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductValidator;
+use App\Models\Category;
 use App\Models\Product;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index() 
-    {
-        // $products = Product::all();
-
-        //return view(, compact('products'));
-        return view('backend.products.index',['products'=>DB::table('products')->paginate(4)]);
-    }
-
     public function showCreateForm()
     {
-        return view('backend.products.form-create');
+        $categories = Category::get();
+
+        return view('backend.products.form-create', compact('categories'));
     }
 
     public function create(ProductValidator $request)
     {
-        $attributes = $request->input();
-        $file = $request->file('product_image');
-        $attributes['product_image'] = $file->getClientOriginalName();
-        $file->storeAs('products',$file->getClientOriginalName(),'product_image');
+        DB::beginTransaction();
 
-        $products = Product::create($attributes);
-        $validated = $request->validated();
+        $params = $request->all();
+        $params['slug'] = Str::slug($params['name']);
+
+        if (data_get($params, 'image')) {
+            $file = $params['image'];
+            $params['image'] = Storage::putFileAs('images', $file, $file->getClientOriginalName());
+        }
+
+        Product::create($params);
 
         return redirect()->route('admin.product');
     }
 
     public function showEditForm($id)
     {
-        //$products = DB::select('SELECT * FROM products WHERE id=?', [$id]);
-        $products = Product::all()->where('id',"$id");
+        $products = Product::find($id);
 
         return view('backend.products.form-edit', compact('products'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductValidator $request, $id)
     {   
-        $name = $request->input('name');
-        $description = $request->input('description');
-        $slug = $request->input('slug');
-        $product_image = $request->file('product_image');
-        $quantity = $request->input('quantity');
-
-        //DB::update('UPDATE products SET name = ?, description=?, slug=?, product_image=?, quantity=? WHERE id=? ', ["$name", "$description","$slug","$product_image","$quantity","$id"]);
+        $params = $request->all();
+        $slug = Str::slug($params['name']);
+        $params['slug'] = $slug;
+        $file = $request->file('image');
+        $path = Storage::putFileAs('images', $file, $file->getClientOriginalName());
+        $params['image'] = $path;
+        
         Product::where('id', $id)->update([
-            'name'=>"$name",
-            'description'=>"$description",
-            'slug'=>"$slug",
-            'product_image'=>"$product_image",
-            'quantity'=>"$quantity",
+            'name' => $params['name'],
+            'description' => $params['description'],
+            'slug' => $params['slug'],
+            'image' => $params['image'],
+            'quantity' => $params['quantity'],
         ]);
         
         return redirect()->route('admin.product');
     }
 
-    public function show($id)
-    {
-        $products = Product::all()->where('id',"$id");
-
-        return view('backend.products.show', compact('products'));
-    }
-
     public function delete($id)
     {
-        $product = Product::find($id);
-
-        $product->delete();    
+        Product::where('id', $id)->delete();
 
         return redirect()->route('admin.product');
     }
     
-    public function search(Request $request)
+    public function index()
     {
-        $search = $request->input('search');
+        $params = request()->all();
+        $search = $params['search'] ?? '';
+        $products = Product::where('name', 'LIKE', "%{$search}%")->paginate(10);
 
-        $products = Product::query()->where('name', 'LIKE', "%{$search}%")->get();
-
-        return view('backend.products.index',['products'=>DB::table('products')->paginate(4)]);
+        return view('backend.products.index', compact('products', 'search'));
     }
 }

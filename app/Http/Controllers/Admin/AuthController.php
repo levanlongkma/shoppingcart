@@ -31,7 +31,17 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
         $message ="Fail Login";
-        //return redirect()->back()->withErrors(['messages' => 'may da nhap sai']);
-        return Redirect::back()->withErrors($message);
+        
+        return Redirect::back()->withErrors(['login_fail' => $message]);
+    }
+
+    public function logOut()
+    {
+        if(Auth::guard('admin')->check()){
+            
+            Auth::guard('admin')->logout();
+
+            return redirect()->route('admin.login');
+        }
     }
 }

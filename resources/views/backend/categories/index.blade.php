@@ -14,8 +14,8 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4 d-flex align-items-center">
                 <div class="form-inline  ">
-                    <form method="GET" action="{{ route('admin.search_category') }}" class="search-form">
-                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search ..." aria-label="Search">
+                    <form method="GET" action="{{ route('admin.category') }}" class="search-form">
+                        <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
                         <button  name="submit" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -52,8 +52,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($categories as $category)
-                                    
-                                
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
@@ -72,6 +70,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $categories->links() }}
                     </div>
                 </div>
             </div>

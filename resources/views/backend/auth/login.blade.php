@@ -29,9 +29,10 @@
                 <form method="POST" action="{{ route('admin.post_login') }}">
                     @csrf
 
-                    @if($errors->any())
-                        {{ implode('', $errors->all('Dang nhap loi')) }}
+                    @if ($errors->has('login_fail'))
+                        <div style="color:red" class="error">{{ $errors->first('login_fail') }}</div>
                     @endif
+
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>

@@ -9,7 +9,9 @@
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Name</label>
         <input type="text" name="name" class="form-control" value="{{ $category->name }}" id="exampleInputEmail1" aria-describedby="emailHelp">
-        
+        @error('name')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Slug</label>

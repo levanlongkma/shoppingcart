@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('post_login');
+    Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
 
     Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -24,12 +25,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/search-product', [ProductController::class, 'search'])->name('search_product');
 
 
-        Route::get('/categories', [CategoryController::class, 'categories'])->name('category');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('category');
         Route::get('/delete-category/{id}', [CategoryController::class, 'delete'])->name('delete_category');
         Route::get('/edit-category/{id}', [CategoryController::class, 'showEditForm'])->name('edit_category');
         Route::get('/create-form-category', [CategoryController::class, 'showCreateForm'])->name('create_form_category');
         Route::post('/create-category', [CategoryController::class, 'create'])->name('create_category');
         Route::post('/update-category/{id}', [CategoryController::class, 'update'])->name('update_category');
-        Route::get('/search-category', [CategoryController::class, 'search'])->name('search_category');
     });
 });

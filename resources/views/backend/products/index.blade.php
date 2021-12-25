@@ -18,8 +18,8 @@
             </div>
             <div class="col-sm-4 d-flex align-items-center">
                 <div class="form-inline  ">
-                    <form method="GET" action="{{ route('admin.search_product') }}" class="search-form">
-                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search ..." aria-label="Search">
+                    <form method="GET" action="{{ route('admin.product') }}" class="search-form">
+                        <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
                         <button  name="submit" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -49,6 +49,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Slug</th>
+                                    <th>Category</th>
                                     <th>Image</th>
                                     <th>Created at</th>
                                     <th>Updated at</th>
@@ -63,7 +64,8 @@
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->slug }}</td>   
-                                    <td><img src="{{ Storage::disk('product_image')->url($product->product_image) }}"/></td>
+                                    <td>{{ $product->category->name }}</td>
+                                    <td><img src="{{ '/storage/' . $product->image }}"/></td>
                                     <td>{{ $product->created_at }}</td>
                                     <td>{{ $product->updated_at }}</td>
                                     <td>

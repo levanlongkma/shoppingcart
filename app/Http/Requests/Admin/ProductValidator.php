@@ -24,11 +24,11 @@ class ProductValidator extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
+            'name' => 'required',
             'description'=>'required',
-            'slug'=>'required',
-            'product_image'=>'required',
+            'image'=>'required',
             'quantity'=>'required',
+            'category_id'=>'required'
         ];
     }
 }
