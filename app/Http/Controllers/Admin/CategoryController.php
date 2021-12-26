@@ -17,7 +17,8 @@ class CategoryController extends Controller
     
     public function showCreateForm()
     {
-        return view('backend.categories.form-create');
+        $active = "categories";
+        return view('backend.categories.form-create', compact('active'));
     }
 
     public function create(CategoryValidator $request)
@@ -25,7 +26,7 @@ class CategoryController extends Controller
         $attributes = $request->input();
         $slug = Str::slug($attributes['name']);
         $attributes['slug'] = $slug;
-        Category::create($attributes);
+        dd(Category::create($attributes));
         
         return redirect()->route('admin.category');
     }
@@ -33,9 +34,10 @@ class CategoryController extends Controller
     public function showEditForm($id)
     {
         //$products = DB::select('SELECT * FROM products WHERE id=?', [$id]);
-        $categories = Category::where('id',"$id");
-
-        return view('backend.categories.form-edit', compact('categories'));
+        $active = "categories";
+        $categories = Category::where('id',"$id")->first()->toArray();
+        // dd($categories);
+        return view('backend.categories.form-edit', compact('categories', 'active'));
     }
 
     public function update(CategoryValidator $request, $id)
@@ -48,7 +50,7 @@ class CategoryController extends Controller
             'name'=>$attributes['name'],
             'slug'=>$attributes['slug'],
         ]);
-        return redirect()->route('admin.category')->with('alert', 'Updated!');
+        return redirect()->route('admin.category')->with('success', 'Updated!');
     }
 
     public function delete($id)
@@ -62,12 +64,11 @@ class CategoryController extends Controller
     
     public function index() 
     {
+        $active = "categories";
         $attributes = request()->all();
         $search = $attributes['search'] ?? " ";
-
         $categories = Category::where('name', 'LIKE', "%{$search}%")->paginate(5);
-
-        return view('backend.categories.index', compact('categories', 'search'));
+        return view('backend.categories.index', compact('categories', 'search', 'active'));
     }
 
     

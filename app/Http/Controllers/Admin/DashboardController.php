@@ -8,6 +8,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        return view('backend.dashboard');
+        $active = "dashboard";
+        return view('backend.dashboard', compact('active'));
     }
 }

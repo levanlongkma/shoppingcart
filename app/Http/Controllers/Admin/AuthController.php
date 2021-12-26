@@ -28,11 +28,11 @@ class AuthController extends Controller
             'email' => data_get($params, 'email'),
             'password' => data_get($params, 'password')
         ])) {
+            session()->flash('success', 'Welcome back, admin!');
             return redirect()->route('admin.dashboard');
         }
-        $message ="Fail Login";
-        
-        return Redirect::back()->withErrors(['login_fail' => $message]);
+        request()->session()->flash('message', 'Login fail, please check your email and password again');
+        return Redirect::back();
     }
 
     public function logOut()
@@ -40,7 +40,7 @@ class AuthController extends Controller
         if(Auth::guard('admin')->check()){
             
             Auth::guard('admin')->logout();
-
+            request()->session()->flash('message', 'Logout success!');
             return redirect()->route('admin.login');
         }
     }

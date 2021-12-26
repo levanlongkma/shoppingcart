@@ -16,33 +16,36 @@ class ProductController extends Controller
 {
     public function showCreateForm()
     {
+        $active = "products";
         $categories = Category::get();
 
-        return view('backend.products.form-create', compact('categories'));
+        return view('backend.products.form-create', compact('categories', 'active'));
     }
 
     public function create(ProductValidator $request)
     {
         DB::beginTransaction();
 
-        $params = $request->all();
+        $params = $request->input();
         $params['slug'] = Str::slug($params['name']);
-
+        
         if (data_get($params, 'image')) {
             $file = $params['image'];
             $params['image'] = Storage::putFileAs('images', $file, $file->getClientOriginalName());
+        
         }
 
-        Product::create($params);
-
+        $new = Product::create($params);
+        dd($new);
         return redirect()->route('admin.product');
     }
 
     public function showEditForm($id)
     {
+        $active = "products";
         $products = Product::find($id);
 
-        return view('backend.products.form-edit', compact('products'));
+        return view('backend.products.form-edit', compact('products', 'active'));
     }
 
     public function update(ProductValidator $request, $id)
@@ -74,10 +77,11 @@ class ProductController extends Controller
     
     public function index()
     {
+        $active = "products";
         $params = request()->all();
         $search = $params['search'] ?? '';
         $products = Product::where('name', 'LIKE', "%{$search}%")->paginate(10);
 
-        return view('backend.products.index', compact('products', 'search'));
+        return view('backend.products.index', compact('products', 'search', 'active'));
     }
 }
