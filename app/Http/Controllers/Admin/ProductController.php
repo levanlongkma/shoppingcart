@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function create(ProductValidator $request)
     {
-        $params = $request->input();
+        $params = $request->all();
         $params['slug'] = Str::slug($params['name']);
         
         if (data_get($params, 'image')) {
@@ -32,9 +32,7 @@ class ProductController extends Controller
             $params['image'] = Storage::putFileAs('images', $file, $file->getClientOriginalName());
         
         }
-
-        $new = Product::create($params);
-        dd($new);
+        Product::create($params);
         return redirect()->route('admin.product');
     }
 
