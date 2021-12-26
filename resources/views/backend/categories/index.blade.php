@@ -158,7 +158,7 @@
             </div>
             </div>
         </div>
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex align-items-center justify-content-between">
@@ -180,37 +180,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <h6 class="mb-0 text-sm text-center">1</h6>
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0 text-center">Gentlemen Fashion</p>
-                            </td>
-                            <td class="align-middle text-center text-sm text-center">
-                                <p class="text-xs font-weight-bold mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold text-center">men-shirt</span>
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0 text-center">18/12/2021</p>
-                            </td>
-                            <td class="align-middle">
-                                <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
-                                <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
-                            </td>
-                        </tr>
+                        @if (count($post_categories) > 0)
+                            @foreach ($post_categories as $category)
+                            <tr>
+                                <td>
+                                    <h6 class="mb-0 text-sm text-center">{{ $category['id'] }}</h6>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 text-center">{{ $category['name'] }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm text-center">
+                                    <p class="text-xs font-weight-bold mb-0">{{ $category['description'] }}</p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold text-center">{{ $category['slug'] }}</span>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 text-center">{{ $category['create_at'] }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 text-center"{{ $category['updated_at'] }}</p>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                    <a href="#"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                     </table>
+                    {{ $post_categories->links() }}
                 </div>
                 </div>
             </div>
             </div>
-        </div> --}}
+        </div>
     @include('backend.layouts.footer')
     </div>
 </main>

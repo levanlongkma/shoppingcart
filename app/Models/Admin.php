@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 class Admin extends Authenticatable
 {
     use SoftDeletes;
     
-    protected $fillable =[
-        'name',
-        'email',
-        'email_verified_at',
-        'avatar',
-        'role',
-        'remember_token',
+    protected $guard = ['admin'];
+
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password', 'remember_token'
     ];
 
-    protected $hidden = ['password'];
+    public function setPasswordAttribute($value) {
+        return $this->attributes['password'] = Hash::make($value);
+    }
 }

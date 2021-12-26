@@ -14,34 +14,31 @@ class AuthController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    
     public function showLoginForm() 
     {
         return view('backend.auth.login');
     }
+    public function login(Request $request) {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $remember = $request->input('remember') == "on" ? True : False;
 
-    public function login(LoginValidator $request)
-    {
-        $params = $request->all();
-
-        if (Auth::guard('admin')->attempt([
-            'email' => data_get($params, 'email'),
-            'password' => data_get($params, 'password')
-        ])) {
-            session()->flash('success', 'Welcome back, admin!');
-            return redirect()->route('admin.dashboard');
+        if (Auth::guard('admin')->attempt(['email' => $email, 'password' => $password], $remember)) {
+            $request->session()->flash('success', 'Welcome back, admin!');
+            return redirect('admin/dashboard');
         }
-        request()->session()->flash('message', 'Login fail, please check your email and password again');
-        return Redirect::back();
+        else {
+            $request->session()->flash('message', 'Login fail, please check your email and password again');
+            return redirect('admin/login');
+        }
     }
-
-    public function logOut()
-    {
-        if(Auth::guard('admin')->check()){
-            
-            Auth::guard('admin')->logout();
-            request()->session()->flash('message', 'Logout success!');
-            return redirect()->route('admin.login');
-        }
+    public function logout(Request $request) {
+        Auth::guard('admin')->logout();
+        $request->session()->flash('message', 'Logout success!');
+        return redirect('/admin/login');
     }
 }
