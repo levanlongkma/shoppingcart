@@ -128,36 +128,32 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Slug</th>
-                                <th>Category</th>
-                                <th>Image</th>
-                                <th>Created at</th>
-                                <th>Updated at</th>
-                                <th>Actions</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Slug</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created at</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated at</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($products->isNotEmpty())
                             @foreach ($products as $product)
                             <tr>
-                                <td>{{ $product->id }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->description }}</td>
-                                <td>{{ $product->slug }}</td>   
-                                <td>{{ $product->category->name }}</td>
-                                <td><img src="{{ '/storage/' . $product->image }}"/></td>
-                                <td>{{ $product->created_at }}</td>
-                                <td>{{ $product->updated_at }}</td>
-                                <td>
-                                    <a href="/admin/edit-product/{{ $product->id }}">
-                                        <i class="menu-icon fa  fa-pencil-square-o"></i>
-                                    </a>
-                                    <a onclick="return confirm('Are you sure?')" href="/admin/delete-product/{{ $product->id }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->id }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->name }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->description }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->slug }}</td>   
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->category->name }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center"><img src="{{ '/storage/' . $product->image }}"/></td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->created_at }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">{{ $product->updated_at }}</td>
+                                <td class="text-xs font-weight-bold mb-0 text-center">
+                                    <a href="/admin/edit-product/{{ $product->id }}"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                                    <a  onclick="return confirm('Are you sure?')" href="/admin/delete-product/{{ $product->id }}"><span class="badge badge-sm bg-gradient-danger">Delete</span></a>
                                 </td>
                                 
                             </tr>
