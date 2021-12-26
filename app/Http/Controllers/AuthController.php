@@ -24,10 +24,11 @@ class AuthController extends Controller
     public function logIn(Request $request)
     {
 
-        if(Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')])){
+        if (Auth::attempt(['name'=>$request->input('name'), 'password'=>$request->input('password')])){
 
             return redirect()->route('shopping.home');
         }
+        
         $validated = $request->validate([
             'name_login'=>'required',
             'password_login'=>'required',
@@ -40,8 +41,6 @@ class AuthController extends Controller
 
     public function logOut()
     {
-        Auth::logout();
-
         return redirect()->route('shopping.home');
     }
 }

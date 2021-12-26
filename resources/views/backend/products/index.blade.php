@@ -1,17 +1,29 @@
 @extends('backend.layouts.main')
 
 @section('content')
+{{-- <button class="search-trigger"><i class="fa fa-search"></i></button> --}}
+                    
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
             <div class="col-sm-4">
                 <div class="page-header float-left">
+                    
                     <div class="page-title">
                         <h1>Products</h1>
                     </div>
                 </div>
             </div>
-            
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4 d-flex align-items-center">
+                <div class="form-inline  ">
+                    <form method="GET" action="{{ route('admin.product') }}" class="search-form">
+                        <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
+                        <button  name="submit" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -26,7 +38,7 @@
                             <strong class="card-title">Products List</strong>
                         </div>
                         <div class="float-right">
-                            <a href="#"><button type="button" class="btn btn-primary">Add a new product</button></a>
+                            <a href="{{ route('admin.create_form_product') }}"><button type="button" class="btn btn-primary">Add a new product</button></a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -37,91 +49,43 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Slug</th>
+                                    <th>Category</th>
+                                    <th>Image</th>
                                     <th>Created at</th>
                                     <th>Updated at</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($products->isNotEmpty())
+                                @foreach ($products as $product)
                                 <tr>
-                                    <td>1</td>
-                                    <td>T-shirt</td>
-                                    <td>Lorem iplsum </td>
-                                    <td>t-shirt</td>
-                                    <td>Datetime</td>
-                                    <td>Datetime</td>
+                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->description }}</td>
+                                    <td>{{ $product->slug }}</td>   
+                                    <td>{{ $product->category->name }}</td>
+                                    <td><img src="{{ '/storage/' . $product->image }}"/></td>
+                                    <td>{{ $product->created_at }}</td>
+                                    <td>{{ $product->updated_at }}</td>
                                     <td>
-                                        <a href="#">
+                                        {{-- <a href="/admin/show/{{ $product->id }}">
                                             <i class="menu-icon fa  fa-eye"></i>
-                                        </a>
-                                        <a href="#">
+                                        </a> --}}
+                                        <a href="/admin/edit-product/{{ $product->id }}">
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-trash-o"></i>
+                                        <a onclick="return confirm('Are you sure?')" href="/admin/delete-product/{{ $product->id }}">
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
+                                    
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>T-shirt</td>
-                                    <td>Lorem iplsum </td>
-                                    <td>t-shirt</td>
-                                    <td>Datetime</td>
-                                    <td>Datetime</td>
-                                    <td>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-eye"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-pencil-square-o"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-trash-o"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>T-shirt</td>
-                                    <td>Lorem iplsum </td>
-                                    <td>t-shirt</td>
-                                    <td>Datetime</td>
-                                    <td>Datetime</td>
-                                    <td>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-eye"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-pencil-square-o"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-trash-o"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>T-shirt</td>
-                                    <td>Lorem iplsum </td>
-                                    <td>t-shirt</td>
-                                    <td>Datetime</td>
-                                    <td>Datetime</td>
-                                    <td>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-eye"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-pencil-square-o"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="menu-icon fa  fa-trash-o"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            
+                                @endforeach
+                                @endif
                             </tbody>
                         </table>
+                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
@@ -130,4 +94,5 @@
 </div><!-- .content -->
 
 <div class="clearfix"></div>
+
 @endsection

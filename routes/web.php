@@ -23,16 +23,14 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/blog-single', [HomeController::class, 'blogSingle'])->name('blog_single');
     Route::get('/products', [HomeController::class, 'products'])->name('products');
     Route::get('/product-details', [HomeController::class, 'productDetails'])->name('product_details');
-    Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
-    Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
     Route::get('/login', [HomeController::class, 'Login'])->name('login');
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
     Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
     Route::post('/register', [AuthController::class,'signUp'])->name('register');
 
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
+        Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
+    });
 });
-
-
-
-
