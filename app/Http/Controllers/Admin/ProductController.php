@@ -23,8 +23,6 @@ class ProductController extends Controller
 
     public function create(ProductValidator $request)
     {
-        DB::beginTransaction();
-
         $params = $request->all();
         $params['slug'] = Str::slug($params['name']);
 
