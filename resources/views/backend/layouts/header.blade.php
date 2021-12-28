@@ -5,7 +5,7 @@
                 <li class="active">
                     <a href="{{ route('admin.dashboard') }}"><i class="menu-icon ti-home"></i>Dashboard </a>
                 </li>
-                <li class="">
+                <li class="{{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
                     <a href="/admin/categories"><i class="menu-icon ti-gallery"></i>Categories</a>
                 </li>
                 <li class="">
@@ -17,22 +17,19 @@
                 <li class="">
                     <a href="/admin/orders"><i class="menu-icon ti-truck"></i>Orders</a>
                 </li>
-                <h6 class="mx-4 my-3">Others</h6>
+                {{-- <h6 class="mx-4 my-3">Others</h6>
                 <li class="">
                     <a href="/admin/subscribers"><i class="menu-icon ti-email"></i>Subcribers</a>
                 </li>
                 <li class="">
                     <a href="/admin/supports"><i class="menu-icon ti-headphone-alt"></i>Customer Support</a>
-                </li>
-                <h6 class="mx-4 my-3">Admin Section</h6>
-                <li class="">
-                    <a href="/admin/manager/admins"><i class="menu-icon ti-github"></i>Manage Admin</a>
-                </li>
-                <li class="">
-                    <a href="/admin/manager/users"><i class="menu-icon ti-user"></i>Manage User</a>
+                </li> --}}
+                <li class="{{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
+                    <a href="/admin/users"><i class="menu-icon ti-user"></i>Users</a>
                 </li>
                 <li class="">
-                    <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>Edit profile</a>
+                    <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>
+                    Posts</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -46,7 +43,7 @@
         <div class="top-left">
             <div class="navbar-header">
                 <a class="navbar-brand" href="./"><img src="{{ asset('backend/images/logo.png') }}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{{ asset('backend/images/logo2.png') }}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="{{ asset('backend/images/logo.png') }}" alt="Logo"></a>
                 <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
         </div>

@@ -62,12 +62,15 @@ class CategoryController extends Controller
     
     public function index() 
     {
+        $active = "categories";
         $attributes = request()->all();
         $search = $attributes['search'] ?? " ";
-
         $categories = Category::where('name', 'LIKE', "%{$search}%")->paginate(5);
+        return view('backend.categories.index', compact('categories', 'search', 'active'));
+    }
 
-        return view('backend.categories.index', compact('categories', 'search'));
+    public function store() {
+        dd('hello');
     }
 
     

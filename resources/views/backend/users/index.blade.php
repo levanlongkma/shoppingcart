@@ -4,16 +4,16 @@
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
-            <div class="col-lg-8">
+            <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Categories</h1>
+                        <h1>Manager Users</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
-                <div class="form-inline  ">
-                    <form method="GET" action="{{ route('admin.category') }}" class="search-form">
+            <div class="col-sm-8 d-flex align-items-center justify-content-end">
+                <div class="form-inline">
+                    <form method="GET" action="{{ route('admin.user') }}" class="search-form">
                         <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
                     </form>
                 </div>
@@ -28,12 +28,12 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center py-3">
-                        <div>
-                            <strong class="card-title">Products Categories</strong>
+                    <div class="card-header">
+                        <div class="float-left">
+                            <strong class="card-title">User Table</strong>
                         </div>
-                        <div>
-                            <a href="#" class="btn btn-primary btn-add" data-target="#modal-add" data-toggle="modal">Add a new category</a>
+                        <div class="float-right">
+                            <a href="{{ route('admin.create_form_category') }}"><button type="button" class="btn btn-primary">Add a new user</button></a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -42,25 +42,29 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
-                                    <th>Slug</th>
+                                    <th>Email</th>
+                                    <th>Phone number</th>
+                                    <th>Avatar</th>
                                     <th>Created at</th>
                                     <th>Updated at</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $category)
+                                @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->slug}} </td>
-                                    <td>{{ $category->created_at }}</td>
-                                    <td>{{ $category->updated_at }}</td>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email}} </td>
+                                    <td>{{ $user->phone_number}} </td>
+                                    <td><img src="{{  public_path('/storage/user_avatars/users/') }}{{$user->avatar}}" alt=""></td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>{{ $user->updated_at }}</td>
                                     <td>
-                                        <a href="#" data-target="#modal-edit" data-toggle="modal">
+                                        <a href="/admin/edit-category/{{ $user->id }}">
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a onclick="return confirm('Are you sure?')" href="/admin/delete-category/{{ $category->id }}">
+                                        <a onclick="return confirm('Are you sure?')" href="/admin/delete-category/{{ $user->id }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -68,12 +72,10 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $categories->links() }}
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>
-            @include('backend.categories.add')
-            @include('backend.categories.edit')
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +32,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/create-form-category', [CategoryController::class, 'showCreateForm'])->name('create_form_category');
         Route::post('/create-category', [CategoryController::class, 'create'])->name('create_category');
         Route::post('/update-category/{id}', [CategoryController::class, 'update'])->name('update_category');
+    
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::get('/users', [UserController::class, 'store'])->name('user.store');
     });
 });
