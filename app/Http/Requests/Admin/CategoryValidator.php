@@ -24,8 +24,7 @@ class CategoryValidator extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            //'slug'=>'required',
+            'name' => 'required|unique:categories,name',
         ];
     }
 }

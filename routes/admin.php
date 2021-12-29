@@ -26,8 +26,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/search-product', [ProductController::class, 'search'])->name('search_product');
 
 
-        Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
-        Route::post('/categories/store', [CategoryController::class, 'store'])->name('category.store');
+        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function() {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::post('/store', [CategoryController::class, 'store'])->name('store');
+        });
     
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users/create', [UserController::class, 'store'])->name('user.store');

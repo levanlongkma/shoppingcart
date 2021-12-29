@@ -80,32 +80,37 @@
 <div class="clearfix"></div>
 @endsection
 @push('js')
+@if (session()->has('messages_success'))
+    <script>
+        toastr.success("{{session()->get('messages_success')}}");
+    </script>
+@endif
 <script>
     $(document).ready(function(){
-        $("#buttonCreate").click(function(){
-            let $checkName = false
-            if ($("#nameCreateCategory").val() == ''){
-                $("#nameCreateCategory").addClass('is-invalid');
-                $("#errorCreateName").text('This input field is required');
-                $checkName = false;
-            }
-            else {
-                $("#nameCreateCategory").removeClass('is-invalid');
-                $("#errorCreateName").text("");
-                $checkName = true;
-            }
-            if ($checkName == true) {
-                // console.log("Hello")
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "/admin/categories/store",
-                    data: {"_token" : "{{ csrf_token() }}", 'name' : $("#nameCreateCategory").val() },
-                    success: function(data){
+        $("#buttonCreate").click(function() {
+            let form = $('#createCategoryForm');
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ route('admin.categories.store') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data.status) {
                         window.location.reload()
+                    } else {
+                        toastr.error('khong thanh cong !');
                     }
-                })
-            }
+                },
+                error: function(xhr) {
+                    Object.keys(xhr.responseJSON.errors).forEach(key => {
+                        $('#error_' + key).text(xhr.responseJSON.errors[key][0]);
+                    });
+                }
+            })
         })
     })
 </script>
