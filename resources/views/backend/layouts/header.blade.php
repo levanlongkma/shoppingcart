@@ -53,7 +53,7 @@
                     
 
                     <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
                             <span class="count bg-danger">3</span>
                         </button>
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-envelope"></i>
                             <span class="count bg-primary">4</span>
                         </button>

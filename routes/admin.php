@@ -26,14 +26,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/search-product', [ProductController::class, 'search'])->name('search_product');
 
 
-        Route::get('/categories', [CategoryController::class, 'index'])->name('category');
-        Route::get('/delete-category/{id}', [CategoryController::class, 'delete'])->name('delete_category');
-        Route::get('/edit-category/{id}', [CategoryController::class, 'showEditForm'])->name('edit_category');
-        Route::get('/create-form-category', [CategoryController::class, 'showCreateForm'])->name('create_form_category');
-        Route::post('/create-category', [CategoryController::class, 'create'])->name('create_category');
-        Route::post('/update-category/{id}', [CategoryController::class, 'update'])->name('update_category');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('category.store');
+       
     
         Route::get('/users', [UserController::class, 'index'])->name('users');
-        Route::get('/users', [UserController::class, 'store'])->name('user.store');
+        // Route::post('/users', [UserController::class, 'store'])->name('user.store');
     });
 });
