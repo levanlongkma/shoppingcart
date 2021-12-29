@@ -11,13 +11,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
+            {{-- <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
                 <div class="form-inline  ">
                     <form method="GET" action="{{ route('admin.categories') }}" class="search-form">
                         <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
                     </form>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>
@@ -32,7 +32,7 @@
                             <strong class="card-title">Products Categories</strong>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-primary" data-target="#modalCreate" data-toggle="modal">Add a new category</a>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add a new category</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -71,30 +71,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="modalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form name="form-create">
-                        <div class="modal-header d-flex">
-                            <h5 class="modal-title font-weight-bold">Create new category</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                            <label class="form-label" for="">Category's Name:</label>
-                            <input class="form-control" type="text" name="name" id="name" placeholder="Enter here...">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" name='create' class="btn btn-primary">Create new category!</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            {{-- Modal create --}}
+            @include('backend.categories.add')
             {{-- @include('backend.categories.edit') --}}
         </div>
     </div><!-- .animated -->
@@ -103,9 +81,31 @@
 @endsection
 @push('js')
 <script>
-    $(function(){
-        $("button[name='create']").click(function(){
-            
+    $(document).ready(function(){
+        $("#buttonCreate").click(function(){
+            let $checkName = false
+            if ($("#nameCreateCategory").val() == ''){
+                $("#nameCreateCategory").addClass('is-invalid');
+                $("#errorCreateName").text('This input field is required');
+                $checkName = false;
+            }
+            else {
+                $("#nameCreateCategory").removeClass('is-invalid');
+                $("#errorCreateName").text("");
+                $checkName = true;
+            }
+            if ($checkName == true) {
+                // console.log("Hello")
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "/admin/categories/store",
+                    data: {"_token" : "{{ csrf_token() }}", 'name' : $("#nameCreateCategory").val() },
+                    success: function(data){
+                        window.location.reload()
+                    }
+                })
+            }
         })
     })
 </script>
