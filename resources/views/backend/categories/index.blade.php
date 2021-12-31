@@ -141,7 +141,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/categories/" + $("input[name=updateId]").val() + "/update",
+                url: "/admin/categories/update/" + $("input[name=updateId]").val(),
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -178,9 +178,9 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        type: "GET",
+                        type: "POST",
                         dataType: "json",
-                        url: "/admin/categories/" + $(this).data('id') + "/delete",
+                        url: "/admin/categories/delete/" + $(this).data('id'),
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(

@@ -47,12 +47,6 @@ return [
             'url' => env('APP_URL').'/storage/product_images/products',
             'visibility' => 'public',
         ],
-        'user_avatar' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/user_avatars'),
-            'url' => env('APP_URL').'/storage/user_avatars/users',
-            'visibility' => 'public',
-        ],
 
         's3' => [
             'driver' => 's3',
