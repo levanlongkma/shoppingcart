@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\CategoryValidator;
 use App\Http\Requests\Admin\UpdateCategoryValidator;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -39,19 +38,35 @@ class CategoryController extends Controller
         return ['status' => false];
     }
 
-    public function update(CategoryValidator $request) {
+    public function update(UpdateCategoryValidator $request, $id)
+    {
         $params = $request->all();
-        dd($params);
         $slug = Str::slug(data_get($params, 'name'));
-        $updatedCategory = Category::where('id', data_get($params, 'id'))->update([
+
+        $updatedCategory = Category::where('id', $id)->update([
             'name' => $params['name'],
             'slug' => $slug,
             'updated_at' => now()
         ]);
+
         if ($updatedCategory) {
-            Session::flash('message_success', 'The category is updated man');
+            Session::flash('messages_success', 'The category is updated man!');
             return ['status' => true];
         }
+
         return ['status' => false];
     }
+
+    public function delete($id)
+    {
+        $isDeleted = Category::where('id', $id)->delete();
+
+        if ($isDeleted) {
+            Session::flash('messages_success', 'Delete a record successfully');
+            return ['status' => true];
+        }
+
+        return ['status' => false];
+    }
+
 }

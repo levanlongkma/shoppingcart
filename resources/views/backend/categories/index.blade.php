@@ -59,7 +59,7 @@
                                         <a href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}" >
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a onclick="return confirm('Are you sure?')" href="/admin/delete-category/{{ $category->id }}">
+                                        <a href="#" data-bs-target="#confirmDeleteModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -74,6 +74,7 @@
             {{-- Modal create --}}
             @include('backend.categories.add')
             @include('backend.categories.edit')
+            @include('backend.categories.delete')
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
@@ -85,16 +86,7 @@
         toastr.success("{{session()->get('messages_success')}}");
     </script>
 @endif
-{{-- <script>
-    var formData = new FormData();
-    formData.append('key1', 'value1');
-    formData.append('key2', 'value2');
 
-    // Display the key/value pairs
-    for(var pair of formData.entries()) {
-    console.log(pair[0]+ ', '+ pair[1]); 
-    }
-</script> --}}
 {{-- Create --}}
 <script>
     $(document).ready(function(){
@@ -147,12 +139,12 @@
     {
         $('#buttonUpdate').click(function(){
             
-            let formData = new FormData($('form#updateCategoryForm')[0])
+            let formData = new FormData($('#updateCategoryForm')[0])
 
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "{{ route('admin.categories.update') }}",
+                url: "/admin/categories/"+$("input[name=updateId]").val()+"/update",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -174,5 +166,41 @@
             })
         })
     })
+</script>
+
+{{-- Delete --}}
+<script>
+    $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) 
+    var id = button.data('id')
+    var name = button.data('name')
+    var modal = $(this)
+    modal.find('#message_delete').text('Do you want to delete '+name+'?')
+    modal.find('input[name=deleteId]').val(id)
+    });
+</script>
+
+<script>
+    $(document).ready(function()
+    {
+        $("#buttonConfirmDelete").click(function()
+        {
+            $.ajax(
+            {
+                type: "POST",
+                dataType: "json",
+                url: "/admin/categories/"+$("input[name=deleteId]").val()+"/delete",
+                success: function(data){
+                    if (data.status) {
+                    window.location.reload()
+                    }
+                    else {
+                        toastr.error('Cannot delete the category!')
+                    }
+                }  
+            });
+        })
+    });
+
 </script>
 @endpush

@@ -66,9 +66,8 @@
     <script src="{{ asset('backend/assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery.matchHeight.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/toastr.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/toastr.js') }}"></>
 
     <script>
         $.ajaxSetup({
