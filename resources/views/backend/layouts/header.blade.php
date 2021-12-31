@@ -24,6 +24,10 @@
                     <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>
                     Posts</a>
                 </li>
+                <li class="">
+                    <a href="/admin/contacts"><i class="menu-icon ti-info-alt"></i>
+                    Contacts</a>
+                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>

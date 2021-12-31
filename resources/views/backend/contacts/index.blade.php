@@ -4,85 +4,100 @@
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
-            <div class="col-lg-8">
+            <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Categories</h1>
+                        <h1>Contacts Info</h1>
                     </div>
                 </div>
             </div>
-
-            @isset($search)
-            <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
-                <div class="form-inline">
-                    <form method="GET" action="{{ route('admin.categories.index') }}" class="search-form">
-                        <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
-                    </form>
-                </div>
-            </div>
-            @endisset
         </div>
     </div>
 </div>
+
 <div class="content">
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center py-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
-                            <strong class="card-title">Products Categories</strong>
+                            <strong class="card-title">Contacts List</strong>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Add a new category</a>
+                            <a href="#" data-bs-target="#createModal"
+                            data-bs-toggle="modal"><button type="button" class="btn btn-primary">Add new contacts</button></a>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <table class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>#</th>
                                     <th>Name</th>
-                                    <th>Slug</th>
+                                    <th>Phonenumber</th>
+                                    <th>Fax</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
                                     <th>Created at</th>
                                     <th>Updated at</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                @foreach ($categories as $category)
+                                @isset ($contacts)
+                                @foreach ($contacts as $contact)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->slug}} </td>
-                                    <td>{{ $category->created_at }}</td>
-                                    <td>{{ $category->updated_at }}</td>
+                                    <td>{{ $contact->id }}</td>
+                                    <td>{{ $contact->name }}</td>
+                                    <td>{{ $contact->phonenumber }}</td>
+                                    <td>{{ $contact->fax }}</td>
+                                    <td>{{ $contact->address }}</td>   
+                                    <td>{{ $contact->email }}</td>
+                                    <td>{{ $contact->created_at }}</td>
+                                    <td>{{ $contact->updated_at }}</td>
+                                    
                                     <td>
-                                        <a href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}">
+                                        <a 
+                                            href="#" 
+                                            data-id={{ $contact->id}} 
+                                            data-name="{{ $contact->name }}" 
+                                            data-phonenumber="{{ $contact->phonenumber }}" 
+                                            data-fax="{{ $contact->fax }}" 
+                                            data-email="{{ $contact->email }}"
+                                            data-bs-target="#updateContactModal"
+                                            data-bs-toggle="modal"
+                                        >
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a href="#" class="deleteCategoryLink" data-id="{{ $category->id }}">
+
+                                        <a href="#" data-id="{{ $contact->id}}" class="deleteContactLink">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
                                 @endforeach
+                                @endisset
                             </tbody>
                         </table>
-                        {{ $categories->links() }}
-                        @include('backend.categories.add')
-                        @include('backend.categories.edit')
+                        
+                        @isset($contacts)
+                        {{ $contacts->links() }}
+                        @endisset
+                        @include('backend.contacts.add')
+                        @include('backend.contacts.edit')
                     </div>
                 </div>
             </div>
-            
         </div>
-    </div>
-</div>
+    </div><!-- .animated -->
+</div><!-- .content -->
 <div class="clearfix"></div>
 @endsection
-
 @push('js')
+
 @if (session()->has('messages_success'))
 <script>
     toastr.success("{{session()->get('messages_success')}}");
@@ -93,12 +108,12 @@
 <script>
     $(document).ready(function() {
         $("#buttonCreate").click(function() {
-            let formData = new FormData($('#createCategoryForm')[0]);
-
+            let formData = new FormData($('#createContactForm')[0]);
+            
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "{{ route('admin.categories.store') }}",
+                url: "{{ route('admin.contacts.store') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -121,14 +136,22 @@
 
 {{-- Data for update --}}
 <script>
-    $('#updateModal').on('show.bs.modal', function(event) {
+    $('#updateContactModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) //Button that show the modal
         // Extract info from data-* attributes
         var name = button.data('name')
+        var phonenumber = button.data('phonenumber')
+        var fax = button.data('fax')
+        var address = button.data('address')
+        var email = button.data('email')
         var id = button.data('id')
         var modal = $(this)
 
         modal.find('input[name="name"]').val(name)
+        modal.find('input[name="phonenumber"]').val(phonenumber)
+        modal.find('input[name="fax"]').val(fax)
+        modal.find('input[name="address"]').val(address)
+        modal.find('input[name="email"]').val(email)
         modal.find('input[name="updateId"]').val(id)
     })
 </script>
@@ -168,7 +191,7 @@
 {{-- Delete --}}
 <script>
     $(document).ready(function() {
-        $(".deleteCategoryLink").click(function() {
+        $(".deleteContactLink").click(function() {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -182,7 +205,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "/admin/categories/delete/" + $(this).data('id'),
+                        url: "/admin/contacts/delete/" + $(this).data('id'),
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(

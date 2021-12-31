@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
@@ -33,6 +32,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::post('/delete/{id}', [CategoryController::class, 'delete'])->name('delete');
         });
     
+        Route::group(['prefix' => 'contacts', 'as' => 'contacts.'], function() {
+            Route::get('/', [ContactController::class, 'index'])->name('index');
+            Route::post('/store', [ContactController::class, 'store'])->name('store');
+            Route::post('/update/{id}', [ContactController::class, 'update'])->name('update');
+            Route::post('/delete/{id}', [ContactController::class, 'delete'])->name('delete');
+        });
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
     });
