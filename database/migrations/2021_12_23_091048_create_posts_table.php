@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->text('slug')->unique();
             $table->longText('excerpt')->nullable();
             $table->longText('body')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

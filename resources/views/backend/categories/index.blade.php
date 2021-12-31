@@ -56,7 +56,7 @@
                                     <td>{{ $category->created_at }}</td>
                                     <td>{{ $category->updated_at }}</td>
                                     <td>
-                                        <a href="#" data-target="#modal-edit" data-toggle="modal">
+                                        <a href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}" >
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
                                         <a onclick="return confirm('Are you sure?')" href="/admin/delete-category/{{ $category->id }}">
@@ -73,7 +73,7 @@
             </div>
             {{-- Modal create --}}
             @include('backend.categories.add')
-            {{-- @include('backend.categories.edit') --}}
+            @include('backend.categories.edit')
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
@@ -85,12 +85,23 @@
         toastr.success("{{session()->get('messages_success')}}");
     </script>
 @endif
+{{-- <script>
+    var formData = new FormData();
+    formData.append('key1', 'value1');
+    formData.append('key2', 'value2');
+
+    // Display the key/value pairs
+    for(var pair of formData.entries()) {
+    console.log(pair[0]+ ', '+ pair[1]); 
+    }
+</script> --}}
+{{-- Create --}}
 <script>
     $(document).ready(function(){
-        $("#buttonCreate").click(function() {
-            let form = $('#createCategoryForm');
-            let formData = new FormData(form[0]);
-
+        $("#buttonCreate").click(function() 
+        {
+            let formData = new FormData($('#createCategoryForm')[0]);
+            
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -102,13 +113,63 @@
                     if (data.status) {
                         window.location.reload()
                     } else {
-                        toastr.error('khong thanh cong !');
+                        toastr.error('Cannot create, please try again !');
                     }
                 },
                 error: function(xhr) {
                     Object.keys(xhr.responseJSON.errors).forEach(key => {
                         $('#error_' + key).text(xhr.responseJSON.errors[key][0]);
                     });
+                }
+            })
+        })
+    })
+</script>
+
+{{-- Data for update --}}
+<script>
+    $('#updateModal').on('show.bs.modal', function (event) 
+    {
+        var button = $(event.relatedTarget) //Button that show the modal
+        // Extract info from data-* attributes
+        var name = button.data('name') 
+        var id = button.data('id')
+        var modal = $(this)
+
+        modal.find('input[name="name"]').val(name)
+        modal.find('input[name="updateId"]').val(id)
+    })
+</script>
+
+{{-- Update --}}
+<script>
+    $(document).ready(function()
+    {
+        $('#buttonUpdate').click(function(){
+            
+            let formData = new FormData($('form#updateCategoryForm')[0])
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ route('admin.categories.update') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                
+                success: function(data) {
+                    if (data.status) {
+                        window.location.reload()
+                    }
+                    else {
+                        toastr.error('Cannot update this category!')
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr)
+                    Object.keys(xhr.responseJSON.errors).foreach(key => {
+                        $('#error_' + key).text(xhr.responseJSON.errors[key][0])
+                    })
                 }
             })
         })

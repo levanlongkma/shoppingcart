@@ -17,7 +17,8 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('products_id');
             $table->integer('order_id');
             $table->integer('ward_id');
-            
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

@@ -17,13 +17,6 @@
                 <li class="">
                     <a href="/admin/orders"><i class="menu-icon ti-truck"></i>Orders</a>
                 </li>
-                {{-- <h6 class="mx-4 my-3">Others</h6>
-                <li class="">
-                    <a href="/admin/subscribers"><i class="menu-icon ti-email"></i>Subcribers</a>
-                </li>
-                <li class="">
-                    <a href="/admin/supports"><i class="menu-icon ti-headphone-alt"></i>Customer Support</a>
-                </li> --}}
                 <li class="{{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
                     <a href="/admin/users"><i class="menu-icon ti-user"></i>Users</a>
                 </li>
@@ -50,8 +43,6 @@
         <div class="top-right">
             <div class="header-menu">
                 <div class="header-left">
-                    
-
                     <div class="dropdown for-notification">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
@@ -117,8 +108,8 @@
                     </div>
                 </div>
 
-                <div class="user-area dropdown float-right">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="user-area dropdown">
+                    <a href="#" class="dropdown-toggle active" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="user-avatar rounded-circle" src="{{ asset('backend/images/admin.jpg') }}" alt="User Avatar">
                     </a>
 

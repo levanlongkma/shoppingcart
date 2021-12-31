@@ -21,7 +21,6 @@ class CreateOrdersTable extends Migration
             $table->integer('ward_id');
             $table->softDeletes();
             $table->timestamps();
-
         });
     }
 

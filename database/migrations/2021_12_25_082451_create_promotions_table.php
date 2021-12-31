@@ -19,6 +19,7 @@ class CreatePromotionsTable extends Migration
             $table->string('discount')->nullable();
             $table->string('position')->nullable();
             $table->string('show')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

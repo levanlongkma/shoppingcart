@@ -10,9 +10,7 @@
                 <div class="mb-3">
                     <label for="confirmPasswordDelete" class="col-form-label"><h6>Category's Name:</h6></label>
                     <input type="text" class="form-control" name="name">
-                    <span id="error_name"></span>
-                    <div class="invalid-feedback" id="errorCreateName">
-                    </div>
+                    <span class="text-danger small" id="error_name"></span>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>

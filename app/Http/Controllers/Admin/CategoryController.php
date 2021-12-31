@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryValidator;
+use App\Http\Requests\Admin\UpdateCategoryValidator;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
@@ -17,16 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         $active = "categories";
-        $attributes = request()->all();
-        $categories = new Category();
-
-        if (request()->ajax()) {
-            $categories = $categories->all();
-            include(resource_path('views/categories/data.blade.php'));
-        }
-
         $categories = Category::paginate();
-
         return view('backend.categories.index', compact('categories', 'active'));
     }
 
@@ -34,17 +26,32 @@ class CategoryController extends Controller
     {
         $params = $request->all();
         $slug = Str::slug(data_get($params, 'name'));
-        $result = Category::create([
+        $newCategory = Category::create([
             'name' => $params['name'],
             'slug' => $slug
         ]);
 
-        if ($result) {
-            Session::flash('messages_success', 'Tao thanh cong');
-            
+        if ($newCategory) {
+            Session::flash('messages_success', 'Great! A Category Is Added');
             return ['status' => true];
         }
 
+        return ['status' => false];
+    }
+
+    public function update(CategoryValidator $request) {
+        $params = $request->all();
+        dd($params);
+        $slug = Str::slug(data_get($params, 'name'));
+        $updatedCategory = Category::where('id', data_get($params, 'id'))->update([
+            'name' => $params['name'],
+            'slug' => $slug,
+            'updated_at' => now()
+        ]);
+        if ($updatedCategory) {
+            Session::flash('message_success', 'The category is updated man');
+            return ['status' => true];
+        }
         return ['status' => false];
     }
 }
