@@ -67,7 +67,8 @@
     <script src="{{ asset('backend/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery.matchHeight.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/toastr.js') }}"></>
+    <script src="{{ asset('backend/assets/js/toastr.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/sweetalert2.all.min.js') }}"></script>
 
     <script>
         $.ajaxSetup({

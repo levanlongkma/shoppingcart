@@ -11,14 +11,13 @@
                     <label for="" class="col-form-label"><h6>Category's Name:</h6></label>
                     <input type="hidden" name="updateId">
                     <input type="text" class="form-control" name="name">
-                    <span class="text-danger small" id="error_name"></span>                    <div class="invalid-feedback" id="errorCreateName">
-                    </div>
+                    <span class="text-danger small" id="error_update_name"></span>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
                 <button type="button" class="btn btn-success" id="buttonUpdate">Confirm changes?</button>
                 </div>
-            </form>
+            </form
             </div>
         </div>
     </div>

@@ -62,7 +62,6 @@ class CategoryController extends Controller
         $isDeleted = Category::where('id', $id)->delete();
 
         if ($isDeleted) {
-            Session::flash('messages_success', 'Delete a record successfully');
             return ['status' => true];
         }
 

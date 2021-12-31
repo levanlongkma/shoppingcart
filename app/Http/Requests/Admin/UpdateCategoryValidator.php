@@ -27,7 +27,7 @@ class UpdateCategoryValidator extends FormRequest
         return [
             'name' => [
                 'required',
-                Rule::unique('categories', 'name')
+                Rule::unique('categories', 'name')->ignore($this->id)
             ]
         ];
     }

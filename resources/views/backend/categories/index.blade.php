@@ -11,14 +11,16 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
-                <div class="form-inline  ">
-                    <form method="GET" action="{{ route('admin.categories') }}" class="search-form">
+
+            @isset($search)
+            <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
+                <div class="form-inline">
+                    <form method="GET" action="{{ route('admin.categories.index') }}" class="search-form">
                         <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}" placeholder="Search ..." aria-label="Search">
                     </form>
                 </div>
-            </div> --}}
-
+            </div>
+            @endisset
         </div>
     </div>
 </div>
@@ -56,10 +58,10 @@
                                     <td>{{ $category->created_at }}</td>
                                     <td>{{ $category->updated_at }}</td>
                                     <td>
-                                        <a href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}" >
+                                        <a href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}">
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a href="#" data-bs-target="#confirmDeleteModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}">
+                                        <a href="#" class="deleteCategoryLink" data-id="{{ $category->id }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -71,10 +73,8 @@
                     </div>
                 </div>
             </div>
-            {{-- Modal create --}}
             @include('backend.categories.add')
             @include('backend.categories.edit')
-            @include('backend.categories.delete')
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
@@ -82,18 +82,17 @@
 @endsection
 @push('js')
 @if (session()->has('messages_success'))
-    <script>
-        toastr.success("{{session()->get('messages_success')}}");
-    </script>
+<script>
+    toastr.success("{{session()->get('messages_success')}}");
+</script>
 @endif
 
 {{-- Create --}}
 <script>
-    $(document).ready(function(){
-        $("#buttonCreate").click(function() 
-        {
+    $(document).ready(function() {
+        $("#buttonCreate").click(function() {
             let formData = new FormData($('#createCategoryForm')[0]);
-            
+
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -120,11 +119,10 @@
 
 {{-- Data for update --}}
 <script>
-    $('#updateModal').on('show.bs.modal', function (event) 
-    {
+    $('#updateModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) //Button that show the modal
         // Extract info from data-* attributes
-        var name = button.data('name') 
+        var name = button.data('name')
         var id = button.data('id')
         var modal = $(this)
 
@@ -135,33 +133,30 @@
 
 {{-- Update --}}
 <script>
-    $(document).ready(function()
-    {
-        $('#buttonUpdate').click(function(){
-            
+    $(document).ready(function() {
+        $('#buttonUpdate').click(function() {
+
             let formData = new FormData($('#updateCategoryForm')[0])
 
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/categories/"+$("input[name=updateId]").val()+"/update",
+                url: "/admin/categories/" + $("input[name=updateId]").val() + "/update",
                 data: formData,
                 processData: false,
                 contentType: false,
-                
+
                 success: function(data) {
                     if (data.status) {
                         window.location.reload()
-                    }
-                    else {
+                    } else {
                         toastr.error('Cannot update this category!')
                     }
                 },
                 error: function(xhr) {
-                    console.log(xhr)
-                    Object.keys(xhr.responseJSON.errors).foreach(key => {
-                        $('#error_' + key).text(xhr.responseJSON.errors[key][0])
-                    })
+                    Object.keys(xhr.responseJSON.errors).forEach(key => {
+                        $('#error_update_' + key).text(xhr.responseJSON.errors[key][0]);
+                    });
                 }
             })
         })
@@ -170,37 +165,42 @@
 
 {{-- Delete --}}
 <script>
-    $('#confirmDeleteModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) 
-    var id = button.data('id')
-    var name = button.data('name')
-    var modal = $(this)
-    modal.find('#message_delete').text('Do you want to delete '+name+'?')
-    modal.find('input[name=deleteId]').val(id)
-    });
-</script>
-
-<script>
-    $(document).ready(function()
-    {
-        $("#buttonConfirmDelete").click(function()
-        {
-            $.ajax(
-            {
-                type: "POST",
-                dataType: "json",
-                url: "/admin/categories/"+$("input[name=deleteId]").val()+"/delete",
-                success: function(data){
-                    if (data.status) {
-                    window.location.reload()
-                    }
-                    else {
-                        toastr.error('Cannot delete the category!')
-                    }
-                }  
-            });
+    $(document).ready(function() {
+        $(".deleteCategoryLink").click(function() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "/admin/categories/" + $(this).data('id') + "/delete",
+                        success: function(data) {
+                            if (data.status) {
+                                Swal.fire(
+                                'Deleted!',
+                                'The category has been deleted.',
+                                'success'
+                                )
+                                setTimeout(function() {
+                                    window.location.reload(true)
+                                }, 2000);
+                            } else {
+                                toastr.error('Cannot delete the category!')
+                            }
+                        }
+                    });
+                    
+                }
+                })
+            
         })
     });
-
 </script>
 @endpush

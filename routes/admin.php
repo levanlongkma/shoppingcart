@@ -30,7 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
             Route::post('{id}/update', [CategoryController::class, 'update'])->name('update');
-            Route::post('{id}/delete', [CategoryController::class, 'delete'])->name('delete');
+            Route::get('{id}/delete', [CategoryController::class, 'delete'])->name('delete');
         });
     
         Route::get('/users', [UserController::class, 'index'])->name('users');
