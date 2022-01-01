@@ -30,7 +30,6 @@
 <div class="content">
     <div class="animated fadeIn">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -38,11 +37,13 @@
                             <strong class="card-title">Products List</strong>
                         </div>
                         <div class="float-right">
-                            <a href="{{ route('admin.create_form_product') }}"><button type="button" class="btn btn-primary">Add a new product</button></a>
+                            <a href="{{ route('admin.create_form_product') }}" class="btn btn-primary" >
+                                Add New Product
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <table id="productTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -64,20 +65,16 @@
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->slug }}</td>   
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ data_get($product, 'category.name') }}</td>
                                     <td><img src="{{ '/storage/' . $product->image }}"/></td>
                                     <td>{{ $product->created_at }}</td>
                                     <td>{{ $product->updated_at }}</td>
                                     <td>
-                                        {{-- <a href="/admin/show/{{ $product->id }}">
-                                            <i class="menu-icon fa  fa-eye"></i>
-                                        </a> --}}
+                                        
                                         <a href="/admin/edit-product/{{ $product->id }}">
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
-                                        <a onclick="return confirm('Are you sure?')" href="/admin/delete-product/{{ $product->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <button type="button" onclick="return confirm('Are you sure you want to delete?')" data-id="{{ $product->id }}" class="deleteProduct"><i class="fas fa-trash"></i></button>
                                     </td>
                                     
                                 </tr>
@@ -96,3 +93,85 @@
 <div class="clearfix"></div>
 
 @endsection
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{{-- <script>
+    $(function() {
+        $('.create-product').click(function(e){
+        
+            let data = {
+                name: $('#name').val(),
+                description: tinyMCE.activeEditor.getContent(),
+                quantity: $('#quantity').val(),
+                image: $('#image').val(),
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name=_token]").val()
+                }
+            });
+            let inputFile = $("#file_upload")[0];
+
+            let formData = new FormData();
+            formData.append('data', JSON.stringify(data));
+
+            if (inputFile.files) {
+                for (let i = 0; i < inputFile.files.length; i++) {
+                    let file = inputFile.files[i];
+
+                    formData.append('files[]', file);
+                }
+            }
+
+            $.ajax({
+                url: "{{ route('admin.create_product') }}",
+                type:'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response){
+                    if (response.status) {
+                        
+                    } else {
+                    }
+                },
+                error: function(xhr, status, error){
+                    let errors = xhr.responseJSON.errors
+                    Object.keys(errors).forEach(item => {
+                        $('#error_' + item).text(errors[item][0]);
+                    });
+                    
+                }
+            })
+        })
+    })
+</script> --}}
+<script>
+    $(function(){
+        $(".deleteProduct").click(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var id = $(this).data("id");
+            $.ajax({
+                url: "/admin/delete-product/" + id ,
+                type: "GET",
+                dataType: "json",
+                data: {
+                    "id": id,
+                },
+                success: function( response ){
+
+                    window.location.reload();
+
+                    toastr.success('Successful Delete', 'E-Shopper', {timeOut: 5000});
+                },
+                error: function(){
+                    toastr.error(" Fail Delete! ");
+                }
+            })
+        })
+    })
+</script>
