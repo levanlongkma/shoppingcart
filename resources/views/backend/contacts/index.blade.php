@@ -67,6 +67,7 @@
                                             data-phonenumber="{{ $contact->phonenumber }}" 
                                             data-fax="{{ $contact->fax }}" 
                                             data-email="{{ $contact->email }}"
+                                            data-address="{{ $contact->address }}"
                                             data-bs-target="#updateContactModal"
                                             data-bs-toggle="modal"
                                         >
@@ -160,13 +161,12 @@
 <script>
     $(document).ready(function() {
         $('#buttonUpdate').click(function() {
-
-            let formData = new FormData($('#updateCategoryForm')[0])
+            let formData = new FormData($('#updateContactForm')[0])
 
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/categories/update/" + $("input[name=updateId]").val(),
+                url: "/admin/contacts/update/" + $("input[name=updateId]").val(),
                 data: formData,
                 processData: false,
                 contentType: false,
