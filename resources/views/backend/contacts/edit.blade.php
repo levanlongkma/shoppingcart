@@ -5,9 +5,10 @@
                 <h3 class="modal-title text-info" id="exampleModalLabel"><strong>Change Category's Info</strong></h3>
             </div>
             <div class="modal-body">
-                <form method="POST" id="updateCategoryForm">
+                <form method="POST" id="updateContactForm">
                     @csrf
                     <div class="mb-3">
+                        <input type="hidden" name="updateId">
                         <input type="text" class="form-control" name="name" placeholder="Company's Name">
                         <span class="text-danger small" id="error_name"></span>
                     </div>
