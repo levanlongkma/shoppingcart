@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryValidator extends FormRequest
+class ContactValidator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,11 @@ class CategoryValidator extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','unique:categories,name']
+            'name' => 'required',
+            'phonenumber' => 'required',
+            'fax' => 'required',
+            'address' => 'required',
+            'email' => 'required|email:rfc,dns',
         ];
     }
 }

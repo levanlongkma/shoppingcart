@@ -4,71 +4,68 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryValidator;
+use App\Http\Requests\Admin\UpdateCategoryValidator;
 use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     use HasFactory;
 
-    
-    public function showCreateForm()
+    public function index()
     {
-        return view('backend.categories.form-create');
+        $active = "categories";
+        $categories = Category::paginate();
+        return view('backend.categories.index', compact('categories', 'active'));
     }
 
-    public function create(CategoryValidator $request)
+    public function store(CategoryValidator $request)
     {
-        $attributes = $request->input();
-        $slug = Str::slug($attributes['name']);
-        $attributes['slug'] = $slug;
-        Category::create($attributes);
-        
-        return redirect()->route('admin.category');
-    }
-
-    public function showEditForm($id)
-    {
-        //$products = DB::select('SELECT * FROM products WHERE id=?', [$id]);
-        $categories = Category::where('id',"$id");
-
-        return view('backend.categories.form-edit', compact('categories'));
-    }
-
-    public function update(CategoryValidator $request, $id)
-    {   
-        $attributes = $request->input();
-        $slug = Str::slug($attributes['name']);
-        $attributes['slug'] = $slug;
-
-        Category::where('id', $id)->update([
-            'name'=>$attributes['name'],
-            'slug'=>$attributes['slug'],
+        $params = $request->all();
+        $slug = Str::slug(data_get($params, 'name'));
+        $newCategory = Category::create([
+            'name' => $params['name'],
+            'slug' => $slug
         ]);
-        return redirect()->route('admin.category')->with('alert', 'Updated!');
+
+        if ($newCategory) {
+            Session::flash('messages_success', 'Great! A Category Is Added');
+            return ['status' => true];
+        }
+
+        return ['status' => false];
+    }
+
+    public function update(UpdateCategoryValidator $request, $id)
+    {
+        $params = $request->all();
+        $slug = Str::slug(data_get($params, 'name'));
+
+        $updatedCategory = Category::where('id', $id)->update([
+            'name' => $params['name'],
+            'slug' => $slug,
+            'updated_at' => now()
+        ]);
+
+        if ($updatedCategory) {
+            Session::flash('messages_success', 'The category is updated man!');
+            return ['status' => true];
+        }
+
+        return ['status' => false];
     }
 
     public function delete($id)
     {
-        $category = Category::find($id);
+        $isDeleted = Category::where('id', $id)->delete();
 
-        $category->delete();    
+        if ($isDeleted) {
+            return ['status' => true];
+        }
 
-        return redirect()->route('admin.category');
-    }
-    
-    public function index() 
-    {
-        $attributes = request()->all();
-        $search = $attributes['search'] ?? " ";
-
-        $categories = Category::where('name', 'LIKE', "%{$search}%")->paginate(5);
-
-        return view('backend.categories.index', compact('categories', 'search'));
+        return ['status' => false];
     }
 
-    
 }

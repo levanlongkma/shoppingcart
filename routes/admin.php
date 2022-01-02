@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Models\Category;
-use App\Models\Product;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
@@ -25,11 +25,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/search-product', [ProductController::class, 'search'])->name('search_product');
 
 
-        Route::get('/categories', [CategoryController::class, 'index'])->name('category');
-        Route::get('/delete-category/{id}', [CategoryController::class, 'delete'])->name('delete_category');
-        Route::get('/edit-category/{id}', [CategoryController::class, 'showEditForm'])->name('edit_category');
-        Route::get('/create-form-category', [CategoryController::class, 'showCreateForm'])->name('create_form_category');
-        Route::post('/create-category', [CategoryController::class, 'create'])->name('create_category');
-        Route::post('/update-category/{id}', [CategoryController::class, 'update'])->name('update_category');
+        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function() {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::post('/store', [CategoryController::class, 'store'])->name('store');
+            Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
+            Route::post('/delete/{id}', [CategoryController::class, 'delete'])->name('delete');
+        });
+    
+        Route::group(['prefix' => 'contacts', 'as' => 'contacts.'], function() {
+            Route::get('/', [ContactController::class, 'index'])->name('index');
+            Route::post('/store', [ContactController::class, 'store'])->name('store');
+            Route::post('/update/{id}', [ContactController::class, 'update'])->name('update');
+            Route::post('/delete/{id}', [ContactController::class, 'delete'])->name('delete');
+        });
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
     });
 });

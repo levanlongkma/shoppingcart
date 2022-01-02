@@ -5,7 +5,7 @@
                 <li class="active">
                     <a href="{{ route('admin.dashboard') }}"><i class="menu-icon ti-home"></i>Dashboard </a>
                 </li>
-                <li class="">
+                <li class="{{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
                     <a href="/admin/categories"><i class="menu-icon ti-gallery"></i>Categories</a>
                 </li>
                 <li class="">
@@ -17,22 +17,16 @@
                 <li class="">
                     <a href="/admin/orders"><i class="menu-icon ti-truck"></i>Orders</a>
                 </li>
-                <h6 class="mx-4 my-3">Others</h6>
-                <li class="">
-                    <a href="/admin/subscribers"><i class="menu-icon ti-email"></i>Subcribers</a>
+                <li class="{{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
+                    <a href="/admin/users"><i class="menu-icon ti-user"></i>Users</a>
                 </li>
                 <li class="">
-                    <a href="/admin/supports"><i class="menu-icon ti-headphone-alt"></i>Customer Support</a>
-                </li>
-                <h6 class="mx-4 my-3">Admin Section</h6>
-                <li class="">
-                    <a href="/admin/manager/admins"><i class="menu-icon ti-github"></i>Manage Admin</a>
+                    <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>
+                    Posts</a>
                 </li>
                 <li class="">
-                    <a href="/admin/manager/users"><i class="menu-icon ti-user"></i>Manage User</a>
-                </li>
-                <li class="">
-                    <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>Edit profile</a>
+                    <a href="/admin/contacts"><i class="menu-icon ti-info-alt"></i>
+                    Contacts</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -46,17 +40,15 @@
         <div class="top-left">
             <div class="navbar-header">
                 <a class="navbar-brand" href="./"><img src="{{ asset('backend/images/logo.png') }}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{{ asset('backend/images/logo2.png') }}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="{{ asset('backend/images/logo.png') }}" alt="Logo"></a>
                 <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
         </div>
         <div class="top-right">
             <div class="header-menu">
                 <div class="header-left">
-                    
-
                     <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
                             <span class="count bg-danger">3</span>
                         </button>
@@ -78,7 +70,7 @@
                     </div>
 
                     <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-envelope"></i>
                             <span class="count bg-primary">4</span>
                         </button>
@@ -118,24 +110,24 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                
 
-                <div class="user-area dropdown float-right">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle" src="{{ asset('backend/images/admin.jpg') }}" alt="User Avatar">
-                    </a>
+                    <div class="user-area dropdown">
+                        <a href="#" class="dropdown-toggle active" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="{{ asset('backend/images/admin.jpg') }}" alt="User Avatar">
+                        </a>
 
-                    <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
-                        <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
 
-                        <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
-                        <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fa fa-power -off"></i>Logout</a>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </header>
