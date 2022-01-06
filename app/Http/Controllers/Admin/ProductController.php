@@ -32,8 +32,8 @@ class ProductController extends Controller
             $params['slug'] = Str::slug($params['name']);
             $product = Product::create($params);
 
-            if (data_get($params, 'files')) {
-                foreach ($params['files'] as $file) {
+            if (data_get($params, 'image')) {
+                foreach ($params['image'] as $file) {
                     // tu file 0 -> file 9
                     $path = Storage::putFileAs('images', $file,  $file->getClientOriginalName());
 
@@ -46,6 +46,7 @@ class ProductController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e);
             return redirect()->back()->withErrors(['message_error'=>'Fail Create!!!']);
         }
         
@@ -95,6 +96,6 @@ class ProductController extends Controller
         $products = Product::where('name', 'LIKE', "%{$search}%")->paginate(10);
         $categories = Category::all();
 
-        return view('backend.products.index', compact('products', 'search', 'categories'));
+        return view('backend.products.index', compact('products', 'search', 'categories', ));
     }
 }

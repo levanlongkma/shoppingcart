@@ -63,12 +63,14 @@
     <div class="clearfix"></div>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-    <script src="{{ asset('backend/assets/js/popper.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/main.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/jquery.matchHeight.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/toastr.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/main.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/jquery.matchHeight.min.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/toastr.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/sweetalert2.all.min.js') }}"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>    
+    @stack('js')
 
     <script>
         $.ajaxSetup({
@@ -77,7 +79,7 @@
             }
         });
     </script>
-    @stack('js')
+    
 
 </body>
 </html>

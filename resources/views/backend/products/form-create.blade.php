@@ -13,7 +13,7 @@
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Description</label>
-        <textarea name="description" id="" cols="30" rows="10"></textarea>
+        <textarea name="description" id="mytextarea" cols="30" rows="10"></textarea>
         @error('description')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -38,7 +38,7 @@
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Image</label>
-        <input type="file" name="image" class="form-control" id="exampleInputPassword1">
+        <input type="file" name="image[]" class="form-control" id="exampleInputPassword1" multiple>
         @error('image')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -54,9 +54,11 @@
         
     
 @endsection
-@push('script')
+@push('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
-tinymce.init({ selector:'textarea' });
-</script>
-@endpush
+    tinymce.init({
+      selector: "#mytextarea"
+    });
+  </script>
+  @endpush
