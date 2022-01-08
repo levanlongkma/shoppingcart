@@ -38,12 +38,12 @@ class CategoryController extends Controller
         return ['status' => false];
     }
 
-    public function update(UpdateCategoryValidator $request, $id)
+    public function update(UpdateCategoryValidator $request)
     {
         $params = $request->all();
         $slug = Str::slug(data_get($params, 'name'));
 
-        $updatedCategory = Category::where('id', $id)->update([
+        $updatedCategory = Category::where('id', request()->input('updateId'))->update([
             'name' => $params['name'],
             'slug' => $slug,
             'updated_at' => now()
@@ -57,9 +57,9 @@ class CategoryController extends Controller
         return ['status' => false];
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $isDeleted = Category::where('id', $id)->delete();
+        $isDeleted = Category::where('id', request()->input('id'))->delete();
 
         if ($isDeleted) {
             return ['status' => true];

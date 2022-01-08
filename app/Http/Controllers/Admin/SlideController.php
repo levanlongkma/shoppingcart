@@ -48,12 +48,12 @@ class SlideController extends Controller
         return ['status' => true];
     }
 
-    public function delete($id)
+    public function delete()
     {
         DB::beginTransaction();
-
+        
         try {
-            Slide::where('id', $id)->delete();
+            Slide::where('id', request()->input('id'))->delete();
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

@@ -36,12 +36,12 @@ class ContactController extends Controller
         return ['status' => false];
     }
 
-    public function update(ContactValidator $request, $id)
+    public function update(ContactValidator $request)
     {
         $params = $request->validated();
 
         $isUpdated =
-            Contact::where('id', $id)
+            Contact::where('id', $request->input('updateId'))
             ->update([
                 'name' => $params['name'],
                 'phonenumber' => $params['name'],
@@ -59,9 +59,9 @@ class ContactController extends Controller
         return ['status' => false];
     }
 
-    public function delete($id) 
+    public function delete() 
     {
-        $isDeleted = Contact::where('id', $id)->delete();
+        $isDeleted = Contact::where('id', request()->input('id'))->delete();
         
         if ($isDeleted) {
             return ['status' => true];

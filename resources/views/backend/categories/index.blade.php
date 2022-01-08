@@ -147,7 +147,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/categories/update/" + $("input[name=updateId]").val(),
+                url: "{{ route('admin.categories.update') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -187,7 +187,8 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "/admin/categories/delete/" + $(this).data('id'),
+                        data: { id: $(this).data('id') },
+                        url: "{{ route('admin.categories.delete') }}",
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(

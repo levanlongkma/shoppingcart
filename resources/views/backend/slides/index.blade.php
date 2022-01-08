@@ -137,7 +137,8 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "/admin/slides/delete/" + $(this).data('id'),
+                        data: { id:$(this).data('id') },
+                        url: "{{ route('admin.slides.delete') }}",
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(

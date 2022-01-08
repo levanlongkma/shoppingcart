@@ -166,7 +166,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/contacts/update/" + $("input[name=updateId]").val(),
+                url: "{{ route('admin.contacts.update') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -207,7 +207,8 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "/admin/contacts/delete/" + $(this).data('id'),
+                        data: {id:$(this).data('id')},
+                        url: "{{ route('admin.contacts.delete') }}",
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(

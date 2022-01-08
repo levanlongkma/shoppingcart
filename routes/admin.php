@@ -29,22 +29,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::group(['prefix' => 'categories', 'as' => 'categories.'], function() {
             Route::get('/', [CategoryController::class, 'index'])->name('index');
             Route::post('/store', [CategoryController::class, 'store'])->name('store');
-            Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [CategoryController::class, 'delete'])->name('delete');
+            Route::post('/update', [CategoryController::class, 'update'])->name('update');
+            Route::post('/delete', [CategoryController::class, 'delete'])->name('delete');
         });
     
         Route::group(['prefix' => 'contacts', 'as' => 'contacts.'], function() {
             Route::get('/', [ContactController::class, 'index'])->name('index');
             Route::post('/store', [ContactController::class, 'store'])->name('store');
-            Route::post('/update/{id}', [ContactController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [ContactController::class, 'delete'])->name('delete');
+            Route::post('/update', [ContactController::class, 'update'])->name('update');
+            Route::post('/delete', [ContactController::class, 'delete'])->name('delete');
         });
 
         Route::group(['prefix' => 'slides', 'as' => 'slides.'], function(){
             Route::get('/', [SlideController::class, 'index'])->name('index');
             Route::post('/store', [SlideController::class, 'store'])->name('store');
-            Route::post('/update/{id}', [SlideController::class, 'update'])->name('update');
-            Route::post('/delete/{id}', [SlideController::class, 'delete'])->name('delete');
+            Route::post('/delete', [SlideController::class, 'delete'])->name('delete');
         });
 
         Route::get('/users', [UserController::class, 'index'])->name('users');
