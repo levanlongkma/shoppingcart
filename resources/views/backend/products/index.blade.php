@@ -69,7 +69,7 @@
                                                 <td>{{ data_get($product, 'category.name') }}</td>
                                                 <td>
                                                     @if ($product->productImages->first() != NULL)
-                                                        <img src=" /storage/{{ $product->productImages->first()->image }} " alt="No image" >  
+                                                        <img src="{{ Storage::url($product->productImages->first()->image) }} " alt="No image" >  
                                                     @endif
                                                 </td>
                                                 <td>{{ $product->created_at }}</td>

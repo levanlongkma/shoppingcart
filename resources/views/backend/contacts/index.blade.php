@@ -4,10 +4,10 @@
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Contacts Info</h1>
+                        <h1 class="text-danger"><strong>ADMIN - Quản lý thông tin liên hệ</strong></h1>
                     </div>
                 </div>
             </div>
@@ -22,11 +22,11 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
-                            <strong class="card-title">Contacts List</strong>
+                            <h3><strong class="card-title text-dark">Thông tin doanh nghiệp</strong></h3>
                         </div>
                         <div>
                             <a href="#" data-bs-target="#createModal"
-                            data-bs-toggle="modal"><button type="button" class="btn btn-primary">Add new contacts</button></a>
+                            data-bs-toggle="modal"><button type="button" class="btn btn-success">Tạo thông tin liên hệ mới</button></a>
                         </div>
                     </div>
 
@@ -34,15 +34,15 @@
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Phonenumber</th>
-                                    <th>Fax</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Created at</th>
-                                    <th>Updated at</th>
-                                    <th>Actions</th>
+                                    <th class="small font-weight-bold text-center">#</th>
+                                    <th class="small font-weight-bold text-center">Name</th>
+                                    <th class="small font-weight-bold text-center">Phonenumber</th>
+                                    <th class="small font-weight-bold text-center">Fax</th>
+                                    <th class="small font-weight-bold text-center">Address</th>
+                                    <th class="small font-weight-bold text-center">Email</th>
+                                    <th class="small font-weight-bold text-center">Created at</th>
+                                    <th class="small font-weight-bold text-center">Updated at</th>
+                                    <th class="small font-weight-bold text-center">Actions</th>
                                 </tr>
                             </thead>
 
@@ -50,17 +50,17 @@
                                 @isset ($contacts)
                                 @foreach ($contacts as $contact)
                                 <tr>
-                                    <td>{{ $contact->id }}</td>
-                                    <td>{{ $contact->name }}</td>
-                                    <td>{{ $contact->phonenumber }}</td>
-                                    <td>{{ $contact->fax }}</td>
-                                    <td>{{ $contact->address }}</td>   
-                                    <td>{{ $contact->email }}</td>
-                                    <td>{{ $contact->created_at }}</td>
-                                    <td>{{ $contact->updated_at }}</td>
+                                    <td class="small text-center">{{ $contact->id }}</td>
+                                    <td class="small text-center">{{ $contact->name }}</td>
+                                    <td class="small text-center">{{ $contact->phonenumber }}</td>
+                                    <td class="small text-center">{{ $contact->fax }}</td>
+                                    <td class="small text-center">{{ $contact->address }}</td>   
+                                    <td class="small text-center">{{ $contact->email }}</td>
+                                    <td class="small text-center">{{ $contact->created_at }}</td>
+                                    <td class="small text-center">{{ $contact->updated_at }}</td>
                                     
-                                    <td>
-                                        <a 
+                                    <td class="small text-center">
+                                        <a  class="text-primary"
                                             href="#" 
                                             data-id={{ $contact->id}} 
                                             data-name="{{ $contact->name }}" 
@@ -74,7 +74,7 @@
                                             <i class="menu-icon fa  fa-pencil-square-o"></i>
                                         </a>
 
-                                        <a href="#" data-id="{{ $contact->id}}" class="deleteContactLink">
+                                        <a href="#" data-id="{{ $contact->id}}" class="deleteContactLink text-danger">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -122,7 +122,7 @@
                     if (data.status) {
                         window.location.reload()
                     } else {
-                        toastr.error('Cannot create, please try again !');
+                        toastr.error('Khởi tạo thất bại, vui lòng thử lại');
                     }
                 },
                 error: function(xhr) {
@@ -166,7 +166,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "/admin/contacts/update/" + $("input[name=updateId]").val(),
+                url: "{{ route('admin.contacts.update') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -175,10 +175,11 @@
                     if (data.status) {
                         window.location.reload()
                     } else {
-                        toastr.error('Cannot update this category!')
+                        toastr.error('Opps! Không thể xóa thông tin, mời thử lại')
                     }
                 },
                 error: function(xhr) {
+                    console.log(xhr)
                     Object.keys(xhr.responseJSON.errors).forEach(key => {
                         $('#error_update_' + key).text(xhr.responseJSON.errors[key][0]);
                     });
@@ -193,24 +194,26 @@
     $(document).ready(function() {
         $(".deleteContactLink").click(function() {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Chắc không?',
+                text: "Xóa rồi là mất đó!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                cancelButtonText: 'Hủy',
+                confirmButtonText: 'Ok, xóa giúp tôi!'
                 }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "/admin/contacts/delete/" + $(this).data('id'),
+                        data: {id:$(this).data('id')},
+                        url: "{{ route('admin.contacts.delete') }}",
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(
-                                'Deleted!',
-                                'The category has been deleted.',
+                                'Xóa thành công!',
+                                'Đã hủy một bản ghi',
                                 'success'
                                 )
                                 setTimeout(function() {

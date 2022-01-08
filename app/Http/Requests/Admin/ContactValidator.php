@@ -31,4 +31,15 @@ class ContactValidator extends FormRequest
             'email' => 'required|email:rfc,dns',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Trường tên doanh nghiệp không được để trống!',
+            'phonenumber.required' => 'Trường số điện thoại không được để trống!',
+            'fax.required' => 'Trường số fax không được để trống!',
+            'address.required' => 'Trường địa chỉ không được để trống!',
+            'email.required' => 'Trường email không được để trống!',
+        ];
+    }
 }

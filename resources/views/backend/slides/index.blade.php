@@ -7,7 +7,7 @@
             <div class="col-lg-8">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1 class="text-danger"><strong>ADMIN - Quản lý danh mục</strong></h1>
+                        <h1 class="text-danger"><strong>ADMIN - Quản lý trình chiếu</strong></h1>
                     </div>
                 </div>
             </div>
@@ -31,10 +31,10 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center py-3">
                         <div>
-                            <h3><strong class="card-title text-dark">Danh mục sản phẩm</strong></h3>
+                            <h3><strong class="card-title text-dark">Danh sách slides</strong></h3>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Tạo danh mục mới</a>
+                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Thêm 1 slide mới</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -42,27 +42,22 @@
                             <thead>
                                 <tr>
                                     <th class="small font-weight-bold text-center">#</th>
-                                    <th class="small font-weight-bold text-center">Tên</th>
-                                    <th class="small font-weight-bold text-center">Slug</th>
+                                    <th class="small font-weight-bold text-center">Ảnh</th>
                                     <th class="small font-weight-bold text-center">Khởi tạo</th>
                                     <th class="small font-weight-bold text-center">Cập nhật</th>
-                                    <th class="small font-weight-bold text-center">Hành động</th>
+                                    <th class="small font-weight-bold text-center">Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset($categories)
-                                @foreach ($categories as $category)
+                                @isset($slides)
+                                @foreach ($slides as $slide)
                                 <tr>
-                                    <td class="small text-center">{{ $category->id }}</td>
-                                    <td class="small">{{ $category->name }}</td>
-                                    <td class="small">{{ $category->slug}}</td>
-                                    <td class="small text-center">{{ $category->created_at }}</td>
-                                    <td class="small text-center">{{ $category->updated_at }}</td>
+                                    <td class="small text-center">{{ $slide->id }}</td>
+                                    <td class="small text-center"><img style="max-height: 30px; max-width: 30px" src="{{ Storage::url($slide->image)}}" alt=""></td>
+                                    <td class="small text-center">{{ $slide->created_at }}</td>
+                                    <td class="small text-center">{{ $slide->updated_at }}</td>
                                     <td class="small text-center">
-                                        <a class="text-primary" href="#" data-bs-target="#updateModal" data-bs-toggle="modal" data-name="{{ $category->name }}" data-id="{{ $category->id }}">
-                                            <i class="menu-icon fa  fa-pencil-square-o"></i>
-                                        </a>
-                                        <a href="#" class="deleteCategoryLink text-danger" data-id="{{ $category->id }}">
+                                        <a href="#" class="deleteLink text-danger" data-id="{{ $slide->id }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -71,11 +66,11 @@
                                 @endisset
                             </tbody>
                         </table>
-                        @isset($categories)
-                        {{ $categories->links() }}
+                        @isset($slides)
+                        {{ $slides->links() }}
                         @endisset
-                        @include('backend.categories.add')
-                        @include('backend.categories.edit')
+                        @include('backend.slides.add')
+                        @include('backend.slides.edit')
                     </div>
                 </div>
             </div>
@@ -102,66 +97,21 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "{{ route('admin.categories.store') }}",
+                url: "{{ route('admin.slides.store') }}",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    if (data.status) {
+                    if (data) {
                         window.location.reload()
                     } else {
                         toastr.error('Không thể khởi tạo, xin thử lại!');
                     }
                 },
                 error: function(xhr) {
+                    // console.log(xhr)
                     Object.keys(xhr.responseJSON.errors).forEach(key => {
                         $('#error_' + key).text(xhr.responseJSON.errors[key][0]);
-                    });
-                }
-            })
-        })
-    })
-</script>
-
-{{-- Data for update --}}
-<script>
-    $('#updateModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget) //Button that show the modal
-        // Extract info from data-* attributes
-        var name = button.data('name')
-        var id = button.data('id')
-        var modal = $(this)
-
-        modal.find('input[name="name"]').val(name)
-        modal.find('input[name="updateId"]').val(id)
-    })
-</script>
-
-{{-- Update --}}
-<script>
-    $(document).ready(function() {
-        $('#buttonUpdate').click(function() {
-
-            let formData = new FormData($('#updateCategoryForm')[0])
-
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "{{ route('admin.categories.update') }}",
-                data: formData,
-                processData: false,
-                contentType: false,
-
-                success: function(data) {
-                    if (data.status) {
-                        window.location.reload()
-                    } else {
-                        toastr.error('Cannot update this category!')
-                    }
-                },
-                error: function(xhr) {
-                    Object.keys(xhr.responseJSON.errors).forEach(key => {
-                        $('#error_update_' + key).text(xhr.responseJSON.errors[key][0]);
                     });
                 }
             })
@@ -172,7 +122,7 @@
 {{-- Delete --}}
 <script>
     $(document).ready(function() {
-        $(".deleteCategoryLink").click(function() {
+        $(".deleteLink").click(function() {
             Swal.fire({
                 title: 'Chắc không?',
                 text: "Xóa rồi là mất đó!",
@@ -187,20 +137,20 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        data: { id: $(this).data('id') },
-                        url: "{{ route('admin.categories.delete') }}",
+                        data: { id:$(this).data('id') },
+                        url: "{{ route('admin.slides.delete') }}",
                         success: function(data) {
                             if (data.status) {
                                 Swal.fire(
                                 'Hooray!',
-                                'Đã xóa danh mục thành công',
+                                'Đã xóa slide thành công',
                                 'success'
                                 )
                                 setTimeout(function() {
                                     window.location.reload(true)
                                 }, 2000);
                             } else {
-                                toastr.error('Cannot delete the category!')
+                                toastr.error('Không xóa được slide này, vui lòng thử lại!')
                             }
                         }
                     });

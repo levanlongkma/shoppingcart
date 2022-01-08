@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateCategoryValidator extends FormRequest
+class CreateSlideValidator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +24,16 @@ class UpdateCategoryValidator extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                Rule::unique('categories', 'name')->ignore($this->id)
-            ]
+            'image' => 'required',
+            'image.*' => 'image'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Trường tên danh mục không được để trống!',
-            'name.unique' => 'Danh mục này đã tồn tại, hãy chọn một cái tên khác!',
+            'image.required' => 'Hãy upload ít nhất 1 ảnh',
+            'image.*.image' => 'Slide upload phải có đuôi jpg, jpeg, png, bmp, gif, svg, hoặc webp'
         ];
     }
 }
