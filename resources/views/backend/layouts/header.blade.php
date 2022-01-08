@@ -2,31 +2,35 @@
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li class="text-capitalize {{ isset($active) ? ($active == "dashboard" ? "active" : "" ) : ''  }}">
                     <a href="{{ route('admin.dashboard') }}"><i class="menu-icon ti-home"></i>Dashboard </a>
                 </li>
-                <li class="{{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
-                    <a href="/admin/categories"><i class="menu-icon ti-gallery"></i>Categories</a>
+                <li class="text-capitalize {{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
+                    <a href="{{ route('admin.categories.index') }}"><i class="menu-icon ti-menu"></i>Danh mục</a>
                 </li>
-                <li class="">
-                    <a href="/admin/products"><i class="menu-icon ti-bag"></i>Products</a>
+                <li class="text-capitalize ">
+                    <a href="{{ route('admin.product') }}"><i class="menu-icon ti-bag"></i>Sản phẩm</a>
                 </li>
-                <li class="">
-                    <a href="/admin/promotions"><i class="menu-icon ti-tag"></i>Promotions</a>
+                <li class="text-capitalize ">
+                    <a href="#"><i class="menu-icon ti-tag"></i>Giảm giá</a>
                 </li>
-                <li class="">
-                    <a href="/admin/orders"><i class="menu-icon ti-truck"></i>Orders</a>
+                <li class="text-capitalize ">
+                    <a href="#"><i class="menu-icon ti-truck"></i>Đơn hàng</a>
                 </li>
-                <li class="{{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
-                    <a href="/admin/users"><i class="menu-icon ti-user"></i>Users</a>
+                <li class="text-capitalize {{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
+                    <a href="#"><i class="menu-icon ti-user"></i>Khách hàng</a>
                 </li>
-                <li class="">
-                    <a href="/admin/profile"><i class="menu-icon ti-marker-alt"></i>
-                    Posts</a>
+                <li class="text-capitalize ">
+                    <a href="#"><i class="menu-icon ti-marker-alt"></i>
+                    Bài đăng</a>
                 </li>
-                <li class="">
-                    <a href="/admin/contacts"><i class="menu-icon ti-info-alt"></i>
-                    Contacts</a>
+                <li class="{{ isset($active) ? ($active == "contacts" ? "active" : "" ) : ''  }}">
+                    <a href="{{ route('admin.contacts.index') }}"><i class="menu-icon ti-info-alt"></i>
+                    Thông tin</a>
+                </li>
+                <li class="{{ isset($active) ? ($active == "slides" ? "active" : "" ) : ''  }} text-capitalize">
+                    <a href="{{ route('admin.slides.index') }}"><i class="menu-icon ti-image"></i>
+                    Trình chiếu</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->

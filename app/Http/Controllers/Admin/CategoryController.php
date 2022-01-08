@@ -31,7 +31,7 @@ class CategoryController extends Controller
         ]);
 
         if ($newCategory) {
-            Session::flash('messages_success', 'Great! A Category Is Added');
+            Session::flash('messages_success', 'Đã tạo danh mục thành công');
             return ['status' => true];
         }
 
@@ -50,7 +50,7 @@ class CategoryController extends Controller
         ]);
 
         if ($updatedCategory) {
-            Session::flash('messages_success', 'The category is updated man!');
+            Session::flash('messages_success', 'Cập nhật danh mục thành công!');
             return ['status' => true];
         }
 

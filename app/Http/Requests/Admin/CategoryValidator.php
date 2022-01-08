@@ -27,4 +27,12 @@ class CategoryValidator extends FormRequest
             'name' => ['required','unique:categories,name']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Trường tên danh mục không được để trống!',
+            'name.unique' => 'Danh mục này đã tồn tại, hãy chọn một cái tên khác!',
+        ];
+    }
 }

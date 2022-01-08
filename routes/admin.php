@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::post('/update/{id}', [ContactController::class, 'update'])->name('update');
             Route::post('/delete/{id}', [ContactController::class, 'delete'])->name('delete');
         });
+
+        Route::group(['prefix' => 'slides', 'as' => 'slides.'], function(){
+            Route::get('/', [SlideController::class, 'index'])->name('index');
+            Route::post('/store', [SlideController::class, 'store'])->name('store');
+            Route::post('/update/{id}', [SlideController::class, 'update'])->name('update');
+            Route::post('/delete/{id}', [SlideController::class, 'delete'])->name('delete');
+        });
+
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
     });
