@@ -6,10 +6,10 @@
                     <a href="{{ route('admin.dashboard') }}"><i class="menu-icon ti-home"></i>Dashboard </a>
                 </li>
                 <li class="{{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
-                    <a href="/admin/categories"><i class="menu-icon ti-gallery"></i>Categories</a>
+                    <a  href="/admin/categories"><i class="menu-icon ti-gallery"></i>Categories</a>
                 </li>
-                <li class="">
-                    <a href="/admin/products"><i class="menu-icon ti-bag"></i>Products</a>
+                <li class="{{ isset($active) ? ($active == "products" ? "active" : "" ) : ''  }}">
+                    <a  href="/admin/products"><i class="menu-icon ti-bag"></i>Products</a>
                 </li>
                 <li class="">
                     <a href="/admin/promotions"><i class="menu-icon ti-tag"></i>Promotions</a>

@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\ProductValidator;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Carbon\CarbonImmutable;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -30,11 +31,11 @@ class ProductController extends Controller
             $params = $request->all();
             
             $params['slug'] = Str::slug($params['name']);
+            
             $product = Product::create($params);
 
             if (data_get($params, 'image')) {
                 foreach ($params['image'] as $file) {
-                    // tu file 0 -> file 9
                     $path = Storage::putFileAs('images', $file,  $file->getClientOriginalName());
 
                     ProductImage::create([
@@ -55,28 +56,48 @@ class ProductController extends Controller
 
     public function showEditForm($id)
     {
-        $products = Product::find($id);
+        $product = Product::where('id', $id)->first();
+        $categories = Category::all();
 
-        return view('backend.products.form-edit', compact('products'));
+        return view('backend.products.form-edit', compact('product','categories'));
     }
 
-    public function update(ProductValidator $request, $id)
+    public function update(ProductValidator $request, ProductImage $productImage,  $id)
     {   
-        $params = $request->all();
-        $slug = Str::slug($params['name']);
-        $params['slug'] = $slug;
-        $file = $request->file('image');
-        $path = Storage::putFileAs('images', $file, $file->getClientOriginalName());
-        $params['image'] = $path;
-        
-        Product::where('id', $id)->update([
-            'name' => $params['name'],
-            'description' => $params['description'],
-            'slug' => $params['slug'],
-            'image' => $params['image'],
-            'quantity' => $params['quantity'],
-        ]);
-        
+        DB::beginTransaction();
+        try {
+            $params = $request->all();
+
+            $product = Product::find($id);
+
+            $params['slug'] = Str::slug($params['name']);
+
+            $product->update([
+                'name' => $params['name'],
+                'description' => $params['description'],
+                'category_id' => $params['category_id'],
+                'slug' => $params['slug'],
+                'price' => $params['price'],
+                'quantity' => $params['quantity'],
+            ]);
+
+            if (data_get($params, 'image')) {
+                foreach ($params['image'] as $file) {
+                    // tu file 0 -> file 9
+                    $path = Storage::putFileAs('images', $file,  $file->getClientOriginalName());
+
+                    ProductImage::create([
+                        'image' =>  $path,
+                        'product_id' => $product->id
+                    ]);
+                }
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e);
+            return redirect()->back()->withErrors(['message_error'=>'Fail Create!!!']);
+        }
         return redirect()->route('admin.product');
     }
 
