@@ -24,19 +24,27 @@ class HomeController extends Controller
         return view('shopping.pages.home', compact('slides', 'categories', 'products'));
     }
     
-    public function productsOnCategory($id)
+    public function productsOnCategory()
     {
-        try {
-            $products = Product::where('category_id', $id)->get();
-            return [
-                'status' => true,
-                'products' => $products
-            ];
-        } catch (Exception $e) {
-            Log::error($e);
-            return [
-                'status' => false,
-            ];
+        if (request()->ajax()) {
+            try {
+                $products = Product::with('productImages')->where('category_id', request()->input('id'))->get();
+                return json_encode($products);
+            } catch (Exception $e) {
+                Log::error($e);
+            }
+        }
+    }
+
+    public function allProducts()
+    {
+        if (request()->ajax()) {
+            try {
+                $products = Product::with('productImages')->get();
+                return json_encode($products);
+            } catch (Exception $e) {
+                Log::error($e);
+            }
         }
     }
 

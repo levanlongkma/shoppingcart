@@ -70,14 +70,14 @@ Home | E-Shop
             <div class="row">
                 <div class="col-sm-3">
                     <div class="left-sidebar">
-                        <h2>Categories</h2>
+                        <h2>Danh mục</h2>
                         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title text-center">
-                                        <a href="javascript:;" 
+                                        <a href="javascript:;" data-products="{{$products}}"
                                         class="loadAll">
-                                            All
+                                            Tất cả
                                         </a>
                                     </h4>
                                 </div>
@@ -99,7 +99,7 @@ Home | E-Shop
 
                         
                         <div class="price-range"><!--price-range-->
-                            <h2>Price Range</h2>
+                            <h2>Khoảng giá</h2>
                             <div class="well text-center">
                                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
                                 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
@@ -111,9 +111,10 @@ Home | E-Shop
                 <div class="col-sm-9 padding-right">
                     <div class="features_items"><!--features_items-->
                         <h2 class="title text-center">
-                            Products
+                            Sản phẩm
                         </h2>
                         @foreach ($products as $product)
+                        
                         <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
@@ -121,13 +122,13 @@ Home | E-Shop
                                             <img src="{{ Storage::url($product->productImages()->first()->image) }}" alt="" />
                                             <h2>{{ $product->price }}</h2>
                                             <p>{{ $product->name }}</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
                                                 <h2>{{ $product->price }}</h2>
                                                 <p>{{ $product->name }}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                             </div>
                                         </div>
                                 </div>
@@ -147,13 +148,120 @@ Home | E-Shop
 @endsection
 
 @push('js')
+{{-- Click category --}}
 <script>
     $(document).ready(function(){
-        $('.loadProducts').click(function(e){
-            let id = $(this).data('categoryid');
-            $.ajax([
-                
-            ])
+        $('.loadProducts').click(function(){
+            $('.loadProducts').removeClass('active')
+            $(this).addClass('active')
+            $('.features_items').empty()
+            $('.features_items').append(`<h2 class="title text-center">Products</h2>`)
+            
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: $(this).data('categoryid') },
+                url:"{{route('shopping.productsOnCategory')}}",
+
+                success: function(data)  {
+                    console.log(data)
+                    let count = 0;
+                    data.forEach(product => {
+                        let image = product['product_images'][0].image;
+                        let price = product['price'];
+                        let name = product['name']
+                        console.log(price)
+                        $('.features_items').append(`
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="{{ Storage::url("`+image+`") }}" alt="" />
+                                            <h2>`+price+`</h2>
+                                            <p>`+name+`</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>`+price+`</h2>
+                                                <p>`+name+`</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`)
+                        count += 1
+                    })
+                },
+
+                error: function(xhr) {
+
+                }
+            })
+        })
+    })
+</script>
+{{-- Click all --}}
+<script>
+    $(document).ready(function(){
+        $('.loadAll').click(function(){
+            $('.loadProducts').removeClass('active')
+            $(this).addClass('active')
+            $('.features_items').empty()
+            $('.features_items').append(`<h2 class="title text-center">Products</h2>`)
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: $(this).data('categoryid') },
+                url:"{{route('shopping.allProducts')}}",
+
+                success: function(data)  {
+                    console.log(data)
+                    let count = 0;
+                    data.forEach(product => {
+                        let image = product['product_images'][0].image;
+                        let price = product['price'];
+                        let name = product['name']
+                        console.log(price)
+                        $('.features_items').append(`
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="{{ Storage::url("`+image+`") }}" alt="" />
+                                            <h2>`+price+`</h2>
+                                            <p>`+name+`</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>`+price+`</h2>
+                                                <p>`+name+`</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`)
+                        count += 1
+                    })
+                },
+
+                error: function(xhr) {
+
+                }
+            })
         })
     })
 </script>
