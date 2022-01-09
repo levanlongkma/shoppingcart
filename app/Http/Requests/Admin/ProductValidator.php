@@ -26,7 +26,8 @@ class ProductValidator extends FormRequest
         return [
             'name' => 'required',
             'description'=>'required',
-            'image'=>'required',
+            // 'image'=>'required',
+            'price' => 'required',
             'quantity'=>'required',
             'category_id'=>'required'
         ];

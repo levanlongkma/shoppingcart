@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- <button class="search-trigger"><i class="fa fa-search"></i></button> --}}
-
+    
     <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
@@ -44,13 +44,15 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <table id="productTable" class="table table-striped table-bordered">
+                            <table id="productTable" class="table table-striped ">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
                                         <th>Name</th>
                                         <th>Description</th>
+                                        <th>Quantity</th>
                                         <th>Slug</th>
+                                        <th>Price</th>
                                         <th>Category</th>
                                         <th>Image</th>
                                         <th>Created at</th>
@@ -65,7 +67,9 @@
                                                 <td>{{ $product->id }}</td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{{ $product->description }}</td>
+                                                <td>{{ $product->quantity }}</td>
                                                 <td>{{ $product->slug }}</td>
+                                                <td>{{ $product->price }}</td>
                                                 <td>{{ data_get($product, 'category.name') }}</td>
                                                 <td>
                                                     @if ($product->productImages->first() != NULL)
@@ -76,7 +80,7 @@
                                                 <td>{{ $product->updated_at }}</td>
                                                 <td>
 
-                                                    <a href="/admin/edit-product/{{ $product->id }}">
+                                                    <a href="{{ route('admin.edit_product', $product->id) }}">
                                                         <i class="menu-icon fa  fa-pencil-square-o"></i>
                                                     </a>
                                                     <button type="button" data-id="{{ $product->id }}"
