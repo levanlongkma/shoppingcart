@@ -53,6 +53,12 @@ Login | E-Shopper
                         @error('password')
                             {{ $message }}
                         @enderror
+
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <button type="submit" class="btn btn-default">Signup</button>
                     </form>
                 </div><!--/sign up form-->

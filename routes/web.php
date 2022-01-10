@@ -29,6 +29,7 @@ Route::group(['as' => 'shopping.'], function() {
     Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
     Route::post('/register', [AuthController::class,'signUp'])->name('register');
 
+
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
         Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
