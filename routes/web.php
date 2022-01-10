@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'shopping.'], function() {
     Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::post('/productsOnCategory/{id}', [HomeController::class, 'productsOnCategory'])->name('productsOnCategory');
     Route::get('/blog-list', [HomeController::class, 'blogList'])->name('blog_list');
     Route::get('/blog-single', [HomeController::class, 'blogSingle'])->name('blog_single');
     Route::get('/products', [HomeController::class, 'products'])->name('products');

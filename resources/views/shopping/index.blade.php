@@ -35,5 +35,6 @@
     <script src="{{ asset('/js/main.js') }}"></script>
     
     @stack('styles')
+    @stack('js')
 </body>
 </html>

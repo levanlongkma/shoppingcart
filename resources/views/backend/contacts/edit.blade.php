@@ -2,35 +2,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title text-info" id="exampleModalLabel"><strong>Change Category's Info</strong></h3>
+                <h3 class="modal-title text-info" id="exampleModalLabel"><strong>Thay đổi thông tin doanh nghiệp</strong></h3>
             </div>
             <div class="modal-body">
                 <form method="POST" id="updateContactForm">
                     @csrf
                     <div class="mb-3">
                         <input type="hidden" name="updateId">
-                        <input type="text" class="form-control" name="name" placeholder="Company's Name">
-                        <span class="text-danger small" id="error_name"></span>
+                        <input type="text" class="form-control" name="name" placeholder="Tên công ty...">
+                        <span class="text-danger small" id="error_update_name"></span>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="phonenumber" placeholder="Your phonenumber is ...">
-                        <span class="text-danger small" id="error_phonenumber"></span>
+                        <input type="text" class="form-control" name="phonenumber" placeholder="Số điện thoại...">
+                        <span class="text-danger small" id="error_update_phonenumber"></span>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="fax" placeholder="Your fax is ...">
-                        <span class="text-danger small" id="error_fax"></span>
+                        <input type="text" class="form-control" name="fax" placeholder="Số fax...">
+                        <span class="text-danger small" id="error_update_fax"></span>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="address" placeholder="Your address is ...">
-                        <span class="text-danger small" id="error_address"></span>
+                        <input type="text" class="form-control" name="address" placeholder="Địa chỉ doanh nghiệp...">
+                        <span class="text-danger small" id="error_update_address"></span>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="email" placeholder="Your email is ...">
-                        <span class="text-danger small" id="error_email"></span>
+                        <input type="text" class="form-control" name="email" placeholder="Email...">
+                        <span class="text-danger small" id="error_update_email"></span>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-info" id="buttonUpdate">Confirm changes?</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Trở lại bảng</button>
+                    <button type="button" class="btn btn-info" id="buttonUpdate">Lưu lại những thay đổi</button>
                     </div>
                 </form>
             </div>

@@ -29,19 +29,19 @@ class ContactController extends Controller
             ]);
 
         if ($newContact) {
-            Session::flash('messages_success', 'A new contact was set! Great job!');
+            Session::flash('messages_success', 'Một bản ghi thông tin mới đã được tạo!');
             return ['status' => true];
         }
 
         return ['status' => false];
     }
 
-    public function update(ContactValidator $request, $id)
+    public function update(ContactValidator $request)
     {
         $params = $request->validated();
 
         $isUpdated =
-            Contact::where('id', $id)
+            Contact::where('id', $request->input('updateId'))
             ->update([
                 'name' => $params['name'],
                 'phonenumber' => $params['name'],
@@ -52,16 +52,16 @@ class ContactController extends Controller
             ]);
 
         if ($isUpdated) {
-            Session::flash('messages_success', 'Your company contacts are updated!');
+            Session::flash('messages_success', 'Thông tin đã được cập nhật thành công!');
             return ['status' => true];
         }
 
         return ['status' => false];
     }
 
-    public function delete($id) 
+    public function delete() 
     {
-        $isDeleted = Contact::where('id', $id)->delete();
+        $isDeleted = Contact::where('id', request()->input('id'))->delete();
         
         if ($isDeleted) {
             return ['status' => true];
