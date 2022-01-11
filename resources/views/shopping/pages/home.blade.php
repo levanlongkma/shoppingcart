@@ -32,7 +32,6 @@ Home | E-Shop
                                     </div>
                                     <div class="col-sm-6">
                                         <img src="{{Storage::url($value->image)}}" class="girl img-responsive" alt="" />
-                                        {{-- <img src="/images/home/pricing.png"  class="pricing" alt="" /> --}}
                                     </div>
                                 </div>
                                 @else
@@ -45,7 +44,6 @@ Home | E-Shop
                                     </div>
                                     <div class="col-sm-6">
                                         <img src="{{Storage::url($value->image)}}" class="girl img-responsive" alt="" />
-                                        {{-- <img src="/images/home/pricing.png"  class="pricing" alt="" /> --}}
                                     </div>
                                 </div>
                                 @endif
@@ -75,8 +73,7 @@ Home | E-Shop
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title text-center">
-                                        <a href="javascript:;" data-products="{{$products}}"
-                                        class="loadAll">
+                                        <a href="javascript:;" class="loadAll">
                                             Tất cả
                                         </a>
                                     </h4>
@@ -96,13 +93,19 @@ Home | E-Shop
                             </div>
                             @endforeach
                         </div><!--/category-products-->
-
                         
+                        <div class="search-product">
+                            <h2>Tìm kiếm</h2>
+                            <div class="well text-center">
+                                <input type="text" class="form-control search searchAll" placeholder="Nhập tên sản phẩm"/>
+                            </div>
+                        </div>
                         <div class="price-range"><!--price-range-->
                             <h2>Khoảng giá</h2>
                             <div class="well text-center">
-                                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-                                <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+                                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="{{ $highestPrice }}" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
+                                <b class="pull-left">$ 0</b> <b class="pull-right">$ {{ $highestPrice }}</b>
+                                <a href="javascript:;" data-highest-price="" data-lowest-price="" data-categoryid=""><span>Apply Filter</span></a>
                             </div>
                         </div><!--/price-range-->
                     </div>
@@ -113,33 +116,7 @@ Home | E-Shop
                         <h2 class="title text-center">
                             Sản phẩm
                         </h2>
-                        @foreach ($products as $product)
-                        
-                        <div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="{{ Storage::url($product->productImages()->first()->image) }}" alt="" />
-                                            <h2>{{ $product->price }}</h2>
-                                            <p>{{ $product->name }}</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-                                        </div>
-                                        <div class="product-overlay">
-                                            <div class="overlay-content">
-                                                <h2>{{ $product->price }}</h2>
-                                                <p>{{ $product->name }}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="choose">
-                                    <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+                        {!! $products !!}
                     </div><!--features_items-->
                 </div>
             </div>
@@ -148,121 +125,88 @@ Home | E-Shop
 @endsection
 
 @push('js')
-{{-- Click category --}}
+{{-- Click on category --}}
 <script>
     $(document).ready(function(){
         $('.loadProducts').click(function(){
             $('.loadProducts').removeClass('active')
             $(this).addClass('active')
-            $('.features_items').empty()
-            $('.features_items').append(`<h2 class="title text-center">Products</h2>`)
-            
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: { id: $(this).data('categoryid') },
-                url:"{{route('shopping.productsOnCategory')}}",
-
-                success: function(data)  {
-                    console.log(data)
-                    let count = 0;
-                    data.forEach(product => {
-                        let image = product['product_images'][0].image;
-                        let price = product['price'];
-                        let name = product['name']
-                        console.log(price)
-                        $('.features_items').append(`
-                        <div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="{{ Storage::url("`+image+`") }}" alt="" />
-                                            <h2>`+price+`</h2>
-                                            <p>`+name+`</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </div>
-                                        <div class="product-overlay">
-                                            <div class="overlay-content">
-                                                <h2>`+price+`</h2>
-                                                <p>`+name+`</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="choose">
-                                    <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>`)
-                        count += 1
-                    })
-                },
-
-                error: function(xhr) {
-
-                }
+            $('input.search').removeClass('searchInCategory searchAll')
+            $('input.search').addClass('searchInCategory')
+            $('input.searchInCategory').data("category_id", $(this).data('categoryid'))
+            ajaxGetProducts({'category_id': $(this).data('categoryid')})
+            $('.searchInCategory').on('keyup', function(){
+                ajaxGetProducts({search: $(this).val(), category_id: $(this).data("category_id")})
             })
         })
     })
 </script>
-{{-- Click all --}}
+
+{{-- Click on all --}}
 <script>
     $(document).ready(function(){
         $('.loadAll').click(function(){
             $('.loadProducts').removeClass('active')
             $(this).addClass('active')
-            $('.features_items').empty()
-            $('.features_items').append(`<h2 class="title text-center">Products</h2>`)
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: { id: $(this).data('categoryid') },
-                url:"{{route('shopping.allProducts')}}",
-
-                success: function(data)  {
-                    console.log(data)
-                    let count = 0;
-                    data.forEach(product => {
-                        let image = product['product_images'][0].image;
-                        let price = product['price'];
-                        let name = product['name']
-                        console.log(price)
-                        $('.features_items').append(`
-                        <div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="{{ Storage::url("`+image+`") }}" alt="" />
-                                            <h2>`+price+`</h2>
-                                            <p>`+name+`</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </div>
-                                        <div class="product-overlay">
-                                            <div class="overlay-content">
-                                                <h2>`+price+`</h2>
-                                                <p>`+name+`</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="choose">
-                                    <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>`)
-                        count += 1
-                    })
-                },
-
-                error: function(xhr) {
-
-                }
+            $('input.search').removeClass('searchInCategory searchAll')
+            $('input.search').addClass('searchAll')
+            ajaxGetProducts()
+            $('.searchAll').on('keyup', function(){
+                ajaxGetProducts({search: $(this).val()})
             })
         })
     })
+</script>
+
+{{-- Search All --}}
+<script>
+    $(document).ready(function(){
+        $('.searchAll').on('keyup', function(){
+            ajaxGetProducts({search: $(this).val()})
+        })
+    })
+</script>
+{{-- Function --}}
+<script>
+    function resetFiltersAndProducts(data) {
+        // Load products
+        $('.features_items').empty()
+        $('.features_items').append(`<h2 class="title text-center">Sản phẩm</h2>`)
+        if(data.status) 
+        {
+            $('.features_items').append(data.output)
+            // Load price range
+            $('.price-range').empty()
+            $('.price-range').prepend(`<h2>Khoảng giá</h2>`)
+            $('.price-range').append(`
+                <div class="well text-center">
+                    <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="`+data.highestPrice+`" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
+                    <b class="pull-left">$ 0</b> <b class="pull-right">$ `+data.highestPrice+`</b>
+                    <a href="javascript:;" data-highest-price="" data-lowest-price="" data-categoryid=""><span>Apply Filter</span></a>
+                </div>
+            `)
+            // Make price slider
+            $('#sl2').slider();
+        }
+        else {
+            $('.features_items').append(`<div><p>Shit, no product</p></div>`)
+        }
+    }
+</script>
+
+<script>
+    function ajaxGetProducts (d) {
+        var promise = $.ajax({
+            type: "POST",
+            dataType: "json",
+            url:"{{route('shopping.productsOnCategory')}}",
+            data : d,
+            success: function(data)  {
+                resetFiltersAndProducts(data)
+            },
+            error: function(xhr) {
+            }
+        })
+    }
 </script>
 @endpush

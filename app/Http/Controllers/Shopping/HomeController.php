@@ -7,10 +7,9 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slide;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Expr\FuncCall;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -18,34 +17,109 @@ class HomeController extends Controller
     
     public function home()
     {
-        $slides = Slide::all();
-        $categories = Category::all();
-        $products = Product::with('productImages')->get();
-        return view('shopping.pages.home', compact('slides', 'categories', 'products'));
+        return view('shopping.pages.home',[   
+            'slides' => Slide::all(), 
+            'categories' => Category::all(), 
+            'products' => self::productsDisplayOnHome(Product::with('productImages')->get()), 
+            'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
+        ]);
     }
     
     public function productsOnCategory()
     {
-        if (request()->ajax()) {
-            try {
-                $products = Product::with('productImages')->where('category_id', request()->input('id'))->get();
-                return json_encode($products);
+        if (request()->ajax()) 
+        {
+            try 
+            {
+                if (request()->input('category_id'))
+                {
+                    if(request()->input('search')) 
+                    {
+                        $products = Product::with('productImages')
+                        ->where([
+                            ['category_id', request()->input('category_id')],
+                            ['name', 'LIKE', '%'. request()->input('search') .'%']
+                        ])
+                        ->get();
+
+                        $output = self::productsDisplayOnHome($products);
+                        $highestPrice = 
+                        Product::where([
+                            ['category_id', request()->input('category_id')],
+                            ['name', 'LIKE', '%'. request()->input('search') .'%']
+                        ])
+                        ->select('price')->orderBy('price', 'desc')
+                        ->limit(1)->get()[0]->price;
+                        
+                        return json_encode([
+                            'status' => true,
+                            'output' => $output,
+                            'highestPrice' => $highestPrice
+                        ]);
+                    }
+
+                    return json_encode([
+                        'status' => true,
+                        'output' => self::productsDisplayOnHome(Product::with('productImages')->where('category_id', request()->input('category_id'))->get()),
+                        'highestPrice' => Product::where('category_id', request()->input('category_id'))->select('price')->orderBy('price', 'desc')->limit(1)->get()[0]->price
+                    ]);
+                }
+
+                if (request()->input('search')) {
+                    return json_encode([
+                        'status' => true,
+                        'output' => self::productsDisplayOnHome(Product::with('productImages')->where('name', 'LIKE', '%'. request()->input('search') .'%')->get()),
+                        'highestPrice' => Product::where('name', 'LIKE', '%'. request()->input('search') .'%')->select('price')->orderBy('price', 'desc')->limit(1)->get()[0]->price,
+                    ]);
+                }
+
+                return json_encode([
+                    'status' => true,
+                    'output' => self::productsDisplayOnHome(Product::with('productImages')->get()),
+                    'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
+                ]);
+
             } catch (Exception $e) {
                 Log::error($e);
+                return json_encode([
+                    'status' => false,
+                ]);
             }
         }
     }
-
-    public function allProducts()
-    {
-        if (request()->ajax()) {
-            try {
-                $products = Product::with('productImages')->get();
-                return json_encode($products);
-            } catch (Exception $e) {
-                Log::error($e);
+    
+    private static function productsDisplayOnHome($products) {
+        if ($products) {
+            $output = '';
+            foreach ($products as $product) {
+                $output .= '
+                <div class="col-sm-4">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="'.Storage::url($product->productImages->first()->image).'" alt="" />
+                                    <h2>$ '.$product['price'].'</h2>
+                                    <p>'.$product['name'].'</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                </div>
+                                <div class="product-overlay">
+                                    <div class="overlay-content">
+                                        <h2>$ '.$product['price'].'</h2>
+                                        <p>'.$product['name'].'</p>
+                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="choose">
+                            <ul class="nav nav-pills nav-justified">
+                                <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>';
             }
         }
+        return $output;
     }
 
     public function blogList()
