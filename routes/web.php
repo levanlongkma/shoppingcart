@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
@@ -28,11 +29,14 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
     Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
-    Route::post('/register', [AuthController::class,'signUp'])->name('register');
 
-
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::get('/register/verify/{code}', [AuthController::class, 'verify'])->name('verify');
+    
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
         Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
+        Route::post('/add-cart-ajax', [HomeController::class,'addToCart'])->name('add_to_cart');
+
     });
 });

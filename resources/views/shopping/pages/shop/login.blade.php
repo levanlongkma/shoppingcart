@@ -11,14 +11,15 @@ Login | E-Shopper
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
-                    @if (request()->session()->has('error'))
-                        <p style="color: red">{{ request()->session()->get('error') }}</p>
-                
+                    @if (session('error_login'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error_login') }}
+                    </div>
                     @endif
                     <form method="POST" action="{{ route('shopping.login_post') }}">
                         @csrf
-                        <input type="text" name="name" placeholder="Name" />
-                        @error('name_login')
+                        <input type="email" name="email" placeholder="Email" />
+                        @error('email_login')
                             {{ $message }}
                         @enderror
                         <input type="password" name="password" placeholder="Password" />
@@ -41,6 +42,11 @@ Login | E-Shopper
                     <h2>New User Signup!</h2>
                     <form method="POST" action="{{ route('shopping.register') }}">
                         @csrf
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <input type="text" name="name" placeholder="Name"/>
                         @error('name')
                             {{ $message }}
@@ -54,16 +60,24 @@ Login | E-Shopper
                             {{ $message }}
                         @enderror
 
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        
                         <button type="submit" class="btn btn-default">Signup</button>
                     </form>
                 </div><!--/sign up form-->
             </div>
         </div>
     </div>
+
+    @if (session('success_verify'))
+        <script>
+            toastr.success("{{ session('success_verify') }}")
+        </script>
+    @endif
 </section><!--/form-->
 @endsection
+
+@push('js')
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+@endpush

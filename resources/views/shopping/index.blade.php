@@ -14,6 +14,7 @@
     <link href="{{ asset('/css/animate.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/responsive.css') }}" rel="stylesheet">  
+	<link href="{{ asset('/css/sweetalert.css') }}" rel="stylesheet">  
     <link rel="shortcut icon" href="{{ asset('/images/ico/favicon.ico') }}">
     
     @stack('styles')
@@ -33,7 +34,10 @@
 	<script src="{{ asset('/js/price-range.js') }}"></script>
     <script src="{{ asset('/js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
-    
+    <script src="{{ asset('/js/sweetalert.min.js') }}"></script>
+    <script>
+        
+    </script>
     @stack('styles')
     @stack('js')
 </body>

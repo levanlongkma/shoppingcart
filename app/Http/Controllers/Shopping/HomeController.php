@@ -24,6 +24,12 @@ class HomeController extends Controller
         return view('shopping.pages.home', compact('slides', 'categories', 'products'));
     }
     
+    public function addToCart(Request $request)
+    {
+        $data = $request->all();
+        print_r($data);
+    }
+
     public function productsOnCategory($id)
     {
         try {
