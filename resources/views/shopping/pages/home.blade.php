@@ -156,7 +156,7 @@ Home | E-Shop
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                        <li><a href="#" data-product-id="{{$product->id}}"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
                                     </ul>
                                 </div>
                             </div>

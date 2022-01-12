@@ -43,12 +43,15 @@
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
+                            @auth
                             <li><a href=""><i class="fa fa-user"></i> Account</a></li>
                             <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                             <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="{{ route('shopping.login') }}"><i class="fa fa-lock"></i> Login</a></li>
                             <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                            @else
+                            <li><a href="{{ route('shopping.login') }}"><i class="fa fa-lock"></i> Login</a></li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -71,20 +74,20 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="{{ route('shopping.home') }}" class="active">Home</a></li>
-                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
+                            <li class="dropdown"><a href="/">Shop</a>
+                                {{-- <ul role="menu" class="sub-menu">
                                     <li><a href="{{ route('shopping.products') }}">Products</a></li>
                                     <li><a href="{{ route('shopping.product_details') }}">Product Details</a></li> 
                                     <li><a href="{{ route('shopping.checkout') }}">Checkout</a></li> 
                                     <li><a href="{{ route('shopping.cart') }}">Cart</a></li> 
                                     <li><a href="{{ route('shopping.login') }}">Login</a></li> 
-                                </ul>
+                                </ul> --}}
                             </li> 
-                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="{{ route('shopping.blog_list') }}">Blog List</a></li>
+                            <li class="dropdown"><a href="{{ route('shopping.blog_list') }}">Blog</a>
+                                {{-- <ul role="menu" class="sub-menu">
+                                    <li><a href="">Blog List</a></li>
                                     <li><a href="{{ route('shopping.blog_single') }}">Blog Single</a></li>
-                                </ul>
+                                </ul> --}}
                             </li> 
                             <li><a href="{{ route('shopping.contact') }}">Contact</a></li>
                         </ul>
