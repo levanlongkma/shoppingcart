@@ -17,109 +17,51 @@ class HomeController extends Controller
     
     public function home()
     {
+        $params = request()->all();
+        $products = $this->getProductsList($params);
+
+        if (data_get($params, 'category')) {
+            $categoryName = Category::where('slug', $params['category'])->first()->name;
+        }
+        else {
+            $categoryName = 'Tất cả sản phẩm';
+        }
+
         return view('shopping.pages.home',[   
             'slides' => Slide::all(), 
             'categories' => Category::all(), 
-            'products' => self::productsDisplayOnHome(Product::with('productImages')->get()), 
+            'categoryName' => $categoryName, 
+            'products' => $products,
             'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
         ]);
     }
-    
-    public function productsOnCategory()
-    {
-        if (request()->ajax()) 
-        {
-            try 
-            {
-                if (request()->input('category_id'))
-                {
-                    if(request()->input('search')) 
-                    {
-                        $products = Product::with('productImages')
-                        ->where([
-                            ['category_id', request()->input('category_id')],
-                            ['name', 'LIKE', '%'. request()->input('search') .'%']
-                        ])
-                        ->get();
 
-                        $output = self::productsDisplayOnHome($products);
-                        $highestPrice = 
-                        Product::where([
-                            ['category_id', request()->input('category_id')],
-                            ['name', 'LIKE', '%'. request()->input('search') .'%']
-                        ])
-                        ->select('price')->orderBy('price', 'desc')
-                        ->limit(1)->get()[0]->price;
-                        
-                        return json_encode([
-                            'status' => true,
-                            'output' => $output,
-                            'highestPrice' => $highestPrice
-                        ]);
-                    }
-
-                    return json_encode([
-                        'status' => true,
-                        'output' => self::productsDisplayOnHome(Product::with('productImages')->where('category_id', request()->input('category_id'))->get()),
-                        'highestPrice' => Product::where('category_id', request()->input('category_id'))->select('price')->orderBy('price', 'desc')->limit(1)->get()[0]->price
-                    ]);
-                }
-
-                if (request()->input('search')) {
-                    return json_encode([
-                        'status' => true,
-                        'output' => self::productsDisplayOnHome(Product::with('productImages')->where('name', 'LIKE', '%'. request()->input('search') .'%')->get()),
-                        'highestPrice' => Product::where('name', 'LIKE', '%'. request()->input('search') .'%')->select('price')->orderBy('price', 'desc')->limit(1)->get()[0]->price,
-                    ]);
-                }
-
-                return json_encode([
-                    'status' => true,
-                    'output' => self::productsDisplayOnHome(Product::with('productImages')->get()),
-                    'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
-                ]);
-
-            } catch (Exception $e) {
-                Log::error($e);
-                return json_encode([
-                    'status' => false,
-                ]);
-            }
+    protected function getProductsList($params) {
+        if (data_get($params, 'category')) {
+            $query = Product::with('category', 'productImages')
+            ->whereHas ('category', function ($query) {
+                $query->where ('slug', request()->category);
+            });
         }
-    }
-    
-    private static function productsDisplayOnHome($products) {
-        if ($products) {
-            $output = '';
-            foreach ($products as $product) {
-                $output .= '
-                <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                        <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="'.Storage::url($product->productImages->first()->image).'" alt="" />
-                                    <h2>$ '.$product['price'].'</h2>
-                                    <p>'.$product['name'].'</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$ '.$product['price'].'</h2>
-                                        <p>'.$product['name'].'</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="choose">
-                            <ul class="nav nav-pills nav-justified">
-                                <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>';
-            }
+        else {
+            $query = Product::with('productImages');
         }
-        return $output;
+
+        if (data_get($params, 'search')) {
+            $query->where('name', 'LIKE', '%' .$params['search']. '%');
+        }
+
+        if (data_get($params, 'price-from') && data_get($params, 'price-to')) {
+            $query->whereBetween('price', [$params['price-from'], $params['price-to']]);
+        }   
+        else if (data_get($params, 'price-from') && ! data_get($params, 'price-to')) {
+            $query->where('price', '>=' , $params['price-from']);
+        }
+        else if (data_get($params, 'price-to')) {
+            $query->where('price', '<=' , $params['price-to']);
+        }
+
+        return $query->orderBy('id', 'desc')->paginate(20);
     }
 
     public function blogList()

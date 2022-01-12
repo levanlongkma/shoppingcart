@@ -73,7 +73,7 @@ Home | E-Shop
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title text-center">
-                                        <a href="javascript:;" class="loadAll">
+                                        <a href="/">
                                             Tất cả
                                         </a>
                                     </h4>
@@ -83,41 +83,88 @@ Home | E-Shop
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title text-center">
-                                        <a href="javascript:;" 
-                                        data-categoryid="{{ $category->id }}" 
-                                        class="loadProducts">
+                                        <a href="{{ route('shopping.home',['category' => $category->slug]) }}">
                                             {{ $category->name }}
                                         </a>
                                     </h4>
                                 </div>
                             </div>
                             @endforeach
-                        </div><!--/category-products-->
+                        </div>
                         
                         <div class="search-product">
                             <h2>Tìm kiếm</h2>
                             <div class="well text-center">
-                                <input type="text" class="form-control search searchAll" placeholder="Nhập tên sản phẩm"/>
+                                <form action="{{ route('shopping.home') }}" >
+                                    <input type="hidden" class="form-control" name="category" value={{ request()->category }}>
+                                    <input type="text" class="form-control" name="search" placeholder="Nhập tên sản phẩm" value=""/>
+                                </form>
                             </div>
                         </div>
-                        <div class="price-range"><!--price-range-->
+
+                        <div class="price-range">
                             <h2>Khoảng giá</h2>
                             <div class="well text-center">
                                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="{{ $highestPrice }}" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
                                 <b class="pull-left">$ 0</b> <b class="pull-right">$ {{ $highestPrice }}</b>
-                                <a href="javascript:;" data-highest-price="" data-lowest-price="" data-categoryid=""><span>Apply Filter</span></a>
                             </div>
-                        </div><!--/price-range-->
+                        </div>
+
+                        <div class="apply-filter">
+                            <h2>Áp dụng bộ lọc</h2>
+                            <div class="well text-center">
+                                <form action="{{ route('shopping.home') }}">
+                                    <input type="hidden" class="form-control" name="category" value={{ request()->category }}>
+                                    <input type="hidden" class="price-from " name="price-from">
+                                    <input type="hidden" class="price-to" name="price-to">
+                                    <input type="hidden" class="price-range-value">
+                                    <input type="hidden" class="form-control" name="search"/>
+                                    <button class="btn btn-warning">Lọc sản phẩm</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                
                 
                 <div class="col-sm-9 padding-right">
-                    <div class="features_items"><!--features_items-->
+                    <div class="features_items">
                         <h2 class="title text-center">
-                            Sản phẩm
+                            {{ $categoryName }}
                         </h2>
-                        {!! $products !!}
-                    </div><!--features_items-->
+                        @isset($products)
+                            <div class="text-center">{{ $products->appends(request()->input())->links() }}</div>
+                        @endisset
+                        @forelse ($products as $product)
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="{{Storage::url($product->productImages->first()->image)}}" alt="" />
+                                            <h2>$ {{$product->price}}</h2>
+                                            <p>{{$product->name}}</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>$ {{$product->price}}</h2>
+                                                <p>{{$product->name}}</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                            <div>Không thấy sản phẩm</div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,88 +172,21 @@ Home | E-Shop
 @endsection
 
 @push('js')
-{{-- Click on category --}}
 <script>
-    $(document).ready(function(){
-        $('.loadProducts').click(function(){
-            $('.loadProducts').removeClass('active')
-            $(this).addClass('active')
-            $('input.search').removeClass('searchInCategory searchAll')
-            $('input.search').addClass('searchInCategory')
-            $('input.searchInCategory').data("category_id", $(this).data('categoryid'))
-            ajaxGetProducts({'category_id': $(this).data('categoryid')})
-            $('.searchInCategory').on('keyup', function(){
-                ajaxGetProducts({search: $(this).val(), category_id: $(this).data("category_id")})
-            })
-        })
-    })
-</script>
-
-{{-- Click on all --}}
-<script>
-    $(document).ready(function(){
-        $('.loadAll').click(function(){
-            $('.loadProducts').removeClass('active')
-            $(this).addClass('active')
-            $('input.search').removeClass('searchInCategory searchAll')
-            $('input.search').addClass('searchAll')
-            ajaxGetProducts()
-            $('.searchAll').on('keyup', function(){
-                ajaxGetProducts({search: $(this).val()})
-            })
-        })
-    })
-</script>
-
-{{-- Search All --}}
-<script>
-    $(document).ready(function(){
-        $('.searchAll').on('keyup', function(){
-            ajaxGetProducts({search: $(this).val()})
-        })
-    })
-</script>
-{{-- Function --}}
-<script>
-    function resetFiltersAndProducts(data) {
-        // Load products
-        $('.features_items').empty()
-        $('.features_items').append(`<h2 class="title text-center">Sản phẩm</h2>`)
-        if(data.status) 
-        {
-            $('.features_items').append(data.output)
-            // Load price range
-            $('.price-range').empty()
-            $('.price-range').prepend(`<h2>Khoảng giá</h2>`)
-            $('.price-range').append(`
-                <div class="well text-center">
-                    <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="`+data.highestPrice+`" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
-                    <b class="pull-left">$ 0</b> <b class="pull-right">$ `+data.highestPrice+`</b>
-                    <a href="javascript:;" data-highest-price="" data-lowest-price="" data-categoryid=""><span>Apply Filter</span></a>
-                </div>
-            `)
-            // Make price slider
-            $('#sl2').slider();
-        }
-        else {
-            $('.features_items').append(`<div><p>Shit, no product</p></div>`)
-        }
-    }
-</script>
-
-<script>
-    function ajaxGetProducts (d) {
-        var promise = $.ajax({
-            type: "POST",
-            dataType: "json",
-            url:"{{route('shopping.productsOnCategory')}}",
-            data : d,
-            success: function(data)  {
-                resetFiltersAndProducts(data)
-            },
-            error: function(xhr) {
+    $(document).ready(function() {
+        //setup before functions
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 1000;  //time in ms (5 seconds)
+        $('.search-product input[name="search"]').on('keyup', function() { 
+            clearTimeout(typingTimer);
+            if ($('.search-product input[name="search"]').val()) {
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
             }
         })
-    }
+        function doneTyping() {
+            var val = $('.search-product input[name="search"]').val()
+            $('.apply-filter input[name="search"]').val(val)
+        }
+    })
 </script>
 @endpush
