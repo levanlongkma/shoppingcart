@@ -36,7 +36,8 @@ Route::group(['as' => 'shopping.'], function() {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
         Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
-        Route::post('/add-cart-ajax', [HomeController::class,'addToCart'])->name('add_to_cart');
-
+        Route::get('/add-to-cart/{id}', [HomeController::class,'addToCart'])->name('add_to_cart');
+        Route::patch('update-cart', [HomeController::class, 'update'])->name('update_cart');
+        Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove_from_cart');
     });
 });

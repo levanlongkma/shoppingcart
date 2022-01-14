@@ -149,14 +149,14 @@
                                                 <h2>{{ $product->price }}</h2>
                                                 <p>{{ $product->name }}</p>
                                                 <a href="#" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                        class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                             </div>
                                             <div class="product-overlay">
                                                 <div class="overlay-content">
                                                     <h2>{{ $product->price }}</h2>
                                                     <p>{{ $product->name }}</p>
-                                                    {{-- <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> --}}
-                                                    <button type="button" name="add-to-cart" data-id="{{ $product->id }}" class="btn btn-default add-to-cart"> Add to cart</button>
+                                                    <a href="{{ route('shopping.add_to_cart', $product->id) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                                    
                                                 </div>
                                             </div>
                                         </form>
@@ -175,10 +175,20 @@
             </div>
         </div>
     </section>
+    
 @endsection
 
 @push('js')
-    <script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@if (session()->get('success_add'))
+    
+        <script>
+            swal.success("{{ session()->get('success_add') }}")
+        </script>
+        
+    
+    @endif
+    {{-- <script>
         $(function() {
             $(".add-to-cart").click(function() {
                 var id = $(this).data('id');
@@ -211,5 +221,5 @@
                 })
             })
         })
-    </script>
+    </script> --}}
 @endpush

@@ -24,10 +24,48 @@ class HomeController extends Controller
         return view('shopping.pages.home', compact('slides', 'categories', 'products'));
     }
     
-    public function addToCart(Request $request)
+    public function addToCart($id)
     {
-        $data = $request->all();
-        print_r($data);
+        $product = Product::find($id);
+        $product_image = Product::find($id)->productImages()->first();
+        
+        $cart = session()->get('cart');
+
+        $cart[$id] = [
+            
+            "id" => $product->id,
+            "name" => $product->name,
+            "quantity" => 1,
+            "price" => $product->price,
+            "image"=> $product_image,
+        ];
+
+        session()->put('cart', $cart);
+        session()->flash('success_add', "Product add to cart success");
+        return redirect()->back();
+    }
+
+    public function update(Request $request)
+    {
+        if($request->id && $request->quantity){
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+
+            session()->flash('success', 'Cart updated successfully');
+        }
+    }
+
+    public function remove(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
     }
 
     public function productsOnCategory($id)

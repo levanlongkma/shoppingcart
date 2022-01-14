@@ -21,7 +21,7 @@
                             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                             <li>
                                 @auth
-                                <p>Welcome: {{ auth()->user()->name }}</p>
+                                    {{ auth()->user()->name }}
                                 @endauth
                             </li>
                         </ul>
@@ -46,7 +46,7 @@
                             <li><a href=""><i class="fa fa-user"></i> Account</a></li>
                             <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                             <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
                             <li><a href="{{ route('shopping.login') }}"><i class="fa fa-lock"></i> Login</a></li>
                             <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
                         </ul>
