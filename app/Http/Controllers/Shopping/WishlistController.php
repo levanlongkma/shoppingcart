@@ -10,16 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-    public function addToFavorite(Request $request) {
+    public function addToFavorite() {
         $params = request()->all();
         $params['user_id'] = Auth::user()->id;
-        $request->session()->put('user.id', Auth::user()->id);
-        $request->session()->push('user.favorite_product_ids', $params['product_id']);
 
-        // $request->session()->flush();
-        $product = Product::where('id', $params['product_id'])->first();
-        
-        if ($product) {
+        $itemExistInWishlist = Favorite::where([
+            'product_id' => $params['product_id'],
+            'user_id' => $params['user_id']
+        ])->first();
+
+        if ($itemExistInWishlist) {
+            $newWishlistItem = false;
+        }
+        else {
+            $newWishlistItem = Favorite::create($params);
+            $product = Product::where('id', $params['product_id'])->first();
+        }
+
+        if ($newWishlistItem) {
             return [
                 'status' => true,
                 'product' => $product
@@ -30,6 +38,18 @@ class WishlistController extends Controller
     }
 
     public function removeFromFavorite() {
+        $params = request()->all();
+        $params['user_id'] = Auth::user()->id;
 
+        $isRemoved = Favorite::where([
+            'product_id' => $params['product_id'],
+            'user_id' => $params['user_id']
+        ])->delete();
+
+        if ($isRemoved) {
+            return ['status' => true];
+        }
+
+        return ['status' => false];
     }
 }

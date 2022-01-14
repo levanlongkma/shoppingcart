@@ -10,7 +10,6 @@ use App\Models\Slide;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -21,10 +20,10 @@ class HomeController extends Controller
     {
         $params = request()->all();
         $products = $this->getProductsList($params);
-        dd(request()->session()->get('user')); 
         $userFavoriteItems = null;
+        
         if(isset(auth()->user()->id)) {
-            
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
         }
         
         if (data_get($params, 'category')) {

@@ -176,15 +176,15 @@ Trang Chủ | E-Shop
                                     </tr>
                                 </thead>
                                 <tbody class="favorite-table-body">
-                                    @if(request()->has('user') )
+                                    @if($userFavoriteItems!= null)
                                     @foreach ($userFavoriteItems as $key => $userFavoriteItem)
-                                    <tr>
+                                    <tr class="favorite-item">
                                         <td class="small text-center"><img src="{{Storage::url($userFavoriteItems[$key]->favoriteProducts->first()->productImages->first()->image)}}" alt="favorite product" style="width:30px; height:30px"></td>
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->name}}</td>
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->price}}</td>
                                         <td class="small text-center">1</td>
                                         <td class="small text-center"><a href="javascript:;">Add to cart</a></td>
-                                        <td class="small text-center"><a href="javascript:;"><i class="fas fa-trash-alt"></i></a></td>
+                                        <td class="small text-center"><a href="javascript:;" class='remove-from-wishlist' data-product-id="{{ $userFavoriteItems[$key]->favoriteProducts->first()->id}}"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                     @endforeach
                                     @endif
@@ -244,11 +244,11 @@ Trang Chủ | E-Shop
                     dataType: "json",
                     url: "{{route('shopping.favorites.addToFavorite')}}",
                     data: {product_id : $(this).data('product-id')},
+
                     success: function(data) {
                         if (data.status) {
                             toastr.success('Đã thêm vào wishlist của bạn!')
-                            // console.log(data.product['id'])
-                            // console.log(data.product.product_images[0].image)
+
                             $('.favorite-table-body').append(`
                             <tr>
                                 <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
@@ -261,7 +261,7 @@ Trang Chủ | E-Shop
                             `)
                         }
                         else {
-                            toastr.error('Thêm thất bại')
+                            toastr.info('Sản phẩm đã tồn tại trong wishlist')
                         }
                     },
                     error: function(xhr) {
@@ -274,6 +274,29 @@ Trang Chủ | E-Shop
 </script>
 {{-- Remove from wishlist --}}
 <script>
-    
+    $(document).ready(function() {
+        $('.remove-from-wishlist').click(function() {
+            $(this).closest('.favorite-item').remove()  
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ route('shopping.favorites.removeFromFavorite') }}",
+                data: {product_id:$(this).data('product-id')},
+                success: function(data) {
+                    console.log(data.status)
+                    if (data.status) {
+                        $(this).closest('.favorite-item').remove()  
+                        toastr.success('Đã xóa sản phẩm!')
+                    }
+                    else {
+                        toastr.error('Không thể xóa sản phẩm!')
+                    }
+                }
+            })
+
+            
+        })
+    })
 </script>
 @endpush
