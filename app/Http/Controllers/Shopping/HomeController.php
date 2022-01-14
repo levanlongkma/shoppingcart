@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Shopping;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\Slide;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -19,7 +21,12 @@ class HomeController extends Controller
     {
         $params = request()->all();
         $products = $this->getProductsList($params);
-
+        dd(request()->session()->get('user')); 
+        $userFavoriteItems = null;
+        if(isset(auth()->user()->id)) {
+            
+        }
+        
         if (data_get($params, 'category')) {
             $categoryName = Category::where('slug', $params['category'])->first()->name;
         }
@@ -31,6 +38,7 @@ class HomeController extends Controller
             'slides' => Slide::all(), 
             'categories' => Category::all(), 
             'categoryName' => $categoryName, 
+            'userFavoriteItems' => $userFavoriteItems,
             'products' => $products,
             'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
         ]);

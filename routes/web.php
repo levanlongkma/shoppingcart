@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
+use App\Http\Controllers\Shopping\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +34,11 @@ Route::group(['as' => 'shopping.'], function() {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
         Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
+        
+        Route::group(['prefix' => 'favorites', 'as' => 'favorites.'], function(){
+            Route::post('/store', [WishlistController::class, 'addToFavorite'])->name('addToFavorite');
+            Route::post('/delete', [WishlistController::class, 'removeFromFavorite'])->name('removeFromFavorite');
+        });
     });
+
 });

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $with= ['productImages'];
+
     protected $fillable = [
         'name',
         'description',
@@ -28,4 +31,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    // public function productFavorites()
+    // {
+    //     return $this->belongsToMany(Favorite::class);
+    // }
 }
