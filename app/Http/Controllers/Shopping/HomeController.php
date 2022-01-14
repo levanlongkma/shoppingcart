@@ -87,9 +87,14 @@ class HomeController extends Controller
         return view('shopping.pages.shop.products');
     }
 
-    public function productDetails()
+    public function productDetails(Product $product)
     {
-        return view('shopping.pages.shop.product-details');
+        return view('shopping.pages.shop.product-details', [
+            'product' => $product,
+            'category' => Category::where('id', $product->category_id)->firstOrFail(),
+            'categories' => Category::all(), 
+            'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
+        ]);
     }
 
     public function Checkout()

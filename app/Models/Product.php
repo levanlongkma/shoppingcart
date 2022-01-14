@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $with= ['productImages'];
+    protected $with = ['productImages'];
 
     protected $fillable = [
         'name',

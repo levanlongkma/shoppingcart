@@ -23,8 +23,10 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::get('/blog-list', [HomeController::class, 'blogList'])->name('blog_list');
     Route::get('/blog-single', [HomeController::class, 'blogSingle'])->name('blog_single');
-    Route::get('/products', [HomeController::class, 'products'])->name('products');
-    Route::get('/product-details', [HomeController::class, 'productDetails'])->name('product_details');
+
+    Route::group(['prefix' => 'products', 'as' =>'products.'], function(){
+        Route::get('/{product:slug}', [HomeController::class, 'productDetails'])->name('productDetails');
+    });
     Route::get('/login', [HomeController::class, 'Login'])->name('login');
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
