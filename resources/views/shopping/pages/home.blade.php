@@ -147,7 +147,7 @@ Trang Chủ | E-Shop
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->name}}</td>
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->price}}</td>
                                         <td class="small text-center">1</td>
-                                        <td class="small text-center"><a href="{{ route('shopping.add_to_cart', $userFavoriteItems[$key]->favoriteProducts->first()->id) }}">Add to cart</a></td>
+                                        <td class="small text-center"><a href="{{ route('shopping.add_to_cart', $userFavoriteItems[$key]->favoriteProducts->first()->id) }}">Thêm vào giỏ hàng</a></td>
                                         <td class="small text-center"><a href="javascript:;" class='remove-from-wishlist' data-product-id="{{ $userFavoriteItems[$key]->favoriteProducts->first()->id}}"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                     @endforeach
@@ -239,14 +239,13 @@ Trang Chủ | E-Shop
                         success: function(data) {
                             if (data.status) {
                                 toastr.success('Đã thêm vào wishlist của bạn!')
-                                console.log(data.product['id'])
                                 $('.favorite-table-body').append(`
                                 <tr class="favorite-item">
                                     <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
                                     <td class="small text-center">`+data.product['name']+`</td>
                                     <td class="small text-center">`+data.product['price']+`</td>
                                     <td class="small text-center">1</td>
-                                    <td class="small text-center"><a href="javascript:;">Add to cart</a></td>
+                                    <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`">Thêm vào giỏ hàng</a></td>
                                     <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                                 `)
@@ -264,7 +263,8 @@ Trang Chủ | E-Shop
         })
         // Remove from wishlist
         $(document).ready(function() {
-            $('.remove-from-wishlist').on('click',function() {
+            $(document).on('click', '.remove-from-wishlist', function() {
+                console.log('hello')
                 $(this).closest('.favorite-item').remove()  
     
                 $.ajax({
