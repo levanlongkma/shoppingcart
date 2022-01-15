@@ -70,13 +70,13 @@ Trang Chủ | E-Shop
                                 <div class="single-products">
                                         <div class="productinfo text-center">
                                             <img src="{{Storage::url($product->productImages->first()->image)}}" alt="" />
-                                            <h2>$ {{$product->price}}</h2>
+                                            <h2>{{$product->price}}</h2>
                                             <p>{{$product->name}}</p>
                                             <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
-                                                <h2>$ {{$product->price}}</h2>
+                                                <h2>{{$product->price}}</h2>
                                                 <p>{{$product->name}}</p>
                                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                             </div>

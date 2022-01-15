@@ -32,8 +32,8 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    // public function productFavorites()
-    // {
-    //     return $this->belongsToMany(Favorite::class);
-    // }
+    public function getPriceAttribute() 
+    {
+        return $this->attributes['price'].' đ';
+    }
 }

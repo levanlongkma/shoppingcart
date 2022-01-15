@@ -46,7 +46,7 @@
                             <p>Mã Sản Phẩm: {{ $product->id}}</p>
                             {{-- <img src="images/product-details/rating.png" alt="hello" /> --}}
                             <span>
-                                <span>{{$product->price}} đ</span>
+                                <span>{{$product->price}}</span>
                                 <label>Số lượng:</label>
                                 <input type="number" value="3" min="1" max="99"/>
                                 <button type="button" class="btn btn-fefault cart">
