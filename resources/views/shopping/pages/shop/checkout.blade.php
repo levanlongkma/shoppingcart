@@ -125,102 +125,71 @@
                         <td></td>
                     </tr>
                 </thead>
+                @php
+                        $total = 0;
+                    @endphp
                 <tbody>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                    @if (session('cart'))
+                            @foreach (session('cart') as $id => $details)
+                                @php
+                                    $total += $details['price'] * $details['quantity'];
+                                @endphp
+                                <tr data-id="{{ $id }}">
+                                    <td class="cart_product">
+                                        <a href=""><img width="100px" height="100px" src="{{ $details['image'] ? Storage::url($details['image']->image) : "https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png"}}" alt=""></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4>{{ $details['name'] }}</h4>
+                                        <p>Mã sản phẩm: {{ $details['id'] }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{ number_format($details['price']) . ' đ'  }}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <p>{{ $details['quantity'] }}</p>
+                                            
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">
+                                            {{ number_format($details['price'] * $details['quantity']) . ' đ' }}</p>
+                                    </td>
+                                    <td class="cart_delete">
 
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                                        <button class="btn btn-danger btn-sm remove-from-cart">X</button>
+                                    </td>
+                                </tr>
+
+                                
+                            @endforeach
+                            
+                        @endif
+
+                    
+                    
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
                             <table class="table table-condensed total-result">
                                 <tr>
-                                    <td>Cart Sub Total</td>
-                                    <td>$59</td>
+                                    <td>Tổng tiền</td>
+                                    <td>{{ number_format($total). " đ" }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Exo Tax</td>
-                                    <td>$2</td>
+                                    @php
+                                        $vat = $total*10/100
+                                    @endphp
+                                    <td>VAT</td>
+                                    <td>{{ number_format($vat). " đ" }}</td>
                                 </tr>
                                 <tr class="shipping-cost">
-                                    <td>Shipping Cost</td>
+                                    <td>Phí vận chuyển</td>
                                     <td>Free</td>										
                                 </tr>
                                 <tr>
-                                    <td>Total</td>
-                                    <td><span>$61</span></td>
+                                    <td>Thanh toán</td>
+                                    <td><span>{{ number_format( $total + $vat ) . " đ"}}</span></td>
                                 </tr>
                             </table>
                         </td>

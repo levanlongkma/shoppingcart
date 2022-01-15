@@ -57,7 +57,8 @@
         </div>
     </div>
 </div>
-@push('js')
+
+@push('search-js')
 <script>
     $(document).ready(function() {
         //setup before functions
@@ -72,6 +73,7 @@
         function doneTyping() {
             var val = $('.search-product input[name="search"]').val()
             $('.apply-filter input[name="search"]').val(val)
+            
         }
     })
 </script>

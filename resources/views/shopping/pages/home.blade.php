@@ -4,22 +4,25 @@ Trang Chủ | E-Shop
 @endpush
 
 
-@section('content')  
-    <section id="slider"><!--slider-->
+@section('content')
+    <section id="slider">
+        <!--slider-->
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                     <div id="slider-carousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             @foreach ($slides as $key => $value)
-                            @if ($key == 0)
-                            <li data-target="#slider-carousel" data-slide-to="{{$key}}" class="active"></li>
-                            @else
-                            <li data-target="#slider-carousel" data-slide-to="{{$key}}" class=""></li>
-                            @endif
+                                @if ($key == 0)
+                                    <li data-target="#slider-carousel" data-slide-to="{{ $key }}"
+                                        class="active"></li>
+                                @else
+                                    <li data-target="#slider-carousel" data-slide-to="{{ $key }}"
+                                        class=""></li>
+                                @endif
                             @endforeach
                         </ol>
-                        
+
                         <div class="carousel-inner">
                             @foreach ($slides as $key => $value)
                             @if ($key == 0)
@@ -37,7 +40,7 @@ Trang Chủ | E-Shop
                             @endif
                             @endforeach
                         </div>
-                        
+
                         <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
                             <i class="fa fa-angle-left"></i>
                         </a>
@@ -45,17 +48,17 @@ Trang Chủ | E-Shop
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-    </section><!--/slider-->
+    </section>
+    <!--/slider-->
 
     <section>
         <div class="container">
             <div class="row">
                 @include('shopping.layouts.left-sidebar')
-
                 <div class="col-sm-9 padding-right">
                     <div class="features_items">
                         <h2 class="title text-center">
@@ -68,19 +71,37 @@ Trang Chủ | E-Shop
                         <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
+                                    <form >
+                                        @csrf
                                         <div class="productinfo text-center">
-                                            <img src="{{Storage::url($product->productImages->first()->image)}}" alt="" />
-                                            <h2>{{$product->price}}</h2>
-                                            <p>{{$product->name}}</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            @php
+                                                $productImage = $product->productImages()->first();
+                                                $imageDefault = 'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png';
+                                            @endphp
+                                            <input type="hidden" class="product_id_{{ $product->id }}" value="{{ $product->id }}">
+                                            <input type="hidden" class="product_name_{{ $product->id }}" value="{{ $product->name }}">
+                                            <input type="hidden" class="product_description_{{ $product->id }}" value="{{ $product->description }}">
+                                            <input type="hidden" class="product_quantity_{{ $product->id }}" value="{{ $product->quantity }}">
+                                            <input type="hidden" class="product_image_{{ $product->id }}" value="{{ $productImage ? $productImage->image : "" }}">
+                                            <input type="hidden" class="product_price_{{ $product->id }}" value="{{ $product->price }}">
+                                            
+                                            
+                                            <img src="{{ $productImage ? Storage::url($productImage->image) : $imageDefault }}"
+                                                alt="" />
+                                            <h2>{{ $product->price }}</h2>
+                                            <p>{{ $product->name }}</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i
+                                                    class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
-                                                <h2>{{$product->price}}</h2>
-                                                <p>{{$product->name}}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                                <h2>{{ $product->price }}</h2>
+                                                <p>{{ $product->name }}</p>
+                                                <a href="{{ route('shopping.add_to_cart', $product->id) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                                
                                             </div>
                                         </div>
+                                    </form>
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
@@ -126,7 +147,7 @@ Trang Chủ | E-Shop
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->name}}</td>
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->price}}</td>
                                         <td class="small text-center">1</td>
-                                        <td class="small text-center"><a href="javascript:;">Add to cart</a></td>
+                                        <td class="small text-center"><a href="{{ route('shopping.add_to_cart', $userFavoriteItems[$key]->favoriteProducts->first()->id) }}">Add to cart</a></td>
                                         <td class="small text-center"><a href="javascript:;" class='remove-from-wishlist' data-product-id="{{ $userFavoriteItems[$key]->favoriteProducts->first()->id}}"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                     @endforeach
@@ -142,87 +163,130 @@ Trang Chủ | E-Shop
             </div>
         </div>
     </section>
-@endsection
-@stack('js')
-@push('js')
-{{-- Wishlist --}}
-<script>
-    $(document).ready(function() {
-        $('.add-to-wishlist').click(function() {
-            if ($(this).data('user-id') == '') {
-                Swal.fire({
-                    text: 'Vui lòng đăng nhập để thực hiện chức năng này',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Đến trang đăng nhập',
-                    cancelButtonText: 'Hủy thao tác'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "{{ route('shopping.login') }}";
-                    }
+    
+@endsection    
+@push('js') 
+@stack('search-js') 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@if (session()->get('success_add'))
+    
+        <script>
+            swal.success("{{ session()->get('success_add') }}")
+        </script>
+        
+    
+    @endif
+    <script>
+        $(function() {
+            $(".add-to-cart").click(function() {
+                var id = $(this).data('id');
+                var product_id = $('.product_id_' + id).val();
+                var product_name = $('.product_name_' + id).val();
+                var product_description = $('.product_description_' + id).val();
+                var product_quantity = $('.product_quantity_' + id).val();
+                var product_price = $('.product_price_' + id).val();
+                var product_image = $('.product_image_'+ id).val()
+                var _token = $('input[name="_token"]').val();
+                
+                $.ajax({
+                    url: '{{ url('/add-cart-ajax') }}',
+                    method: 'POST',
+                    data: {
+                        id: product_id,
+                        name: product_name,
+                        description: product_description,
+                        quantity: product_quantity,
+                        price: product_price,
+                        image: product_image,
+                        _token: _token
+                    },
+                    success: function(data){
+                        alert(data);
+                    },
+                    error: function(err){
+                        console.error(err);
+                    } 
                 })
-            }
-            else {
+            })
+        })
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('.add-to-wishlist').click(function() {
+                if ($(this).data('user-id') == '') {
+                    Swal.fire({
+                        text: 'Vui lòng đăng nhập để thực hiện chức năng này',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đến trang đăng nhập',
+                        cancelButtonText: 'Hủy thao tác'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('shopping.login') }}";
+                        }
+                    })
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{route('shopping.favorites.addToFavorite')}}",
+                        data: {product_id : $(this).data('product-id')},
+    
+                        success: function(data) {
+                            if (data.status) {
+                                toastr.success('Đã thêm vào wishlist của bạn!')
+                                console.log(data.product['id'])
+                                $('.favorite-table-body').append(`
+                                <tr class="favorite-item">
+                                    <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
+                                    <td class="small text-center">`+data.product['name']+`</td>
+                                    <td class="small text-center">`+data.product['price']+`</td>
+                                    <td class="small text-center">1</td>
+                                    <td class="small text-center"><a href="javascript:;">Add to cart</a></td>
+                                    <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                                `)
+                            }
+                            else {
+                                toastr.info('Sản phẩm đã tồn tại trong wishlist')
+                            }
+                        },
+                        error: function(xhr) {
+                            toastr.warning('Opps! Đã xảy ra lỗi, hãy thử lại lần sau!')
+                        }
+                    })
+                }
+            })
+        })
+        // Remove from wishlist
+        $(document).ready(function() {
+            $('.remove-from-wishlist').on('click',function() {
+                $(this).closest('.favorite-item').remove()  
+    
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    url: "{{route('shopping.favorites.addToFavorite')}}",
-                    data: {product_id : $(this).data('product-id')},
-
+                    url: "{{ route('shopping.favorites.removeFromFavorite') }}",
+                    data: {product_id:$(this).data('product-id')},
                     success: function(data) {
+                        console.log(data.status)
                         if (data.status) {
-                            toastr.success('Đã thêm vào wishlist của bạn!')
-
-                            $('.favorite-table-body').append(`
-                            <tr>
-                                <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
-                                <td class="small text-center">`+data.product['name']+`</td>
-                                <td class="small text-center">`+data.product['price']+`</td>
-                                <td class="small text-center">1</td>
-                                <td class="small text-center"><a href="javascript:;">Add to cart</a></td>
-                                <td class="small text-center"><a href="javascript:;"><i class="fas fa-trash-alt"></i></a></td>
-                            </tr>
-                            `)
+                            $(this).closest('.favorite-item').remove()  
+                            toastr.success('Đã xóa sản phẩm!')
                         }
                         else {
-                            toastr.info('Sản phẩm đã tồn tại trong wishlist')
+                            toastr.error('Không thể xóa sản phẩm!')
                         }
                     },
                     error: function(xhr) {
-                        toastr.warning('Opps! Đã xảy ra lỗi, hãy thử lại lần sau!')
+                        
                     }
                 })
-            }
-        })
-    })
-</script>
-{{-- Remove from wishlist --}}
-<script>
-    $(document).ready(function() {
-        $('.remove-from-wishlist').click(function() {
-            $(this).closest('.favorite-item').remove()  
-
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "{{ route('shopping.favorites.removeFromFavorite') }}",
-                data: {product_id:$(this).data('product-id')},
-                success: function(data) {
-                    console.log(data.status)
-                    if (data.status) {
-                        $(this).closest('.favorite-item').remove()  
-                        toastr.success('Đã xóa sản phẩm!')
-                    }
-                    else {
-                        toastr.error('Không thể xóa sản phẩm!')
-                    }
-                }
             })
-
-            
         })
-    })
-</script>
+    </script>
 @endpush

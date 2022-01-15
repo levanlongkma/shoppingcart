@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
@@ -31,8 +33,10 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
     Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
-    Route::post('/register', [AuthController::class,'signUp'])->name('register');
 
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::get('/register/verify/{code}', [AuthController::class, 'verify'])->name('verify');
+    
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/checkout', [HomeController::class, 'Checkout'])->name('checkout');
         Route::get('/cart', [HomeController::class, 'Cart'])->name('cart');
@@ -41,6 +45,9 @@ Route::group(['as' => 'shopping.'], function() {
             Route::post('/store', [WishlistController::class, 'addToFavorite'])->name('addToFavorite');
             Route::post('/delete', [WishlistController::class, 'removeFromFavorite'])->name('removeFromFavorite');
         });
+        Route::get('/add-to-cart/{id}', [HomeController::class,'addToCart'])->name('add_to_cart');
+        Route::patch('update-cart', [HomeController::class, 'update'])->name('update_cart');
+        Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove_from_cart');
     });
 
 });
