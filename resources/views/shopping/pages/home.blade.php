@@ -147,7 +147,7 @@ Trang Chủ | E-Shop
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->name}}</td>
                                         <td class="small text-center">{{ $userFavoriteItems[$key]->favoriteProducts->first()->price}}</td>
                                         <td class="small text-center">1</td>
-                                        <td class="small text-center"><a href="{{ route('shopping.add_to_cart', $userFavoriteItems[$key]->favoriteProducts->first()->id) }}">Thêm vào giỏ hàng</a></td>
+                                        <td class="small text-center"><a href="{{ route('shopping.add_to_cart', $userFavoriteItems[$key]->favoriteProducts->first()->id) }}"><i class="fas fa-cart-plus"></i></a></td>
                                         <td class="small text-center"><a href="javascript:;" class='remove-from-wishlist' data-product-id="{{ $userFavoriteItems[$key]->favoriteProducts->first()->id}}"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                     @endforeach
@@ -245,7 +245,7 @@ Trang Chủ | E-Shop
                                     <td class="small text-center">`+data.product['name']+`</td>
                                     <td class="small text-center">`+data.product['price']+`</td>
                                     <td class="small text-center">1</td>
-                                    <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`">Thêm vào giỏ hàng</a></td>
+                                    <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`"><i class="fas fa-cart-plus"></i></a></td>
                                     <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
                                 </tr>
                                 `)
