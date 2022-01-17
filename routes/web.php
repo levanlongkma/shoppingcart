@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
+use App\Http\Controllers\Shopping\LocationController;
+use App\Http\Controllers\Shopping\PaymentController;
 use App\Http\Controllers\Shopping\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +48,17 @@ Route::group(['as' => 'shopping.'], function() {
             Route::post('/store', [WishlistController::class, 'addToFavorite'])->name('addToFavorite');
             Route::post('/delete', [WishlistController::class, 'removeFromFavorite'])->name('removeFromFavorite');
         });
+
         Route::get('/add-to-cart/{id}', [HomeController::class,'addToCart'])->name('add_to_cart');
         Route::patch('update-cart', [HomeController::class, 'update'])->name('update_cart');
         Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove_from_cart');
+        
+        Route::post('/districts', [LocationController::class, 'getDistricts'])->name('getDistricts');
+        Route::post('/wards', [LocationController::class, 'getWards'])->name('getWards');
+        
+        Route::group(['prefix' => 'payments', 'as' => 'payments.'], function() {
+            Route::post('/cod', [PaymentController::class, 'cod'])->name('cod');
+        });
     });
 
 });

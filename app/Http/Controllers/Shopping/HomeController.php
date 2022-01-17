@@ -34,13 +34,17 @@ class HomeController extends Controller
             $categoryName = 'Tất cả sản phẩm';
         }
 
+        $highestPrice = 0;
+        if (count($products) > 0) {
+            $highestPrice = DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price;
+        }
         return view('shopping.pages.home',[   
             'slides' => Slide::all(), 
             'categories' => Category::all(), 
             'categoryName' => $categoryName, 
             'userFavoriteItems' => $userFavoriteItems,
             'products' => $products,
-            'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
+            'highestPrice' => $highestPrice
         ]);
     }
     
@@ -160,7 +164,9 @@ class HomeController extends Controller
 
     public function Checkout()
     {
-        return view('shopping.pages.shop.checkout');
+        $provinces = DB::select('SELECT id, name FROM provinces');
+        // dd(session('cart'));
+        return view('shopping.pages.shop.checkout', compact('provinces'));
     }
 
     public function Cart()

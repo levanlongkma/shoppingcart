@@ -44,7 +44,7 @@ class ContactController extends Controller
             Contact::where('id', $request->input('updateId'))
             ->update([
                 'name' => $params['name'],
-                'phonenumber' => $params['name'],
+                'phonenumber' => $params['phonenumber'],
                 'fax' => $params['fax'],
                 'address' => $params['address'],
                 'email' => $params['email'],
