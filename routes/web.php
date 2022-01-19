@@ -58,6 +58,8 @@ Route::group(['as' => 'shopping.'], function() {
         
         Route::group(['prefix' => 'payments', 'as' => 'payments.'], function() {
             Route::post('/cod', [PaymentController::class, 'cod'])->name('cod');
+            Route::post('/online', [PaymentController::class, 'create'])->name('vnpaycreate');
+            Route::get('/online/vnpayreturn', [PaymentController::class, 'return'])->name('vnpayreturn');
         });
     });
 

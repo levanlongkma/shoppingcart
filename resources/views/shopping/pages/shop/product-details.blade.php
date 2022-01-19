@@ -46,17 +46,23 @@
                             <p>Mã Sản Phẩm: {{ $product->id}}</p>
                             {{-- <img src="images/product-details/rating.png" alt="hello" /> --}}
                             <span>
-                                <span>{{$product->price}}</span>
+                                <span>{{ number_format($product->price). ' đ' }}</span>
                                 <label>Số lượng:</label>
-                                <input type="number" value="3" min="1" max="99"/>
-                                <button type="button" class="btn btn-fefault cart">
+                                <input type="number" value="1" min="1" max="99" disabled/>
+
+                                <input type="hidden" class="product_id_{{ $product->id }}" value="{{ $product->id }}">
+                                <input type="hidden" class="product_name_{{ $product->id }}" value="{{ $product->name }}">
+                                <input type="hidden" class="product_description_{{ $product->id }}" value="{{ $product->description }}">
+                                <input type="hidden" class="product_quantity_{{ $product->id }}" value="{{ $product->quantity }}">
+                                <input type="hidden" class="product_image_{{ $product->id }}" value="{{ $product->productImages()->first()->image ? $product->productImages()->first()->image : "" }}">
+                                <input type="hidden" class="product_price_{{ $product->id }}" value="{{ $product->price }}">
+                                
+                                <a type="button" class="btn btn-fefault cart add-to-cart" href="{{ route('shopping.add_to_cart', $product->id) }}">
                                     Thêm vào<i class="fa fa-shopping-cart"></i>
-                                </button>
+                                </a>
                             </span>
                             
-                            
                             <p><b>Tình trạng:</b>{{ $product->quantity ? "Còn hàng" : "Hết hàng" }}</p>
-                            <p><b>Loại sản phẩm:</b> Mới nhập</p>
                             <p><b>Mô tả sản phẩm:</b>{!! $product->description !!}</p>
                             {{-- <a href=""><img src="{{asset('images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a> --}}
                         </div><!--/product-information-->
@@ -343,9 +349,17 @@
                           </a>			
                     </div>
                 </div><!--/recommended_items-->
-                 --}}
+                --}}
             </div>
         </div>
     </div>
 </section>
 @endsection
+@push('js')
+@if (session()->has('success_add'))
+    <script>
+        toastr.success("{{session()->get('success_add')}}")
+    </script>
+@endif
+@endpush
+

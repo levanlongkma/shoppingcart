@@ -14,7 +14,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::post('/login', [AuthController::class, 'login'])->name('post_login');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
 
-    // Route::group(['middleware' => ['auth:admin']], function () {
+    Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 
         Route::get('/products', [ProductController::class, 'index'])->name('product');
@@ -48,5 +48,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
-    // });
+    });
 });

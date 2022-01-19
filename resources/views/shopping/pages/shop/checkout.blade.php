@@ -19,6 +19,7 @@
             <form id="form-order-info">
                 @csrf
                 <div class="row">
+                    <input type="hidden" name="total_price"/>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
                             <label>Họ và tên: <label style="font-weight:bolder;color:black">{{Auth::guard('web')->user()->name}}</label></label>
@@ -92,8 +93,8 @@
                     </tr>
                 </thead>
                 @php
-                        $total = 0;
-                    @endphp
+                    $total = 0;
+                @endphp
                 <tbody>
                     @if (session('cart'))
                             @foreach (session('cart') as $id => $details)
@@ -126,13 +127,8 @@
                                         <button class="btn btn-danger btn-sm remove-from-cart">X</button>
                                     </td>
                                 </tr>
-                                
                             @endforeach
-                            
                         @endif
-
-                    
-                    
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
@@ -155,6 +151,7 @@
                                 <tr>
                                     <td><label>Thanh toán</label></td>
                                     <td class="text-right"><span>{{ number_format( $total + $vat ) . " đ"}}</span></td>
+                                    <input type="hidden" id="total_price" value="{{ $total + $vat }}" />
                                 </tr>
                                 <tr>
                                     <td><label>Hình thức thanh toán</label></td>
@@ -196,11 +193,23 @@
 @endsection
 
 @push('js')
+{{-- Flash messages --}}
+@if (session()->has('success'))
+    <script>
+        toastr.success("{{session()->get('success')}}")
+    </script>
+@endif
+@if (session()->has('error'))
+    <script>
+        toastr.error("{{session()->get('error')}}")
+    </script>
+@endif
 {{-- Location 4 delivery --}}
 <script>
     $(document).ready(function(){
         $(document).on('change', '#provinces', function() {
-            
+            $("#errorProvince").text("")
+
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -231,6 +240,8 @@
     })
     $(document).ready(function() {
         $(document).on('change', '#districts', function() {
+            $("#errorDistrict").text("")
+
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -257,35 +268,106 @@
             })
         })
     })
+
+    $(document).ready(function() {
+        $(document).on('change','#wards', function() {
+            $("#errorWard").text("")
+        })
+        $(document).on('keydown', 'input[name=detailsAddress]',function() {
+            $("#errorDetails").text("")
+        })
+    })
 </script>
 {{-- Click order --}}
 <script>
     $(document).ready(function() {
         $('#btn_order').click(function() {
+            let total = $('#total_price').val()
+            $('[name="total_price"]').val(total)
             let formData = new FormData($('#form-order-info')[0]) 
-            
-            if ($('[name="payment"]').find(":selected").val() == "cod") {
-                $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "{{route('shopping.payments.cod')}}",
-                data: formData,
-                processData: false,
-                contentType: false, 
-                success: function(data) {
-                    if (data.status) {
-                        toastr.success('Đơn hàng đã được gửi và đang được xử lý!')
-                    }
-                    else {
-                        toastr.error('Đã có lỗi xảy ra với đơn hàng của bạn, hãy thử lại!')
-                    }
-                },
-                error: function(xhr) {
+            let count = 0;
 
-                }
-            })
+            $detailAddress = $('input[name=detailsAddress]')
+            let $province = $('#provinces')
+            let $district = $('#districts')
+            let $ward = $('#wards')
+            let $phonenumber = $('#phonenumber').text();
+
+            if ($province.val() == '-1'){
+                $("#errorProvince").text("Trường này không được để trống") 
+            } else {
+                $("#errorProvince").text("")
+                count +=1
+            }
+
+            if ($district.val() == '-1'){
+                $("#errorDistrict").text("Trường này không được để trống") 
+            } else {
+                $("#errorDistrict").text("")
+                count +=1
+            }
+
+            if ($ward.val() == '-1'){
+                $("#errorWard").text("Trường này không được để trống") 
+            } else {
+                $("#errorWard").text("")
+                count +=1
+            }
+
+            if ($detailAddress.val() == ''){
+                $("#errorDetails").text("Trường này không được để trống") 
+            } else {
+                $("#errorDetails").text("")
+                count +=1
+            }
+
+            if ($.isNumeric($phonenumber)){
+                count+=1
             }
             
+            if (count == 5) {
+                if ($('[name="payment"]').find(":selected").val() == "cod") {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{route('shopping.payments.cod')}}",
+                        data: formData,
+                        processData: false,
+                        contentType: false, 
+                        success: function(data) {
+                            if (data.status) {
+                                toastr.success('Đơn hàng đã được gửi và đang được xử lý!')
+                                setTimeout(function() {
+                                    window.location.assign("{{url('/')}}")
+                                }, 2000);
+                            }
+                            else {
+                                toastr.error('Đã có lỗi xảy ra với đơn hàng của bạn, hãy thử lại!')
+                            }
+                        },
+                        error: function(xhr) {
+
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{route('shopping.payments.vnpaycreate')}}",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            window.location.assign(data.link)
+                        },
+                        error: function(xhr) {
+                            
+                        }
+                    })
+                }
+            } else {
+                toastr.error('Đã xảy ra lỗi, vui lòng kiểm tra các trường ở trên!')
+            }
         })
     })
 </script>

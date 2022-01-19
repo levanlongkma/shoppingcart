@@ -30,7 +30,7 @@
     @yield('content')
 
     @include('shopping.layouts.footer')
-  
+    @include('shopping.layouts.wishlist')
     <script src="{{ asset('/js/jquery.js') }}"></script>
 	<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('/js/jquery.scrollUp.min.js') }}"></script>
@@ -49,5 +49,6 @@
         });
     </script>
     @stack('js')
+    @stack('wishlist-js')
 </body>
 </html>

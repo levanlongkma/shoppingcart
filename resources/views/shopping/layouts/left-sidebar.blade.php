@@ -38,7 +38,7 @@
             <h2>Khoảng giá</h2>
             <div class="well text-center">
                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="{{ $highestPrice }}" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
-                <b class="pull-left">$ 0</b> <b class="pull-right">$ {{ $highestPrice }}</b>
+                <b class="pull-left">0 đ</b> <b class="pull-right">{{ $highestPrice }} đ</b>
             </div>
         </div>
 

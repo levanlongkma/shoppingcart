@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="{{ route('shopping.home') }}"><img src="images/home/logo.png" alt="" /></a>
+                        <a href="{{ route('shopping.home') }}"><img src="{{ asset('images/home/logo.png') }}" alt="" /></a>
                     </div>
                     
                 </div>
@@ -94,9 +94,9 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="search_box pull-right">
+                    {{-- <div class="search_box pull-right">
                         <input type="text" placeholder="Tìm kiếm"/>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

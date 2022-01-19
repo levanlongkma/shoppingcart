@@ -34,9 +34,9 @@ class HomeController extends Controller
             $categoryName = 'Tất cả sản phẩm';
         }
 
-        $highestPrice = 0;
-        if (count($products) > 0) {
-            $highestPrice = DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price;
+        $highestPrice = DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price;
+        if (! $highestPrice) {
+            $highestPrice = 5000000;
         }
         return view('shopping.pages.home',[   
             'slides' => Slide::all(), 
@@ -65,7 +65,7 @@ class HomeController extends Controller
         ];
 
         session()->put('cart', $cart);
-        session()->flash('success_add', "Product add to cart success");
+        session()->flash('success_add', "Đã thêm sản phẩm vào giỏ hàng của bạn");
         return redirect()->back();
     }
 
@@ -76,7 +76,7 @@ class HomeController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
 
-            session()->flash('success', 'Cart updated successfully');
+            session()->flash('success', 'Đã cập nhật giỏ hàng thành công');
         }
     }
 
@@ -88,7 +88,7 @@ class HomeController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-            session()->flash('success', 'Product removed successfully');
+            session()->flash('success', 'Đã xóa 1 sản phẩm khỏi giỏ hàng!');
         }
     }
 
@@ -138,7 +138,13 @@ class HomeController extends Controller
 
     public function blogList()
     {
-        return view('shopping.pages.blog.blog-list');
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
+
+        return view('shopping.pages.blog.blog-list', compact(['userFavoriteItems']));
     }
 
     public function blogSingle()
@@ -154,25 +160,41 @@ class HomeController extends Controller
 
     public function productDetails(Product $product)
     {
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
+
         return view('shopping.pages.shop.product-details', [
             'product' => $product,
             'category' => Category::where('id', $product->category_id)->firstOrFail(),
             'categories' => Category::all(), 
-            'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price
+            'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price,
+            'userFavoriteItems' => $userFavoriteItems
         ]);
     }
 
     public function Checkout()
     {
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
         $provinces = DB::select('SELECT id, name FROM provinces');
-        // dd(session('cart'));
-        return view('shopping.pages.shop.checkout', compact('provinces'));
+
+        return view('shopping.pages.shop.checkout', compact(['provinces', 'userFavoriteItems']));
     }
 
     public function Cart()
     {
-        return view('shopping.pages.shop.cart');
-
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
+        return view('shopping.pages.shop.cart', compact('userFavoriteItems'));
     }
 
     public function Login()
@@ -183,6 +205,11 @@ class HomeController extends Controller
 
     public function ContactUs()
     {
-        return view('shopping.pages.contact_us.contact-us');
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
+        return view('shopping.pages.contact_us.contact-us', compact(['userFavoriteItems']));
     }
 }
