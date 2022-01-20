@@ -118,9 +118,9 @@
             });
             $(".remove-from-cart").click(function(e) {
                 e.preventDefault();
-
+                
                 var ele = $(this);
-
+                
                 if (confirm("Are you sure want to remove?")) {
                     $.ajax({
                         url: '{{ route('shopping.remove_from_cart') }}',
@@ -131,6 +131,7 @@
                         },
                         success: function(response) {
                             window.location.reload();
+                            toastr.success("Xóa thành công");
                         }
                     });
                 }

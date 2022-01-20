@@ -129,21 +129,26 @@
                             <div class="col-sm-4">
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
-                                        <form >
+                                        <form>
                                             @csrf
                                             <div class="productinfo text-center">
                                                 @php
                                                     $productImage = $product->productImages()->first();
                                                     $imageDefault = 'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png';
                                                 @endphp
-                                                <input type="hidden" class="product_id_{{ $product->id }}" value="{{ $product->id }}">
-                                                <input type="hidden" class="product_name_{{ $product->id }}" value="{{ $product->name }}">
-                                                <input type="hidden" class="product_description_{{ $product->id }}" value="{{ $product->description }}">
-                                                <input type="hidden" class="product_quantity_{{ $product->id }}" value="{{ $product->quantity }}">
-                                                <input type="hidden" class="product_image_{{ $product->id }}" value="{{ $productImage ? $productImage->image : "" }}">
-                                                <input type="hidden" class="product_price_{{ $product->id }}" value="{{ $product->price }}">
-                                                
-                                                
+                                                <input type="hidden" class="product_id_{{ $product->id }}"
+                                                    value="{{ $product->id }}">
+                                                <input type="hidden" class="product_name_{{ $product->id }}"
+                                                    value="{{ $product->name }}">
+                                                <input type="hidden" class="product_description_{{ $product->id }}"
+                                                    value="{{ $product->description }}">
+                                                <input type="hidden" class="product_quantity_{{ $product->id }}"
+                                                    value="{{ $product->quantity }}">
+                                                <input type="hidden" class="product_image_{{ $product->id }}"
+                                                    value="{{ $productImage ? $productImage->image : '' }}">
+                                                <input type="hidden" class="product_price_{{ $product->id }}"
+                                                    value="{{ $product->price }}">
+
                                                 <img src="{{ $productImage ? Storage::url($productImage->image) : $imageDefault }}"
                                                     alt="" />
                                                 <h2>{{ $product->price }}</h2>
@@ -155,8 +160,10 @@
                                                 <div class="overlay-content">
                                                     <h2>{{ $product->price }}</h2>
                                                     <p>{{ $product->name }}</p>
-                                                    <a href="{{ route('shopping.add_to_cart', $product->id) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-                                                    
+                                                    <a href="{{ route('shopping.add_to_cart', $product->id) }}"
+                                                        class="btn btn-default add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+
                                                 </div>
                                             </div>
                                         </form>
@@ -170,56 +177,18 @@
                             </div>
                         @endforeach
                     </div>
-                    <!--features_items-->
                 </div>
             </div>
         </div>
     </section>
-    
+
 @endsection
 
 @push('js')
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@if (session()->get('success_add'))
-    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @if (session()->has('success_add'))
         <script>
-            swal.success("{{ session()->get('success_add') }}")
+            swal.("{{ session()->get('success_add') }}")
         </script>
-        
-    
     @endif
-    {{-- <script>
-        $(function() {
-            $(".add-to-cart").click(function() {
-                var id = $(this).data('id');
-                var product_id = $('.product_id_' + id).val();
-                var product_name = $('.product_name_' + id).val();
-                var product_description = $('.product_description_' + id).val();
-                var product_quantity = $('.product_quantity_' + id).val();
-                var product_price = $('.product_price_' + id).val();
-                var product_image = $('.product_image_'+ id).val()
-                var _token = $('input[name="_token"]').val();
-                
-                $.ajax({
-                    url: '{{ url('/add-cart-ajax') }}',
-                    method: 'POST',
-                    data: {
-                        id: product_id,
-                        name: product_name,
-                        description: product_description,
-                        quantity: product_quantity,
-                        price: product_price,
-                        image: product_image,
-                        _token: _token
-                    },
-                    success: function(data){
-                        alert(data);
-                    },
-                    error: function(err){
-                        console.error(err);
-                    } 
-                })
-            })
-        })
-    </script> --}}
 @endpush

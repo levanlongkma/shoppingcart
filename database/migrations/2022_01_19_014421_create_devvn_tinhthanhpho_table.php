@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWardsTable extends Migration
+class CreateDevvnTinhthanhphoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateWardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('wards', function (Blueprint $table) {
+        Schema::create('devvn_tinhthanhpho', function (Blueprint $table) {
             $table->id();
+            $table->integer('matp');
             $table->string('name');
-            $table->integer('district_id');
-            $table->softDeletes();
+            $table->string('type');
+            $table->string('slug');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateWardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wards');
+        Schema::dropIfExists('devvn_tinhthanhpho');
     }
 }

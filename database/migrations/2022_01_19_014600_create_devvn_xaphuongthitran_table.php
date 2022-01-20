@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitiesTable extends Migration
+class CreateDevvnXaphuongthitranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('devvn_xaphuongthitran', function (Blueprint $table) {
             $table->id();
+            $table->integer('xaid');
             $table->string('name');
-            $table->softDeletes();
+            $table->string('type');
+            $table->integer('maqh');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('devvn_xaphuongthitran');
     }
 }

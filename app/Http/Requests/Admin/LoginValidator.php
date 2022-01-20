@@ -24,7 +24,6 @@ class LoginValidator extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:users',
             'email' => 'email|required|unique:users',
             'password' => 'required|min:6'
         ];

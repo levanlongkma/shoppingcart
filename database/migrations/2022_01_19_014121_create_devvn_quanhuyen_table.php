@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDistrictsTable extends Migration
+class CreateDevvnQuanhuyenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateDistrictsTable extends Migration
      */
     public function up()
     {
-        Schema::create('districts', function (Blueprint $table) {
+        Schema::create('devvn_quanhuyen', function (Blueprint $table) {
             $table->id();
+            $table->integer('maqh');
             $table->string('name');
-            $table->integer('city_id');
-            $table->softDeletes();
+            $table->string('type');
+            $table->integer('matp');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('districts');
+        Schema::dropIfExists('devvn_quanhuyen');
     }
 }
