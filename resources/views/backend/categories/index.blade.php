@@ -95,6 +95,11 @@
 
 {{-- Create --}}
 <script>
+    $("#createModal input").on('keypress', function(e){
+        if (e.which === 13) {
+            $("#buttonCreate").click()
+        }
+    })
     $(document).ready(function() {
         $("#buttonCreate").click(function() {
             let formData = new FormData($('#createForm')[0]);

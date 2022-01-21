@@ -1,110 +1,140 @@
 @extends('shopping.index')
 
 @push('title')
-Cart | E-Shopper
+    Giỏ hàng | E-Shopper
 @endpush
 
 @section('content')
-<section id="cart_items">
-    <div class="container">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li class="active">Shopping Cart</li>
-            </ol>
-        </div>
-        <div class="table-responsive cart_info">
-            <table class="table table-condensed">
-                <thead>
-                    <tr class="cart_menu">
-                        <td class="image">Item</td>
-                        <td class="description"></td>
-                        <td class="price">Price</td>
-                        <td class="quantity">Quantity</td>
-                        <td class="total">Total</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/">Trang</a></li>
+                    <li class="active">Giỏ Hàng Của Bạn</li>
+                </ol>
+            </div>
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Hình ảnh</td>
+                            <td class="name">Tên sản phẩm</td>
+                            <td class="price">Giá</td>
+                            <td class="quantity">Số lượng</td>
+                            <td class="total">Thành tiền</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    @php
+                        $total = 0;
+                    @endphp
+                    <tbody>
+                        @if (session('cart'))
+                            @foreach (session('cart') as $id => $details)
+                                @php
+                                    $total += $details['price'] * $details['quantity'];
+                                @endphp
+                                
+                                <tr data-id="{{ $id }}">
+                                    <td class="cart_product">
+                                        <a href=""><img width="100px" height="100px" src="{{ $details['image'] ? Storage::url($details['image']->image) : "https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png"}}" alt=""></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4>{{ $details['name'] }}</h4>
+                                        <p>Mã sản phẩm: {{ $details['id'] }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{ number_format($details['price']) . ' đ'  }}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <input style="width:30%" type="number" class="form-control quantity update-cart"
+                                                name="quantity" value="{{ $details['quantity'] }}" autocomplete="off"
+                                                min="1">
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">
+                                            {{ number_format($details['price'] * $details['quantity']) . ' đ' }}</p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <button class="btn btn-danger btn-sm remove-from-cart">X</button>
+                                    </td>
+                                </tr>
 
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                
+                            @endforeach
+                            
+                        @endif
+
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-right"><h3><strong>Tổng tiền:  {{ number_format($total). " đ" }}  </strong></h3></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-right">
+                                <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Tiếp tục xem...</a>
+                                
+                                <a  class="btn btn-success" href="{{ route('shopping.checkout') }}">Đặt hàng</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+            </div>
         </div>
-    </div>
-</section> <!--/#cart_items-->
+    </section>
+
+    
+    <!--/#cart_items-->
 @endsection
+@push('js')
+@if (session('success_add'))
+    <script>
+        swal({{ session('success_add') }})
+    </script>
+@endif
+    <script>
+        $(function() {
+            $(".update-cart").change(function(e) {
+                e.preventDefault();
+
+                var ele = $(this);
+
+                $.ajax({
+                    url: '{{ route('shopping.update_cart') }}',
+                    method: "patch",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: ele.parents("tr").attr("data-id"),
+                        quantity: ele.parents("tr").find(".quantity").val()
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            });
+            $(".remove-from-cart").click(function(e) {
+                e.preventDefault();
+
+                var ele = $(this);
+
+                if (confirm("Are you sure want to remove?")) {
+                    $.ajax({
+                        url: '{{ route('shopping.remove_from_cart') }}',
+                        method: "DELETE",
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: ele.parents("tr").attr("data-id")
+                        },
+                        success: function(response) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+@endpush

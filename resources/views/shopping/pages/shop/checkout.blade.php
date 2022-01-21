@@ -9,237 +9,366 @@
     <div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li class="active">Check out</li>
+              <li><a href="#">Trang</a></li>
+              <li class="active">Thanh toán</li>
             </ol>
         </div><!--/breadcrums-->
 
         <div class="step-one">
-            <h2 class="heading">Step1</h2>
-        </div>
-        <div class="checkout-options">
-            <h3>New User</h3>
-            <p>Checkout options</p>
-            <ul class="nav">
-                <li>
-                    <label><input type="checkbox"> Register Account</label>
-                </li>
-                <li>
-                    <label><input type="checkbox"> Guest Checkout</label>
-                </li>
-                <li>
-                    <a href=""><i class="fa fa-times"></i>Cancel</a>
-                </li>
-            </ul>
-        </div><!--/checkout-options-->
-
-        <div class="register-req">
-            <p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
-        </div><!--/register-req-->
-
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="shopper-info">
-                        <p>Shopper Information</p>
-                        <form>
-                            <input type="text" placeholder="Display Name">
-                            <input type="text" placeholder="User Name">
-                            <input type="password" placeholder="Password">
-                            <input type="password" placeholder="Confirm password">
-                        </form>
-                        <a class="btn btn-primary" href="">Get Quotes</a>
-                        <a class="btn btn-primary" href="">Continue</a>
-                    </div>
-                </div>
-                <div class="col-sm-5 clearfix">
-                    <div class="bill-to">
-                        <p>Bill To</p>
-                        <div class="form-one">
-                            <form>
-                                <input type="text" placeholder="Company Name">
-                                <input type="text" placeholder="Email*">
-                                <input type="text" placeholder="Title">
-                                <input type="text" placeholder="First Name *">
-                                <input type="text" placeholder="Middle Name">
-                                <input type="text" placeholder="Last Name *">
-                                <input type="text" placeholder="Address 1 *">
-                                <input type="text" placeholder="Address 2">
-                            </form>
+            <h2 class="heading">Nhập địa chỉ giao hàng</h2>
+            <form id="form-order-info">
+                @csrf
+                <div class="row">
+                    <input type="hidden" name="total_price"/>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Họ và tên: <label style="font-weight:bolder;color:black">{{Auth::guard('web')->user()->name}}</label></label>
                         </div>
-                        <div class="form-two">
-                            <form>
-                                <input type="text" placeholder="Zip / Postal Code *">
-                                <select>
-                                    <option>-- Country --</option>
-                                    <option>United States</option>
-                                    <option>Bangladesh</option>
-                                    <option>UK</option>
-                                    <option>India</option>
-                                    <option>Pakistan</option>
-                                    <option>Ucrane</option>
-                                    <option>Canada</option>
-                                    <option>Dubai</option>
-                                </select>
-                                <select>
-                                    <option>-- State / Province / Region --</option>
-                                    <option>United States</option>
-                                    <option>Bangladesh</option>
-                                    <option>UK</option>
-                                    <option>India</option>
-                                    <option>Pakistan</option>
-                                    <option>Ucrane</option>
-                                    <option>Canada</option>
-                                    <option>Dubai</option>
-                                </select>
-                                <input type="password" placeholder="Confirm password">
-                                <input type="text" placeholder="Phone *">
-                                <input type="text" placeholder="Mobile Phone">
-                                <input type="text" placeholder="Fax">
-                            </form>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Số điện thoại: <label style="font-weight:bolder;color:black" id="phonenumber">@if(Auth::guard('web')->user()->phone_number == null) <a href="" style="color: red">Cập nhật số điện thoại</a> @else {{Auth::guard('web')->user()->phone_number}} @endif</label></label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Tỉnh / Thành phố<span>*</span></label>
+                            <select class="form-control" name="province" id="provinces" required>
+                                <option value="-1" selected="selected">Chọn ...</option>
+                                @foreach ($provinces as  $province)
+                                    <option value="{{$province->id}}">{{$province->name}}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback" id="errorProvince">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Quận / Huyện<span>*</span></label>
+                            <select class="form-control" name="district" id="districts" required>
+                                <option value="-1" selected="selected">Chọn ...</option>
+                            </select>
+                            <div class="invalid-feedback" id="errorDistrict">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Xã / Phường<span>*</span></label>
+                            <select class="form-control" name="ward" id="wards" required>
+                                <option value="-1" selected="selected">Chọn ...</option>
+                            </select>
+                            <div class="invalid-feedback" id="errorWard">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label>Cụ thể<span>*</span></label>
+                            <input class="form-control" type="text" name="detailsAddress" placeholder="Số nhà, tên đường, ..." required>
+                            <div class="invalid-feedback" id="errorDetails">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="order-message">
-                        <p>Shipping Order</p>
-                        <textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-                        <label><input type="checkbox"> Shipping to bill address</label>
-                    </div>	
-                </div>					
-            </div>
+            </form>
         </div>
+
+        
         <div class="review-payment">
-            <h2>Review & Payment</h2>
+            <h2>Kiểm tra và Thanh toán</h2>
         </div>
 
         <div class="table-responsive cart_info">
             <table class="table table-condensed">
                 <thead>
                     <tr class="cart_menu">
-                        <td class="image">Item</td>
+                        <td class="image">Sản phẩm</td>
                         <td class="description"></td>
-                        <td class="price">Price</td>
-                        <td class="quantity">Quantity</td>
-                        <td class="total">Total</td>
+                        <td class="price">Giá</td>
+                        <td class="quantity">Số lượng</td>
+                        <td class="total">Tổng</td>
                         <td></td>
                     </tr>
                 </thead>
+                @php
+                    $total = 0;
+                @endphp
                 <tbody>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                    @if (session('cart'))
+                            @foreach (session('cart') as $id => $details)
+                                @php
+                                    $cart = [];
+                                    $total += $details['price'] * $details['quantity'];
+                                @endphp
+                                <tr data-id="{{ $id }}">
+                                    <td class="cart_product">
+                                        <a href=""><img width="100px" height="100px" src="{{ $details['image'] ? Storage::url($details['image']->image) : "https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png"}}" alt=""></a>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h4>{{ $details['name'] }}</h4>
+                                        <p>Mã sản phẩm: {{ $details['id'] }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{ number_format($details['price']) . ' đ'  }}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                        <div class="cart_quantity_button">
+                                            <p>{{ $details['quantity'] }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">
+                                            {{ number_format($details['price'] * $details['quantity']) . ' đ' }}</p>
+                                    </td>
+                                    <td class="cart_delete">
 
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                                        <button class="btn btn-danger btn-sm remove-from-cart">X</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
                             <table class="table table-condensed total-result">
                                 <tr>
-                                    <td>Cart Sub Total</td>
-                                    <td>$59</td>
+                                    <td>Tổng tiền</td>
+                                    <td class="text-right">{{ number_format($total). " đ" }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Exo Tax</td>
-                                    <td>$2</td>
+                                    @php
+                                        $vat = $total*10/100
+                                    @endphp
+                                    <td>VAT</td>
+                                    <td class="text-right">{{ number_format($vat). " đ" }}</td>
                                 </tr>
                                 <tr class="shipping-cost">
-                                    <td>Shipping Cost</td>
-                                    <td>Free</td>										
+                                    <td>Phí vận chuyển</td>
+                                    <td class="text-right">Free</td>										
                                 </tr>
                                 <tr>
-                                    <td>Total</td>
-                                    <td><span>$61</span></td>
+                                    <td><label>Thanh toán</label></td>
+                                    <td class="text-right"><span>{{ number_format( $total + $vat ) . " đ"}}</span></td>
+                                    <input type="hidden" id="total_price" value="{{ $total + $vat }}" />
                                 </tr>
+                                <tr>
+                                    <td><label>Hình thức thanh toán</label></td>
+                                </tr>
+                                
+                            </table>
+                            <table>
+                                <select class="form-control" name="payment" required>
+                                    <option  value="cod" selected>
+                                        Thanh toán khi nhận hàng (COD)
+                                    </option>
+                                    <option value="online">
+                                        Thanh toán cổng thanh toán online
+                                    </option>
+                                </select>
+                            </table>
+                            <hr>
+                            <table>
+                                <div class="single-widget payement text-center">
+                                    <div class="content">
+                                        <img src="{{asset('images/shop/payment-method.png')}}" alt="#">
+                                    </div>
+                                </div>
+                            </table>
+                            <hr>
+                            <table>
+                                <div class="text-right">
+                                    <a id="btn_order" class="btn btn-warning">Đặt hàng</a>
+                                </div>
                             </table>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="payment-options">
-                <span>
-                    <label><input type="checkbox"> Direct Bank Transfer</label>
-                </span>
-                <span>
-                    <label><input type="checkbox"> Check Payment</label>
-                </span>
-                <span>
-                    <label><input type="checkbox"> Paypal</label>
-                </span>
-            </div>
     </div>
 </section> <!--/#cart_items-->
 
 @endsection
+
+@push('js')
+{{-- Flash messages --}}
+@if (session()->has('success'))
+    <script>
+        toastr.success("{{session()->get('success')}}")
+    </script>
+@endif
+@if (session()->has('error'))
+    <script>
+        toastr.error("{{session()->get('error')}}")
+    </script>
+@endif
+{{-- Location 4 delivery --}}
+<script>
+    $(document).ready(function(){
+        $(document).on('change', '#provinces', function() {
+            $("#errorProvince").text("")
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ route('shopping.getDistricts') }}",
+                data: { province_id: $('#provinces').find(":selected").val() },
+                success: function(data) {
+                    $('#districts').empty()
+                    $('#districts').prepend(`<option value="-1" selected="selected">Chọn ...</option>`)
+                    $('#wards').empty()
+                    $('#wards').prepend(`<option value="-1" selected="selected">Chọn ...</option>`)
+                    
+                    if (data.status) {
+                        Object.keys(data.districts).forEach(key => {
+                            $('#districts').append(`
+                                <option value="`+data.districts[key]['id']+`">`+data.districts[key]['name']+`</option>
+                            `)
+                        })
+                    }
+                    else {
+                        toastr.error('Không thể tải lên dữ liệu vị trí, hãy thửu lại')
+                    }
+                },
+                error: function(xhr) {
+
+                }
+            })
+        })
+    })
+    $(document).ready(function() {
+        $(document).on('change', '#districts', function() {
+            $("#errorDistrict").text("")
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{{ route('shopping.getWards') }}",
+                data: { district_id: $('#districts').find(":selected").val() },
+                success: function(data) {
+                    $('#wards').empty()
+                    $('#wards').prepend(`<option value="-1" selected="selected">Chọn ...</option>`)
+                    
+                    if (data.status) {
+                        Object.keys(data.wards).forEach(key => {
+                            $('#wards').append(`
+                                <option value="`+data.wards[key]['id']+`">`+data.wards[key]['name']+`</option>
+                            `)
+                        })
+                    }
+                    else {
+                        toastr.error('Không thể tải lên dữ liệu vị trí, hãy thửu lại')
+                    }
+                },
+                error: function(xhr) {
+
+                }
+            })
+        })
+    })
+
+    $(document).ready(function() {
+        $(document).on('change','#wards', function() {
+            $("#errorWard").text("")
+        })
+        $(document).on('keydown', 'input[name=detailsAddress]',function() {
+            $("#errorDetails").text("")
+        })
+    })
+</script>
+{{-- Click order --}}
+<script>
+    $(document).ready(function() {
+        $('#btn_order').click(function() {
+            let total = $('#total_price').val()
+            $('[name="total_price"]').val(total)
+            let formData = new FormData($('#form-order-info')[0]) 
+            let count = 0;
+
+            $detailAddress = $('input[name=detailsAddress]')
+            let $province = $('#provinces')
+            let $district = $('#districts')
+            let $ward = $('#wards')
+            let $phonenumber = $('#phonenumber').text();
+
+            if ($province.val() == '-1'){
+                $("#errorProvince").text("Trường này không được để trống") 
+            } else {
+                $("#errorProvince").text("")
+                count +=1
+            }
+
+            if ($district.val() == '-1'){
+                $("#errorDistrict").text("Trường này không được để trống") 
+            } else {
+                $("#errorDistrict").text("")
+                count +=1
+            }
+
+            if ($ward.val() == '-1'){
+                $("#errorWard").text("Trường này không được để trống") 
+            } else {
+                $("#errorWard").text("")
+                count +=1
+            }
+
+            if ($detailAddress.val() == ''){
+                $("#errorDetails").text("Trường này không được để trống") 
+            } else {
+                $("#errorDetails").text("")
+                count +=1
+            }
+
+            if ($.isNumeric($phonenumber)){
+                count+=1
+            }
+            
+            if (count == 5) {
+                if ($('[name="payment"]').find(":selected").val() == "cod") {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{route('shopping.payments.cod')}}",
+                        data: formData,
+                        processData: false,
+                        contentType: false, 
+                        success: function(data) {
+                            if (data.status) {
+                                toastr.success('Đơn hàng đã được gửi và đang được xử lý!')
+                                setTimeout(function() {
+                                    window.location.assign("{{url('/')}}")
+                                }, 2000);
+                            }
+                            else {
+                                toastr.error('Đã có lỗi xảy ra với đơn hàng của bạn, hãy thử lại!')
+                            }
+                        },
+                        error: function(xhr) {
+
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "{{route('shopping.payments.vnpaycreate')}}",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            window.location.assign(data.link)
+                        },
+                        error: function(xhr) {
+                            
+                        }
+                    })
+                }
+            } else {
+                toastr.error('Đã xảy ra lỗi, vui lòng kiểm tra các trường ở trên!')
+            }
+        })
+    })
+</script>
+@endpush

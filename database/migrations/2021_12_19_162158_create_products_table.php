@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('name');
             $table->string('slug');
+            $table->float('price');
             $table->integer('category_id');
             $table->integer('quantity');
             $table->softDeletes();
