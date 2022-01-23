@@ -19,6 +19,12 @@
                                 </tr>
                             </thead>
                             <tbody class="favorite-table-body">
+                                @php
+                                    $userFavoriteItems = NULL;
+                                    if(isset(auth()->user()->id)) {
+                                        $userFavoriteItems = App\Models\Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+                                    }
+                                @endphp
                                 @if($userFavoriteItems!= null)
                                 @foreach ($userFavoriteItems as $key => $userFavoriteItem)
                                 <tr class="favorite-item">

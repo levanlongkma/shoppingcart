@@ -45,20 +45,37 @@
             <div class="header-menu">
                 <div class="header-left">
                     <div class="dropdown for-notification">
+                        @php
+                            $is_not_reads = App\Models\Order::where('is_read', false)->get();
+                        @endphp
+
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">3</span>
+                            <span class="count bg-danger" @if($is_not_reads->count() == 0) style="display: none" @endif>{{count($is_not_reads)}}</span>
                         </button>
+                        
                         <div class="dropdown-menu" aria-labelledby="notification">
-                            <p class="red">You have 3 Notification</p>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="{{ asset('backend/images/avatar/1.jpg') }}"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jonathan Smith</span>
-                                    <span class="time float-right">Just now</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
+                            @forelse ($is_not_reads as $item)
+                                <a class="dropdown-item media" href="#"> {{-- Nhấn link ra order --}}
+                                    {{-- <span class="photo media-left"><img alt="avatar" src="{{ asset('backend/images/avatar/1.jpg') }}"></span> --}}
+                                    <div class="message media-body">
+                                        <span class="name float-left">Đơn hàng mới từ {{$item->user->name}} </span>
+                                        <span class="time float-right">
+                                            @php 
+                                                Carbon\Carbon::setLocale('vi');
+                                                echo $item->created_at->diffForHumans(Carbon\Carbon::now());
+                                            @endphp
+                                        </span>
+                                    </div>
+                                </a>
+                            @empty
+                                <a class="dropdown-item media" href="#">
+                                    <div class="message media-body">
+                                        <p>Bạn hiện không có thông báo nào </p>
+                                    </div>
+                                </a>
+                            @endforelse
+                            
                         </div>
                     </div>
 

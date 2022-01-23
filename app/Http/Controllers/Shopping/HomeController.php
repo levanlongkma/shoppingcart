@@ -21,12 +21,6 @@ class HomeController extends Controller
     {
         $params = request()->all();
         $products = $this->getProductsList($params);
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
-        
         if (data_get($params, 'category')) {
             $categoryName = Category::where('slug', $params['category'])->first()->name;
         }
@@ -41,8 +35,7 @@ class HomeController extends Controller
         return view('shopping.pages.home',[   
             'slides' => Slide::all(), 
             'categories' => Category::all(), 
-            'categoryName' => $categoryName, 
-            'userFavoriteItems' => $userFavoriteItems,
+            'categoryName' => $categoryName,
             'products' => $products,
             'highestPrice' => $highestPrice
         ]);
@@ -138,13 +131,7 @@ class HomeController extends Controller
 
     public function blogList()
     {
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
-
-        return view('shopping.pages.blog.blog-list', compact(['userFavoriteItems']));
+        return view('shopping.pages.blog.blog-list');
     }
 
     public function blogSingle()
@@ -160,41 +147,24 @@ class HomeController extends Controller
 
     public function productDetails(Product $product)
     {
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
-
         return view('shopping.pages.shop.product-details', [
             'product' => $product,
             'category' => Category::where('id', $product->category_id)->firstOrFail(),
             'categories' => Category::all(), 
             'highestPrice' => DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price,
-            'userFavoriteItems' => $userFavoriteItems
         ]);
     }
 
     public function Checkout()
     {
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
         $provinces = DB::select('SELECT id, name FROM provinces');
 
-        return view('shopping.pages.shop.checkout', compact(['provinces', 'userFavoriteItems']));
+        return view('shopping.pages.shop.checkout', compact(['provinces']));
     }
 
     public function Cart()
     {
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
-        return view('shopping.pages.shop.cart', compact('userFavoriteItems'));
+        return view('shopping.pages.shop.cart');
     }
 
     public function Login()
@@ -205,11 +175,6 @@ class HomeController extends Controller
 
     public function ContactUs()
     {
-        $userFavoriteItems = null;
-        
-        if(isset(auth()->user()->id)) {
-            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
-        }
-        return view('shopping.pages.contact_us.contact-us', compact(['userFavoriteItems']));
+        return view('shopping.pages.contact_us.contact-us');
     }
 }

@@ -32,7 +32,8 @@ class PaymentController extends Controller
                         'ward_id' => $params['ward'],
                         'type' => $string,
                         'details_address' => $params['detailsAddress'],
-                        'created_at' => now()
+                        'created_at' => now(),
+                        'is_read' => false,
                     ]);
 
                     foreach (session('cart') as $key => $value) {
@@ -81,7 +82,8 @@ class PaymentController extends Controller
                         'ward_id' => $params['ward'],
                         'type' => $string,
                         'details_address' => $params['detailsAddress'],
-                        'created_at' => now()
+                        'created_at' => now(),
+                        'is_read' => false,
                     ]);
 
                     foreach (session('cart') as $key => $value) {
