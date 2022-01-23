@@ -46,7 +46,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::post('/delete', [SlideController::class, 'delete'])->name('delete');
         });
 
-        Route::get('/users', [UserController::class, 'index'])->name('users');
-        Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
+        Route::group(['prefix' => 'users', 'as' => 'users.'], function() {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::post('/delete', [UserController::class, 'delete'])->name('delete');
+        });
     });
 });
