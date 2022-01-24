@@ -24,9 +24,18 @@ class LoginValidator extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:users',
-            'email' => 'email|required|unique:users',
+            'email' => 'email|required',
             'password' => 'required|min:6'
+        ];
+    }
+
+    public function message()
+    {
+        return [
+            'email.required' => 'Vui lòng nhập email',
+            'email.email' => 'Email của bạn không đúng định dạng',
+            'password.required' => 'Vui lòng nhập mật khấu',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự'
         ];
     }
 }
