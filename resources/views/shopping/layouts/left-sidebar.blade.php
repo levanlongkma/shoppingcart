@@ -29,7 +29,7 @@
             <div class="well text-center">
                 <form action="{{ route('shopping.home') }}" >
                     <input type="hidden" class="form-control" name="category" value={{ request()->category }}>
-                    <input type="text" class="form-control" name="search" placeholder="Nhập tên sản phẩm" value=""/>
+                    <input type="text" class="form-control" name="search" placeholder="Nhập tên sản phẩm" value="{{ request()->search }}"/>
                 </form>
             </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="price-range">
             <h2>Khoảng giá</h2>
             <div class="well text-center">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="{{ $highestPrice }}" data-slider-step="5" data-slider-value="[0,{{ $highestPrice }}]" id="sl2" ><br />
+                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="{{ $highestPrice }}" data-slider-step="5" data-slider-value="[@if(request()->has('price-from')) {{ request()->get('price-from') }} @else 0 @endif , @if(request()->has('price-to')) {{ request()->get('price-to') }} @else {{ $highestPrice }} @endif]" id="sl2" ><br />
                 <b class="pull-left">0 đ</b> <b class="pull-right">{{ $highestPrice }} đ</b>
             </div>
         </div>
@@ -57,24 +57,3 @@
         </div>
     </div>
 </div>
-
-@push('search-js')
-<script>
-    $(document).ready(function() {
-        //setup before functions
-        var typingTimer;                //timer identifier
-        var doneTypingInterval = 1000;  //time in ms (5 seconds)
-        $('.search-product input[name="search"]').on('keyup', function() { 
-            clearTimeout(typingTimer);
-            if ($('.search-product input[name="search"]').val()) {
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            }
-        })
-        function doneTyping() {
-            var val = $('.search-product input[name="search"]').val()
-            $('.apply-filter input[name="search"]').val(val)
-            
-        }
-    })
-</script>
-@endpush

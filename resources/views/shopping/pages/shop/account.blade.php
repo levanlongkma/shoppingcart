@@ -12,9 +12,10 @@
                 <div class="left-sidebar text-center">
                     <h2>Ảnh đại diện</h2>
                     <div class="card-body text-center">
-                        <img class="" style="height: 10rem; border-radius: 50% !important; margin-bottom:10px" src="{{ $user->avatar == '' ? asset('images/shop/no-avatar.png') : Storage::url($user->avatar) }}" alt="">
+                        <img id="avatarImage" class="" style="height: 10rem; border-radius: 50% !important; margin-bottom:10px" src="{{ $user->avatar == '' ? asset('images/shop/no-avatar.png') : Storage::url($user->avatar) }}" alt="">
                         <div class="small font-italic text-muted" style="margin-bottom:10px">Ảnh đại diện có đuôi JPG or PNG và dung lượng dưới 5MB</div>
-                        <input class="form-control" type="file" name="avatar" style="margin-bottom:10px"/>
+                        <input class="form-control" type="file" style="display:none" name="avatar" id="avatar" style="margin-bottom:10px"/>
+                        <label for="avatar" class="btn btn-warning">Tải ảnh lên</label>
                         @error('avatar')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
@@ -63,4 +64,13 @@
     toastr.error("{{session()->get('messages_error')}}")
 </script>
 @endif
+{{-- Load image --}}
+<script type="text/javascript">
+    avatar.onchange = evt => {
+        const [file] = avatar.files
+        if (file) {
+            avatarImage.src = URL.createObjectURL(file)
+        }
+    }
+</script>
 @endpush

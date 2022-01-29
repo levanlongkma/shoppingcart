@@ -32,9 +32,10 @@ class HomeController extends Controller
         if (! $highestPrice) {
             $highestPrice = 5000000;
         }
+        
         return view('shopping.pages.home',[   
             'slides' => Slide::all(), 
-            'categories' => Category::all(), 
+            'categories' => Category::select('id','name', 'slug')->get(), 
             'categoryName' => $categoryName,
             'products' => $products,
             'highestPrice' => $highestPrice

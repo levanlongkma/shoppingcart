@@ -11,6 +11,13 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    @auth
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills" style="float:right">
+                            <li><a href="{{route('shopping.accounts.index')}}"> {{ auth()->user()->name }}</a></li>
+                        </ul>
+                    </div>
+                    @else
                     <div class="social-icons pull-right">
                         <ul class="nav navbar-nav">
                             
@@ -20,12 +27,11 @@
                             <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
                             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                             <li>
-                                @auth
-                                    {{ auth()->user()->name }}
-                                @endauth
+                                
                             </li>
                         </ul>
                     </div>
+                    @endauth
                 </div>
             </div>
         </div>
