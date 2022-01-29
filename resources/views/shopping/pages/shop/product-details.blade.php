@@ -8,209 +8,68 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Sportswear
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="sportswear" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Nike </a></li>
-                                        <li><a href="">Under Armour </a></li>
-                                        <li><a href="">Adidas </a></li>
-                                        <li><a href="">Puma</a></li>
-                                        <li><a href="">ASICS </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Mens
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="mens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Fendi</a></li>
-                                        <li><a href="">Guess</a></li>
-                                        <li><a href="">Valentino</a></li>
-                                        <li><a href="">Dior</a></li>
-                                        <li><a href="">Versace</a></li>
-                                        <li><a href="">Armani</a></li>
-                                        <li><a href="">Prada</a></li>
-                                        <li><a href="">Dolce and Gabbana</a></li>
-                                        <li><a href="">Chanel</a></li>
-                                        <li><a href="">Gucci</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Womens
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="womens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Fendi</a></li>
-                                        <li><a href="">Guess</a></li>
-                                        <li><a href="">Valentino</a></li>
-                                        <li><a href="">Dior</a></li>
-                                        <li><a href="">Versace</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Kids</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Households</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Bags</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Shoes</a></h4>
-                            </div>
-                        </div>
-                    </div><!--/category-products-->
-                
-                    <div class="brands_products"><!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href=""> <span class="pull-right">(50)</span>Acne</a></li>
-                                <li><a href=""> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                                <li><a href=""> <span class="pull-right">(27)</span>Albiro</a></li>
-                                <li><a href=""> <span class="pull-right">(32)</span>Ronhill</a></li>
-                                <li><a href=""> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                                <li><a href=""> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                <li><a href=""> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/brands_products-->
-                    
-                    <div class="price-range"><!--price-range-->
-                        <h2>Price Range</h2>
-                        <div class="well">
-                             <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-                             <b>$ 0</b> <b class="pull-right">$ 600</b>
-                        </div>
-                    </div><!--/price-range-->
-                    
-                    <div class="shipping text-center"><!--shipping-->
-                        <img src="images/home/shipping.jpg" alt="" />
-                    </div><!--/shipping-->
-                    
-                </div>
-            </div>
-            
+            @include('shopping.layouts.left-sidebar')
             <div class="col-sm-9 padding-right">
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="images/product-details/1.jpg" alt="" />
-                            <h3>ZOOM</h3>
+                            <img src="{{Storage::url($product->productImages()->first()->image)}}" alt="" />
                         </div>
-                        <div id="similar-product" class="carousel slide" data-ride="carousel">
-                            
-                              <!-- Wrapper for slides -->
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                      <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="item">
-                                      <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="item">
-                                      <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    
+                        {{-- <div id="similar-product" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <a href=""><img src="{{asset('images/product-details/similar1.jpg')}}" alt=""></a>
+                                    <a href=""><img src="{{asset('images/product-details/similar2.jpg')}}" alt=""></a>
+                                    <a href=""><img src="{{asset('images/product-details/similar3.jpg')}}" alt=""></a>
                                 </div>
+                                <div class="item">
+                                    <a href=""><img src="{{asset('images/product-details/similar1.jpg')}}" alt=""></a>
+                                    <a href=""><img src="{{asset('images/product-details/similar2.jpg')}}" alt=""></a>
+                                    <a href=""><img src="{{asset('images/product-details/similar3.jpg')}}" alt=""></a>
+                                </div>
+                            </div>
 
-                              <!-- Controls -->
-                              <a class="left item-control" href="#similar-product" data-slide="prev">
+                            <!-- Controls -->
+                            <a class="left item-control" href="#similar-product" data-slide="prev">
                                 <i class="fa fa-angle-left"></i>
-                              </a>
-                              <a class="right item-control" href="#similar-product" data-slide="next">
+                            </a>
+                            <a class="right item-control" href="#similar-product" data-slide="next">
                                 <i class="fa fa-angle-right"></i>
-                              </a>
-                        </div>
+                            </a>
+                        </div> --}}
 
                     </div>
                     <div class="col-sm-7">
                         <div class="product-information"><!--/product-information-->
-                            <img src="images/product-details/new.jpg" class="newarrival" alt="" />
-                            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-                            <p>Web ID: 1089772</p>
-                            <img src="images/product-details/rating.png" alt="" />
+                            <img src="" class="newarrival" alt="" />
+                            <h2>{{ $product->name}}</h2>
+                            <p>Mã Sản Phẩm: {{ $product->id}}</p>
+                            {{-- <img src="images/product-details/rating.png" alt="hello" /> --}}
                             <span>
-                                <span>US $59</span>
-                                <label>Quantity:</label>
-                                <input type="text" value="3" />
-                                <button type="button" class="btn btn-fefault cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Add to cart
-                                </button>
+                                <span>{{ number_format($product->price). ' đ' }}</span>
+                                <label>Số lượng:</label>
+                                <input type="number" value="1" min="1" max="99" disabled/>
+
+                                <input type="hidden" class="product_id_{{ $product->id }}" value="{{ $product->id }}">
+                                <input type="hidden" class="product_name_{{ $product->id }}" value="{{ $product->name }}">
+                                <input type="hidden" class="product_description_{{ $product->id }}" value="{{ $product->description }}">
+                                <input type="hidden" class="product_quantity_{{ $product->id }}" value="{{ $product->quantity }}">
+                                <input type="hidden" class="product_image_{{ $product->id }}" value="{{ $product->productImages()->first()->image ? $product->productImages()->first()->image : "" }}">
+                                <input type="hidden" class="product_price_{{ $product->id }}" value="{{ $product->price }}">
+                                
+                                <a type="button" class="btn btn-fefault cart add-to-cart" href="{{ route('shopping.add_to_cart', $product->id) }}">
+                                    Thêm vào<i class="fa fa-shopping-cart"></i>
+                                </a>
                             </span>
-                            <p><b>Availability:</b> In Stock</p>
-                            <p><b>Condition:</b> New</p>
-                            <p><b>Brand:</b> E-SHOPPER</p>
-                            <a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
+                            
+                            <p><b>Tình trạng:</b>{{ $product->quantity ? "Còn hàng" : "Hết hàng" }}</p>
+                            <p><b>Mô tả sản phẩm:</b>{!! $product->description !!}</p>
+                            {{-- <a href=""><img src="{{asset('images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a> --}}
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
                 
-                <div class="category-tab shop-details-tab"><!--category-tab-->
+                {{-- <div class="category-tab shop-details-tab"><!--category-tab-->
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li><a href="#details" data-toggle="tab">Details</a></li>
@@ -398,9 +257,9 @@
                         </div>
                         
                     </div>
-                </div><!--/category-tab-->
+                </div><!--/category-tab--> --}}
                 
-                <div class="recommended_items"><!--recommended_items-->
+                {{-- <div class="recommended_items"><!--recommended_items-->
                     <h2 class="title text-center">recommended items</h2>
                     
                     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
@@ -490,9 +349,17 @@
                           </a>			
                     </div>
                 </div><!--/recommended_items-->
-                
+                --}}
             </div>
         </div>
     </div>
 </section>
 @endsection
+@push('js')
+@if (session()->has('success_add'))
+    <script>
+        toastr.success("{{session()->get('success_add')}}")
+    </script>
+@endif
+@endpush
+

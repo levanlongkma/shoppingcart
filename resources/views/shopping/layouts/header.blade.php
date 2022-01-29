@@ -36,19 +36,22 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="{{ route('shopping.home') }}"><img src="images/home/logo.png" alt="" /></a>
+                        <a href="{{ route('shopping.home') }}"><img src="{{ asset('images/home/logo.png') }}" alt="" /></a>
                     </div>
                     
                 </div>
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href=""><i class="fa fa-user"></i> Account</a></li>
-                            <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-                            <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
-                            <li><a href="{{ route('shopping.login') }}"><i class="fa fa-lock"></i> Login</a></li>
-                            <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                            @auth
+                            <li><a href=""><i class="fa fa-user"></i> Tài Khoản</a></li>
+                            <li><a href="#" data-target="#wishlist" data-toggle="modal" ><i class="fa fa-star"></i> Danh Sách Wishlist</a></li>
+                            <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán </a></li>
+                            <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
+                            <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
+                            @else
+                            <li><a href="{{ route('shopping.login') }}"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -70,30 +73,30 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="{{ route('shopping.home') }}" class="active">Home</a></li>
-                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
+                            <li><a href="{{ route('shopping.home') }}" class="active">Trang Chủ</a></li>
+                            {{-- <li class="dropdown"><a href="/">Cửa Hàng</a> --}}
+                                {{-- <ul role="menu" class="sub-menu">
                                     <li><a href="{{ route('shopping.products') }}">Products</a></li>
                                     <li><a href="{{ route('shopping.product_details') }}">Product Details</a></li> 
                                     <li><a href="{{ route('shopping.checkout') }}">Checkout</a></li> 
                                     <li><a href="{{ route('shopping.cart') }}">Cart</a></li> 
                                     <li><a href="{{ route('shopping.login') }}">Login</a></li> 
-                                </ul>
+                                </ul> --}}
                             </li> 
-                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="{{ route('shopping.blog_list') }}">Blog List</a></li>
+                            <li class="dropdown"><a href="{{ route('shopping.blog_list') }}">Blog Thời Trang</a>
+                                {{-- <ul role="menu" class="sub-menu">
+                                    <li><a href="">Blog List</a></li>
                                     <li><a href="{{ route('shopping.blog_single') }}">Blog Single</a></li>
-                                </ul>
+                                </ul> --}}
                             </li> 
-                            <li><a href="{{ route('shopping.contact') }}">Contact</a></li>
+                            <li><a href="{{ route('shopping.contact') }}">Liên Hệ</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
-                    </div>
+                    {{-- <div class="search_box pull-right">
+                        <input type="text" placeholder="Tìm kiếm"/>
+                    </div> --}}
                 </div>
             </div>
         </div>

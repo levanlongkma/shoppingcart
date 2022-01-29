@@ -1,7 +1,7 @@
 @extends('shopping.index')
 
 @push('title')
-    Cart | E-Shopper
+    Giỏ hàng | E-Shopper
 @endpush
 
 @section('content')
@@ -9,8 +9,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li><a href="/">Trang</a></li>
+                    <li class="active">Giỏ Hàng Của Bạn</li>
                 </ol>
             </div>
             <div class="table-responsive cart_info">
@@ -92,10 +92,10 @@
 @endsection
 @push('js')
 @if (session('success_add'))
-        <script>
-            swal({{ session('success_add') }})
-        </script>
-    @endif
+    <script>
+        swal({{ session('success_add') }})
+    </script>
+@endif
     <script>
         $(function() {
             $(".update-cart").change(function(e) {
