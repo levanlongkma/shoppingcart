@@ -5,6 +5,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\Shopping\CheckoutController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
 use App\Http\Controllers\Shopping\LocationController;
@@ -53,7 +54,10 @@ Route::group(['as' => 'shopping.'], function() {
         Route::get('/add-to-cart/{id}', [HomeController::class,'addToCart'])->name('add_to_cart');
         Route::patch('update-cart', [HomeController::class, 'update'])->name('update_cart');
         Route::delete('remove-from-cart', [HomeController::class, 'remove'])->name('remove_from_cart');
-        Route::get('/show-district', [DistrictController::class, 'show'])->name('show_district');
+        Route::post('/get-district', [LocationController::class, 'getDistricts'])->name('getDistricts');
+        Route::post('/get-ward', [LocationController::class, 'getWards'])->name('getWards');
+        Route::post('/order', [CheckoutController::class, 'createOrder'])->name('order');
+        Route::post('/order-detail', [CheckoutController::class, 'createOrderDetail'])->name('order_detail');
     });
 
 });

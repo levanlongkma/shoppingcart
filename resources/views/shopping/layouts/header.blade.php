@@ -46,7 +46,7 @@
                             @auth
                             <li><a href=""><i class="fa fa-user"></i> Tài Khoản</a></li>
                             <li><a href="#" data-target="#wishlist" data-toggle="modal" ><i class="fa fa-star"></i> Danh Sách Wishlist</a></li>
-                            <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán </a></li>
+                            
                             <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
                             <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
                             @else

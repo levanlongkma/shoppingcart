@@ -539,9 +539,7 @@
         {
             "name": "ezyang/htmlpurifier",
             "version": "v4.14.0",
-            <<
-            << << < HEAD ===
-            === =
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
@@ -591,8 +589,7 @@
         {
             "name": "fruitcake/laravel-cors",
             "version": "v2.0.4",
-            >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "source": {
+            "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
                 "reference": "12ab42bd6e742c70c0a52f7b82477fcd44e64b75"
@@ -1880,9 +1877,7 @@
             ],
             "time": "2021-11-21T11:48:40+00:00"
         },
-        { <<
-            << << < HEAD ===
-            === =
+        {
             "name": "maatwebsite/excel",
             "version": "3.1.35",
             "source": {
@@ -1958,7 +1953,9 @@
             "time": "2022-01-04T15:05:43+00:00"
         },
         { >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "name": "maennchen/zipstream-php",
+            >>>
+            >
+            e649654548714bd2a9ed6578288dddb7b8895d11 "name": "maennchen/zipstream-php",
             "version": "2.1.0",
             "source": {
                 "type": "git",
@@ -2027,8 +2024,7 @@
         },
         {
             "name": "markbaker/complex",
-            <<
-            << << < HEAD "version": "2.0.3",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MarkBaker/PHPComplex.git",
@@ -2038,8 +2034,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/6f724d7e04606fd8adaa4e3bb381c3e9db09c946",
                 "reference": "6f724d7e04606fd8adaa4e3bb381c3e9db09c946",
-                ===
-                === =
+
                 "version": "3.0.1",
                 "source": {
                     "type": "git",
@@ -2050,8 +2045,7 @@
                     "type": "zip",
                     "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/ab8bc271e404909db09ff2d5ffa1e538085c0f22",
                     "reference": "ab8bc271e404909db09ff2d5ffa1e538085c0f22",
-                    >>>
-                    >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "shasum": ""
+                    "shasum": ""
                 },
                 "require": {
                     "php": "^7.2 || ^8.0"
@@ -2065,56 +2059,54 @@
                 "type": "library",
                 "autoload": {
                     "psr-4": {
-                        "Complex\\": "classes/src/" <<
-                            << << < HEAD
+                        "Complex\\": "classes/src/"
+
                     },
                     "files": [
-                            "classes/src/functions/abs.php",
-                            "classes/src/functions/acos.php",
-                            "classes/src/functions/acosh.php",
-                            "classes/src/functions/acot.php",
-                            "classes/src/functions/acoth.php",
-                            "classes/src/functions/acsc.php",
-                            "classes/src/functions/acsch.php",
-                            "classes/src/functions/argument.php",
-                            "classes/src/functions/asec.php",
-                            "classes/src/functions/asech.php",
-                            "classes/src/functions/asin.php",
-                            "classes/src/functions/asinh.php",
-                            "classes/src/functions/atan.php",
-                            "classes/src/functions/atanh.php",
-                            "classes/src/functions/conjugate.php",
-                            "classes/src/functions/cos.php",
-                            "classes/src/functions/cosh.php",
-                            "classes/src/functions/cot.php",
-                            "classes/src/functions/coth.php",
-                            "classes/src/functions/csc.php",
-                            "classes/src/functions/csch.php",
-                            "classes/src/functions/exp.php",
-                            "classes/src/functions/inverse.php",
-                            "classes/src/functions/ln.php",
-                            "classes/src/functions/log2.php",
-                            "classes/src/functions/log10.php",
-                            "classes/src/functions/negative.php",
-                            "classes/src/functions/pow.php",
-                            "classes/src/functions/rho.php",
-                            "classes/src/functions/sec.php",
-                            "classes/src/functions/sech.php",
-                            "classes/src/functions/sin.php",
-                            "classes/src/functions/sinh.php",
-                            "classes/src/functions/sqrt.php",
-                            "classes/src/functions/tan.php",
-                            "classes/src/functions/tanh.php",
-                            "classes/src/functions/theta.php",
-                            "classes/src/operations/add.php",
-                            "classes/src/operations/subtract.php",
-                            "classes/src/operations/multiply.php",
-                            "classes/src/operations/divideby.php",
-                            "classes/src/operations/divideinto.php"
-                        ] ===
-                        === =
-                } >>>
-                >>> > e649654548714bd2a9ed6578288dddb7b8895d11
+                        "classes/src/functions/abs.php",
+                        "classes/src/functions/acos.php",
+                        "classes/src/functions/acosh.php",
+                        "classes/src/functions/acot.php",
+                        "classes/src/functions/acoth.php",
+                        "classes/src/functions/acsc.php",
+                        "classes/src/functions/acsch.php",
+                        "classes/src/functions/argument.php",
+                        "classes/src/functions/asec.php",
+                        "classes/src/functions/asech.php",
+                        "classes/src/functions/asin.php",
+                        "classes/src/functions/asinh.php",
+                        "classes/src/functions/atan.php",
+                        "classes/src/functions/atanh.php",
+                        "classes/src/functions/conjugate.php",
+                        "classes/src/functions/cos.php",
+                        "classes/src/functions/cosh.php",
+                        "classes/src/functions/cot.php",
+                        "classes/src/functions/coth.php",
+                        "classes/src/functions/csc.php",
+                        "classes/src/functions/csch.php",
+                        "classes/src/functions/exp.php",
+                        "classes/src/functions/inverse.php",
+                        "classes/src/functions/ln.php",
+                        "classes/src/functions/log2.php",
+                        "classes/src/functions/log10.php",
+                        "classes/src/functions/negative.php",
+                        "classes/src/functions/pow.php",
+                        "classes/src/functions/rho.php",
+                        "classes/src/functions/sec.php",
+                        "classes/src/functions/sech.php",
+                        "classes/src/functions/sin.php",
+                        "classes/src/functions/sinh.php",
+                        "classes/src/functions/sqrt.php",
+                        "classes/src/functions/tan.php",
+                        "classes/src/functions/tanh.php",
+                        "classes/src/functions/theta.php",
+                        "classes/src/operations/add.php",
+                        "classes/src/operations/subtract.php",
+                        "classes/src/operations/multiply.php",
+                        "classes/src/operations/divideby.php",
+                        "classes/src/operations/divideinto.php"
+                    ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2132,8 +2124,7 @@
             ],
             "support": {
                 "issues": "https://github.com/MarkBaker/PHPComplex/issues",
-                <<
-                << << < HEAD "source": "https://github.com/MarkBaker/PHPComplex/tree/2.0.3"
+                "source": "https://github.com/MarkBaker/PHPComplex/tree/2.0.3"
             },
             "time": "2021-06-02T09:44:11+00:00"
         },
@@ -2149,8 +2140,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/174395a901b5ba0925f1d790fa91bab531074b61",
                 "reference": "174395a901b5ba0925f1d790fa91bab531074b61",
-                ===
-                === =
+
                 "source": "https://github.com/MarkBaker/PHPComplex/tree/3.0.1"
             },
             "time": "2021-06-29T15:32:53+00:00"
@@ -2167,8 +2157,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/c66aefcafb4f6c269510e9ac46b82619a904c576",
                 "reference": "c66aefcafb4f6c269510e9ac46b82619a904c576",
-                >>>
-                >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "shasum": ""
+                "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
@@ -2186,30 +2175,28 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Matrix\\": "classes/src/" <<
-                        << << < HEAD
+                    "Matrix\\": "classes/src/"
+
                 },
                 "files": [
-                        "classes/src/Functions/adjoint.php",
-                        "classes/src/Functions/antidiagonal.php",
-                        "classes/src/Functions/cofactors.php",
-                        "classes/src/Functions/determinant.php",
-                        "classes/src/Functions/diagonal.php",
-                        "classes/src/Functions/identity.php",
-                        "classes/src/Functions/inverse.php",
-                        "classes/src/Functions/minors.php",
-                        "classes/src/Functions/trace.php",
-                        "classes/src/Functions/transpose.php",
-                        "classes/src/Operations/add.php",
-                        "classes/src/Operations/directsum.php",
-                        "classes/src/Operations/subtract.php",
-                        "classes/src/Operations/multiply.php",
-                        "classes/src/Operations/divideby.php",
-                        "classes/src/Operations/divideinto.php"
-                    ] ===
-                    === =
-            } >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11
+                    "classes/src/Functions/adjoint.php",
+                    "classes/src/Functions/antidiagonal.php",
+                    "classes/src/Functions/cofactors.php",
+                    "classes/src/Functions/determinant.php",
+                    "classes/src/Functions/diagonal.php",
+                    "classes/src/Functions/identity.php",
+                    "classes/src/Functions/inverse.php",
+                    "classes/src/Functions/minors.php",
+                    "classes/src/Functions/trace.php",
+                    "classes/src/Functions/transpose.php",
+                    "classes/src/Operations/add.php",
+                    "classes/src/Operations/directsum.php",
+                    "classes/src/Operations/subtract.php",
+                    "classes/src/Operations/multiply.php",
+                    "classes/src/Operations/divideby.php",
+                    "classes/src/Operations/divideinto.php"
+                ]
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -2228,15 +2215,17 @@
         ],
         "support": {
             "issues": "https://github.com/MarkBaker/PHPMatrix/issues",
-            <<
-            << << < HEAD "source": "https://github.com/MarkBaker/PHPMatrix/tree/2.1.3"
+            "source": "https://github.com/MarkBaker/PHPMatrix/tree/2.1.3"
         },
         "time": "2021-05-25T15:42:17+00:00" ===
-        === =
+        ===
+        =
         "source": "https://github.com/MarkBaker/PHPMatrix/tree/3.0.0"
     },
     "time": "2021-07-01T19:01:15+00:00" >>>
-        >>> > e649654548714bd2a9ed6578288dddb7b8895d11
+        >>>
+        >
+        e649654548714bd2a9ed6578288dddb7b8895d11
 }, {
     "name": "monolog/monolog",
     "version": "2.3.5",
@@ -2743,7 +2732,10 @@
 }, {
     "name": "phpoffice/phpspreadsheet",
     <<
-    << << < HEAD "version": "dev-NumberFormatMask-Helpers",
+    <<
+    <<
+    <
+    HEAD "version": "dev-NumberFormatMask-Helpers",
     "source": {
         "type": "git",
         "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
@@ -2754,7 +2746,8 @@
         "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/2430e916d674d423da19211f3597e3a53845d129",
         "reference": "2430e916d674d423da19211f3597e3a53845d129",
         ===
-        === =
+        ===
+        =
         "version": "1.21.0",
         "source": {
             "type": "git",
@@ -2766,18 +2759,26 @@
             "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/1a359d2ccbb89c05f5dffb32711a95f4afc67964",
             "reference": "1a359d2ccbb89c05f5dffb32711a95f4afc67964",
             >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "shasum": ""
+            >>>
+            >
+            e649654548714bd2a9ed6578288dddb7b8895d11 "shasum": ""
         },
         "require": {
             "ext-ctype": "*",
             "ext-dom": "*",
             "ext-fileinfo": "*",
             <<
-            << << < HEAD ===
-            === =
+            <<
+            <<
+            <
+            HEAD ===
+            ===
+            =
             "ext-gd": "*",
             >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "ext-iconv": "*",
+            >>>
+            >
+            e649654548714bd2a9ed6578288dddb7b8895d11 "ext-iconv": "*",
             "ext-libxml": "*",
             "ext-mbstring": "*",
             "ext-simplexml": "*",
@@ -2789,21 +2790,30 @@
             "ezyang/htmlpurifier": "^4.13",
             "maennchen/zipstream-php": "^2.1",
             <<
-            << << < HEAD "markbaker/complex": "^1.5||^2.0",
+            <<
+            <<
+            <
+            HEAD "markbaker/complex": "^1.5||^2.0",
             "markbaker/matrix": "^1.2||^2.0",
             "php": "^7.2||^8.0",
             ===
-            === =
+            ===
+            =
             "markbaker/complex": "^3.0",
             "markbaker/matrix": "^3.0",
             "php": "^7.3 || ^8.0",
             >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "psr/http-client": "^1.0",
+            >>>
+            >
+            e649654548714bd2a9ed6578288dddb7b8895d11 "psr/http-client": "^1.0",
             "psr/http-factory": "^1.0",
             "psr/simple-cache": "^1.0"
         },
         "require-dev": { <<
-            << << < HEAD "dompdf/dompdf": "^0.8.5",
+            <<
+            <<
+            <
+            HEAD "dompdf/dompdf": "^0.8.5",
             "ext-gd": "*",
             "ext-intl": "*",
             "friendsofphp/php-cs-fixer": "^2.18",
@@ -2819,7 +2829,8 @@
             "ext-gd": "Used for render charts for HTML/PDF Writers, or exact auto-column sizing",
             "ext-intl": "For locale-specific number masks using the NumberFormat helper classes",
             ===
-            === =
+            ===
+            =
             "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
             "dompdf/dompdf": "^1.0",
             "friendsofphp/php-cs-fixer": "^3.2",
@@ -2835,7 +2846,9 @@
         "suggest": {
             "dompdf/dompdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)",
             >>>
-            >>> > e649654548714bd2a9ed6578288dddb7b8895d11 "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+            >>>
+            >
+            e649654548714bd2a9ed6578288dddb7b8895d11 "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)"
         },
@@ -2883,14 +2896,20 @@
         "support": {
             "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
             <<
-            << << < HEAD "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/NumberFormatMask-Helpers"
+            <<
+            <<
+            <
+            HEAD "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/NumberFormatMask-Helpers"
         },
         "time": "2021-02-16T17:26:56+00:00" ===
-            === =
+            ===
+            =
             "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.21.0"
     },
     "time": "2022-01-06T11:10:08+00:00" >>>
-        >>> > e649654548714bd2a9ed6578288dddb7b8895d11
+        >>>
+        >
+        e649654548714bd2a9ed6578288dddb7b8895d11
 }, {
     "name": "phpoption/phpoption",
     "version": "1.8.1",

@@ -14,35 +14,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
     public function home()
     {
+        $params = request()->all();
+        $products = $this->getProductsList($params);
+        $userFavoriteItems = null;
         
-        $slides = Slide::all();
-        $categories = Category::all();
-        $products = Product::with('productImages')->get();
-
-        // $products = [
-        //     [
-        //         'name' => 'x1',
-        //         'type' => 1
-        //     ],
-        //     [
-        //         'name' => 'x1',
-        //         'type' => 2
-        //     ]
-        // ];
-
-        // foreach ($products as $item) {
-        //     if ($item['type'] == Product::QUANDUI) {
-        //         dd(config('config.product_type.' . $item['type']));
-
-        //     }
-        // }
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
         
-        return view('shopping.pages.home', compact('slides', 'categories', 'products'));
+        if (data_get($params, 'category')) {
+            $categoryName = Category::where('slug', $params['category'])->first()->name;
+        }
+        else {
+            $categoryName = 'Tất cả sản phẩm';
+        }
+
+        $highestPrice = DB::select('SELECT price FROM products ORDER BY price DESC LIMIT 1')[0]->price;
+        if (! $highestPrice) {
+            $highestPrice = 5000000;
+        }
+        return view('shopping.pages.home',[   
+            'slides' => Slide::all(), 
+            'categories' => Category::all(), 
+            'categoryName' => $categoryName, 
+            'userFavoriteItems' => $userFavoriteItems,
+            'products' => $products,
+            'highestPrice' => $highestPrice
+        ]);
     }
     
     public function addToCart($id)
@@ -72,7 +76,8 @@ class HomeController extends Controller
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
+
+            session()->flash('success', 'Đã cập nhật giỏ hàng thành công');
         }
     }
 
@@ -85,8 +90,7 @@ class HomeController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-
-            session()->flash('success', 'Product removed successfully');
+            session()->flash('success', 'Đã xóa 1 sản phẩm khỏi giỏ hàng!');
         }
     }
 
@@ -173,11 +177,21 @@ class HomeController extends Controller
         ]);
     }
 
-    public function Checkout()
+    public function Checkout(Request $request)
     {
-        $cities = City::with('districts')->get();
-        
-        return view('shopping.pages.shop.checkout', compact('cities'));
+            if(count(session('cart')) > 0 ){
+
+                if(isset(auth()->user()->id)) {
+                    $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+                }
+                
+                $cities = City::all();
+
+                return view('shopping.pages.shop.checkout', compact(['cities', 'userFavoriteItems']));
+            } else {
+
+                return redirect()->back()->with(['error_cart'=>'Không có sản phẩm nào để thanh toán']);
+            }
     }
 
     public function Cart()
@@ -192,7 +206,12 @@ class HomeController extends Controller
 
     public function Login()
     {
-        return view('shopping.pages.shop.login');
+        $userFavoriteItems = null;
+        
+        if(isset(auth()->user()->id)) {
+            $userFavoriteItems = Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+        }
+        return view('shopping.pages.shop.login',compact('userFavoriteItems'));
 
     }
 

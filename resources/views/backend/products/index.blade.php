@@ -10,17 +10,17 @@
                     <div class="page-header float-left">
 
                         <div class="page-title">
-                            <h1>Products</h1>
+                            <h1>Sản phẩm</h1>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
                 </div>
-                <div class="col-sm-4 d-flex align-items-center">
-                    <div class="form-inline  ">
+                <div class="col-sm-4 ">
+                    <div class="form-inline page-header float-right ">
                         <form method="GET" action="{{ route('admin.product') }}" class="search-form">
                             <input class="form-control mr-sm-2" type="text" name="search" value="{{ $search }}"
-                                placeholder="Search ..." aria-label="Search">
+                                placeholder="Tìm kiếm" aria-label="Search">
                             <button name="submit" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
@@ -35,56 +35,57 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="float-left">
-                                <strong class="card-title">Products List</strong>
+                                <strong class="card-title text-dark">Quản lý sản phẩm</strong>
                             </div>
                             <div class="float-right">
                                 <a href="{{ route('admin.create_form_product') }}" class="btn btn-primary">
-                                    Add New Product
+                                    Thêm sản phẩm mới
                                 </a>
                             </div>
                         </div>
                         <div class="card-body">
-                            <table id="productTable" class="table table-striped ">
+                            <table id="productTable" class="table table-striped table-bordered ">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Quantity</th>
-                                        <th>Slug</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Image</th>
-                                        <th>Created at</th>
-                                        <th>Updated at</th>
-                                        <th>Actions</th>
+                                        <th class="small font-weight-bold text-center">#</th>
+                                        <th class="small font-weight-bold text-center">Tên </th>
+                                        <th class="small font-weight-bold text-center">Mô tả</th>
+                                        <th class="small font-weight-bold text-center">Số lượng</th>
+                                        <th class="small font-weight-bold text-center">Slug</th>
+                                        <th class="small font-weight-bold text-center">Giá</th>
+                                        <th class="small font-weight-bold text-center">Danh mục</th>
+                                        <th class="small font-weight-bold text-center">Hình ảnh</th>
+                                        <th class="small font-weight-bold text-center">Khởi tạo</th>
+                                        <th class="small font-weight-bold text-center">Cập nhật</th>
+                                        <th class="small font-weight-bold text-center">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if ($products->isNotEmpty())
                                         @foreach ($products as $product)
                                             <tr>
-                                                <td>{{ $product->id }}</td>
-                                                <td>{{ $product->name }}</td>
-                                                <td>{{ $product->description }}</td>
-                                                <td>{{ $product->quantity }}</td>
-                                                <td>{{ $product->slug }}</td>
-                                                <td>{{ $product->price }}</td>
-                                                <td>{{ data_get($product, 'category.name') }}</td>
-                                                <td>
+                                                <td class="small text-center">{{ $product->id }}</td>
+                                                <td class="small text-center">{{ $product->name }}</td>
+                                                <td class="small text-center">{{ $product->description }}</td>
+                                                <td class="small text-center">{{ $product->quantity }}</td>
+                                                <td class="small text-center">{{ $product->slug }}</td>
+                                                <td class="small text-center">{{ $product->price }}</td>
+                                                <td class="small text-center">{{ data_get($product, 'category.name') }}</td>
+                                                <td class="small text-center">
                                                     @if ($product->productImages->first() != NULL)
-                                                        <img src="{{ Storage::url($product->productImages->first()->image) }} " alt="No image" >  
+                                                        <img style="width:70; height:80" src="{{ Storage::url($product->productImages->first()->image) }} " alt="No image" >  
                                                     @endif
                                                 </td>
-                                                <td>{{ $product->created_at }}</td>
-                                                <td>{{ $product->updated_at }}</td>
-                                                <td>
+                                                <td class="small text-center">{{ $product->created_at }}</td>
+                                                <td class="small text-center">{{ $product->updated_at }}</td>
+                                                <td class="small text-center">
 
-                                                    <a href="{{ route('admin.edit_product', $product->id) }}">
+                                                    <a class="text-primary" href="{{ route('admin.edit_product', $product->id) }}">
                                                         <i class="menu-icon fa  fa-pencil-square-o"></i>
                                                     </a>
-                                                    <button type="button" data-id="{{ $product->id }}"
-                                                        class="deleteProduct"><i class="fas fa-trash"></i></button>
+                                                    <a href="#" class="deleteProduct text-danger" data-id="{{ $product->id }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
                                                 </td>
 
                                             </tr>
@@ -170,8 +171,7 @@ crossorigin="anonymous"></script>
                 });
                 var id = $(this).data("id");
                 swal({
-                        title: "Are you sure?",
-                        text: "Once deleted, you will not be able to recover this imaginary file!",
+                        title: "Bạn có chắc chắn xóa?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -188,13 +188,13 @@ crossorigin="anonymous"></script>
                                 success: function(response) {
 
                                     window.location.reload();
-                                    swal("Poof! Your imaginary file has been deleted!", {
+                                    swal("Bạn đã xóa thành công !", {
                                         icon: "success",
                                     });
                                 },
                             });
                         } else {
-                            swal("Your imaginary file is safe!");
+                            swal("Sản phẩm vẫn tồn tại !");
                         }
                     });
             })

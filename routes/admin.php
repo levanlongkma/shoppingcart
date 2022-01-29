@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -48,5 +49,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users/create', [UserController::class, 'store'])->name('user.store');
+
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::get('/cart-detail/{id}', [CartController::class, 'orderDetail'])->name('cart_detail');
+        Route::get('/delete-order/{id}', [CartController::class, 'delete'])->name('delete_order');
+        Route::get('/confirm/{id}', [CartController::class, 'confirm'])->name('confirm');
+
     });
 });

@@ -15,7 +15,7 @@
                     <a href="#"><i class="menu-icon ti-tag"></i>Giảm giá</a>
                 </li>
                 <li class="text-capitalize ">
-                    <a href="#"><i class="menu-icon ti-truck"></i>Đơn hàng</a>
+                    <a href="{{ route('admin.cart') }}"><i class="menu-icon ti-truck"></i>Đơn hàng</a>
                 </li>
                 <li class="text-capitalize {{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
                     <a href="#"><i class="menu-icon ti-user"></i>Khách hàng</a>

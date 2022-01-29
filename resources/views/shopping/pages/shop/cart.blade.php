@@ -15,6 +15,8 @@
             </div>
             <div class="table-responsive cart_info">
                 <table class="table table-condensed">
+                    <form >
+                        
                     <thead>
                         <tr class="cart_menu">
                             <td class="image">Hình ảnh</td>
@@ -29,6 +31,7 @@
                         $total = 0;
                     @endphp
                     <tbody>
+                        
                         @if (session('cart'))
                             @foreach (session('cart') as $id => $details)
                                 @php
@@ -41,10 +44,10 @@
                                     </td>
                                     <td class="cart_description">
                                         <h4>{{ $details['name'] }}</h4>
-                                        <p>Mã sản phẩm: {{ $details['id'] }}</p>
+                                        <p >Mã sản phẩm: <input style="border: none" type="text" name="id" value="{{ $details['id'] }}"></p>
                                     </td>
                                     <td class="cart_price">
-                                        <p>{{ number_format($details['price']) . ' đ'  }}</p>
+                                        <input style="border: none" type="text" name="price" value="{{ number_format($details['price']) . ' đ'  }}">
                                     </td>
                                     <td class="cart_quantity">
                                         <div class="cart_quantity_button">
@@ -54,7 +57,7 @@
                                         </div>
                                     </td>
                                     <td class="cart_total">
-                                        <p class="cart_total_price">
+                                        <p  class="cart_total_price">
                                             {{ number_format($details['price'] * $details['quantity']) . ' đ' }}</p>
                                     </td>
                                     <td class="cart_delete">
@@ -71,16 +74,17 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5" class="text-right"><h3><strong>Tổng tiền:  {{ number_format($total). " đ" }}  </strong></h3></td>
+                            <td colspan="5"  class="text-right"><h3 name="sub_total"><strong>Tổng tiền:  {{ number_format($total). " đ" }}  </strong></h3></td>
                         </tr>
                         <tr>
                             <td colspan="5" class="text-right">
                                 <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Tiếp tục xem...</a>
-                                
+                                {{-- <button type="submit" name="submit" class="btn btn-success" >Đặt hàng</button> --}}
                                 <a  class="btn btn-success" href="{{ route('shopping.checkout') }}">Đặt hàng</a>
                             </td>
                         </tr>
                     </tfoot>
+                </form>
                 </table>
                 
             </div>
@@ -94,6 +98,12 @@
 @if (session('success_add'))
     <script>
         swal({{ session('success_add') }})
+    </script>
+@endif
+
+@if (session()->has('error_cart'))
+    <script>
+        toastr.error("{{ session()->get('error_cart') }}")
     </script>
 @endif
     <script>
