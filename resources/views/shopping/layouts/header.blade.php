@@ -57,7 +57,7 @@
                             @endphp
                             @auth
                             <li><a href="{{ route('shopping.accounts.index') }}"><i class="fa fa-user"></i> Tài Khoản</a></li>
-                            <li><a href="#" data-target="#wishlist" data-toggle="modal">Danh Sách Wishlist <span class="badge badge-pill badge-danger" @if($userFavoriteItems->count() == 0) style="display:none" @endif>{{ $userFavoriteItems->count() }}</span></a></li>
+                            <li><a href="#" data-target="#wishlist" data-toggle="modal">Yêu thích <span class="badge badge-pill badge-danger count-favorite @if($userFavoriteItems->count() == 0) hidden @endif" >{{ $userFavoriteItems->count() }}</span></a></li>
                             <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán </a></li>
                             <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
                             <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>

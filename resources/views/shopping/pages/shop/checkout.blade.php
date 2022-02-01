@@ -39,7 +39,7 @@
                                     <option value="{{$province->id}}">{{$province->name}}</option>
                                 @endforeach
                             </select>
-                            <div class="invalid-feedback" id="errorProvince">
+                            <div class="invalid-feedback text-danger" id="errorProvince">
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <select class="form-control" name="district" id="districts" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                             </select>
-                            <div class="invalid-feedback" id="errorDistrict">
+                            <div class="invalid-feedback text-danger" id="errorDistrict">
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                             <select class="form-control" name="ward" id="wards" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                             </select>
-                            <div class="invalid-feedback" id="errorWard">
+                            <div class="invalid-feedback text-danger" id="errorWard">
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label>Cụ thể<span>*</span></label>
                             <input class="form-control" type="text" name="detailsAddress" placeholder="Số nhà, tên đường, ..." required>
-                            <div class="invalid-feedback" id="errorDetails">
+                            <div class="invalid-feedback text-danger" id="errorDetails">
                             </div>
                         </div>
                     </div>

@@ -66,6 +66,7 @@
     <script src="{{ asset('/backend/assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/main.js') }}"></script>
+    <script src="js/app.js"></script>
     <script src="{{ asset('/backend/assets/js/jquery.matchHeight.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/toastr.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/sweetalert2.all.min.js') }}"></script>
@@ -79,7 +80,38 @@
             }
         });
     </script>
-    
+    {{-- Broadcast --}}
+    <script>
+        $(document).ready(function(){
+            $notificationCount = $('.notification-count').text();
 
+            @if(Auth::guard('admin')->check())
+                Echo.channel('orderNotification')
+                    .listen('MessageNotification', (e) => {
+                        $notificationCount = $('.notification-count').text();
+
+                        if ($notificationCount == 0) {
+                            $notificationCount = '0';
+                            $('#dropdownNotification').empty();
+                        }
+
+                        $notificationCount = parseInt($notificationCount) + 1;
+                        $('.notification-count').text($notificationCount);
+                        $('.notification-count').show();
+                        $('#dropdownNotification').prepend(`
+                        <a class="dropdown-item media" href="#">
+                            <span class="photo media-left"><img alt="avatar" src="`+e.image+`"></span>
+                            <div class="message media-body">
+                                <span class="name float-left">`+e.message+`</span>
+                                <span class="time float-right">
+                                    0 giây trước
+                                </span>
+                            </div>
+                        </a>
+                        `)
+                    })
+            @endif
+        })
+    </script>
 </body>
 </html>

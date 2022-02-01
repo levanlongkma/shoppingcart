@@ -26,11 +26,10 @@
 
 <body>
 	@include('shopping.layouts.header')
-
     @yield('content')
-
-    @include('shopping.layouts.footer')
     @include('shopping.layouts.wishlist')
+    @include('shopping.layouts.footer')
+    
     <script src="{{ asset('/js/jquery.js') }}"></script>
 	<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('/js/jquery.scrollUp.min.js') }}"></script>
@@ -48,7 +47,7 @@
             }
         });
     </script>
-
+    {{-- Search tool --}}
     <script>
         $(document).ready(function() {
             //setup before functions
@@ -70,6 +69,15 @@
     <script>
         $(document).ready(function() {
             $('.add-to-wishlist').click(function() {
+                let countFavorite = $('#count-favorite').text();
+                $('#count-favorite').removeClass('hidden');
+                
+                if (countFavorite == 0) {
+                    countFavorite = '0';
+                }
+
+                countFavorite = parseInt(countFavorite) + 1;
+                
                 if ($(this).data('user-id') == '') {
                     Swal.fire({
                         text: 'Vui lòng đăng nhập để thực hiện chức năng này',
@@ -84,8 +92,7 @@
                             window.location.href = "{{ route('shopping.login') }}";
                         }
                     })
-                }
-                else {
+                } else {
                     $.ajax({
                         type: "POST",
                         dataType: "json",

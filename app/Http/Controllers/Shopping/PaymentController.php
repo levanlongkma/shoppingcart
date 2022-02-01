@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Shopping;
 
+use App\Events\MessageNotification;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
@@ -43,8 +45,9 @@ class PaymentController extends Controller
                             'ward_id' => $order->ward_id
                         ]);
                     }
-
+                    // dd($order);
                     if($order) {
+                        event(new MessageNotification($order, 'Đơn hàng từ khách hàng: '.Auth::guard('web')->user()->name));
                         session()->forget(['cart']);
                         return [
                             'status' => true,
@@ -85,6 +88,10 @@ class PaymentController extends Controller
                         'created_at' => now(),
                         'is_read' => false,
                     ]);
+
+                    if ($result) {
+                        event(new MessageNotification($result, 'Đơn hàng từ khách hàng: '.Auth::guard('web')->user()->name));
+                    }
 
                     foreach (session('cart') as $key => $value) {
                         OrderDetail::create([

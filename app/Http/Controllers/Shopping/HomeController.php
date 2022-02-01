@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Shopping;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\OrderProcess;
 use App\Models\Category;
 use App\Models\Favorite;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Slide;
 use Exception;

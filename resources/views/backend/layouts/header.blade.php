@@ -46,20 +46,27 @@
                 <div class="header-left">
                     <div class="dropdown for-notification">
                         @php
-                            $is_not_reads = App\Models\Order::where('is_read', false)->get();
+                            $is_not_reads = App\Models\Order::where('is_read', false)->orderBy('created_at','desc')->get();
                         @endphp
 
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
-                            <span class="count bg-danger" @if($is_not_reads->count() == 0) style="display: none" @endif>{{count($is_not_reads)}}</span>
+                            <span class="count bg-danger notification-count" @if($is_not_reads->count() == 0) style="display: none" @endif>{{count($is_not_reads)}}</span>
                         </button>
                         
-                        <div class="dropdown-menu" aria-labelledby="notification">
+                        <div class="dropdown-menu" aria-labelledby="notification" id="dropdownNotification">
                             @forelse ($is_not_reads as $item)
+                                @php
+                                    if ($item->user->avatar) {
+                                        $path = Storage::url($item->user->avatar);
+                                    } else {
+                                        $path = asset('images/shop/no-avatar.png');
+                                    }
+                                @endphp
                                 <a class="dropdown-item media" href="#"> {{-- Nhấn link ra order --}}
-                                    {{-- <span class="photo media-left"><img alt="avatar" src="{{ asset('backend/images/avatar/1.jpg') }}"></span> --}}
+                                    <span class="photo media-left"><img alt="avatar" src="{{$path}}"></span>
                                     <div class="message media-body">
-                                        <span class="name float-left">Đơn hàng mới từ {{$item->user->name}} </span>
+                                        <span class="name float-left">Đơn hàng mới từ {{$item->user->name}}</span>
                                         <span class="time float-right">
                                             @php 
                                                 Carbon\Carbon::setLocale('vi');
