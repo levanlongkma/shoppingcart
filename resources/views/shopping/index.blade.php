@@ -69,15 +69,6 @@
     <script>
         $(document).ready(function() {
             $('.add-to-wishlist').click(function() {
-                let countFavorite = $('#count-favorite').text();
-                $('#count-favorite').removeClass('hidden');
-                
-                if (countFavorite == 0) {
-                    countFavorite = '0';
-                }
-
-                countFavorite = parseInt(countFavorite) + 1;
-                
                 if ($(this).data('user-id') == '') {
                     Swal.fire({
                         text: 'Vui lòng đăng nhập để thực hiện chức năng này',
@@ -101,17 +92,53 @@
     
                         success: function(data) {
                             if (data.status) {
-                                toastr.success('Đã thêm vào wishlist của bạn!')
-                                $('.favorite-table-body').append(`
-                                <tr class="favorite-item">
-                                    <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
-                                    <td class="small text-center">`+data.product['name']+`</td>
-                                    <td class="small text-center">`+data.product['price']+`</td>
-                                    <td class="small text-center">1</td>
-                                    <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`"><i class="fas fa-cart-plus"></i></a></td>
-                                    <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
-                                </tr>
-                                `)
+                                toastr.success('Đã thêm vào yêu thích của bạn!')
+                                let countFavorite = $('#count-favorite').text();
+                                if (countFavorite == 0) {
+                                    countFavorite = '0';
+                                    countFavorite = parseInt(countFavorite) + 1;
+                                    $('#count-favorite').text(countFavorite);
+                                    $('#count-favorite').removeClass('hidden');
+                                    $('#display-favorite').empty();
+                                    $('#display-favorite').prepend(`
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="small font-weight-bold text-center">Ảnh</th>
+                                                <th class="small font-weight-bold text-center">Tên sản phẩm</th>
+                                                <th class="small font-weight-bold text-center">Giá tiền</th>
+                                                <th class="small font-weight-bold text-center">Số lượng</th>
+                                                <th class="small font-weight-bold text-center">Thêm vào giỏ hàng</th>
+                                                <th class="small font-weight-bold text-center">Xóa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="favorite-table-body">
+                                            <tr class="favorite-item">
+                                                <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
+                                                <td class="small text-center">`+data.product['name']+`</td>
+                                                <td class="small text-center">`+data.product['price']+`</td>
+                                                <td class="small text-center">1</td>
+                                                <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`"><i class="fas fa-cart-plus"></i></a></td>
+                                                <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    `);
+                                    
+                                } else {
+                                    countFavorite = parseInt(countFavorite) + 1;
+                                    $('#count-favorite').text(countFavorite);
+                                    $('.favorite-table-body').append(`
+                                    <tr class="favorite-item">
+                                        <td class="small text-center"><img src="{{asset('storage/`+data.product.product_images[0].image+`')}}" alt="favorite product" style="width:30px; height:30px"></td>
+                                        <td class="small text-center">`+data.product['name']+`</td>
+                                        <td class="small text-center">`+data.product['price']+`</td>
+                                        <td class="small text-center">1</td>
+                                        <td class="small text-center"><a href="/add-to-cart/`+data.product['id']+`"><i class="fas fa-cart-plus"></i></a></td>
+                                        <td class="small text-center"><a href="javascript:;" class="remove-from-wishlist" data-product-id="`+data.product['id']+`"><i class="fas fa-trash-alt"></i></a></td>
+                                    </tr>
+                                    `)
+                                }
                             }
                             else {
                                 toastr.info('Sản phẩm đã tồn tại trong wishlist')
@@ -127,7 +154,6 @@
         // Remove from wishlist
         $(document).ready(function() {
             $(document).on('click', '.remove-from-wishlist', function() {
-                console.log('hello')
                 $(this).closest('.favorite-item').remove()  
     
                 $.ajax({
@@ -136,9 +162,25 @@
                     url: "{{ route('shopping.favorites.removeFromFavorite') }}",
                     data: {product_id:$(this).data('product-id')},
                     success: function(data) {
-                        console.log(data.status)
                         if (data.status) {
-                            $(this).closest('.favorite-item').remove()  
+                            let countFavorite = $('#count-favorite').text();
+                            countFavorite = parseInt(countFavorite) - 1
+                            if (countFavorite == 0) {
+                                $('#count-favorite').addClass('hidden');
+                                $('#count-favorite').text(countFavorite);
+                                $('#display-favorite').empty();
+                                $('#display-favorite').prepend(`
+                                    <div style="display:flex; justify-content:center">
+                                    <img style="with:30px; height:30px" src="{{ asset('images/shop/shrug-shoulder.png')}}" alt="">
+                                    <p style="padding: 10px">Không tìm thấy sản phẩm yêu thích nào</p>
+                                </div>
+                                `);
+
+                            } else {
+                                $('#count-favorite').text(countFavorite);
+                                $(this).closest('.favorite-item').remove()  
+                            }
+
                             toastr.success('Đã xóa sản phẩm!')
                         }
                         else {
