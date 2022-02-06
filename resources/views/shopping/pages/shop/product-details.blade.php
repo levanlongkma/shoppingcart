@@ -1,7 +1,7 @@
 @extends('shopping.index')
 
 @push('title')
-    Shop | E-Shop
+    Sản Phẩm {{ $product->name}} | E-Shop
 @endpush
 
 @section('content')

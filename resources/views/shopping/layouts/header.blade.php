@@ -101,7 +101,7 @@
                                     <li><a href="{{ route('shopping.blog_single') }}">Blog Single</a></li>
                                 </ul> --}}
                             {{-- </li>  --}}
-                            <li><a href="{{ route('shopping.contact') }}">Liên Hệ</a></li>
+                            {{-- <li><a href="{{ route('shopping.contact') }}">Liên Hệ</a></li> --}}
                         </ul>
                     </div>
                 </div>

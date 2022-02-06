@@ -1,5 +1,7 @@
 @extends('backend.layouts.main')
-
+@push('title')
+    Dashboard | Eshop Admin
+@endpush
 @section('content')
     <!-- Content -->
     <div class="content">
@@ -7,7 +9,7 @@
         <div class="animated fadeIn">
             <!-- Widgets  -->
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-widget-five">
@@ -16,8 +18,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text">$<span class="count">4000</span></div>
-                                        <div class="stat-heading">Avenue</div>
+                                        <div class="stat-text"><span class="count">{{ $estimatedRevenue }}</span> VNĐ</div>
+                                        <div class="stat-heading">Doanh thu dự tính</div>
                                     </div>
                                 </div>
                             </div>
@@ -25,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-widget-five">
@@ -34,8 +36,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text">$<span class="count">3000</span></div>
-                                        <div class="stat-heading">Sales</div>
+                                        <div class="stat-text"><span class="count">{{ $fixedRevenue }}</span> VNĐ</div>
+                                        <div class="stat-heading">Doanh thu thực</div>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-widget-five">
@@ -52,8 +54,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">69</span></div>
-                                        <div class="stat-heading">Total Orders</div>
+                                        <div class="stat-text"><span class="count">{{ $numberOfOrders }}</span></div>
+                                        <div class="stat-heading">Tổng số đơn hàng</div>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-widget-five">
@@ -70,8 +72,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">10</span></div>
-                                        <div class="stat-heading">Cancel/Reject</div>
+                                        <div class="stat-text"><span class="count">{{ $numberOfUsers }}</span></div>
+                                        <div class="stat-heading">Khách hàng tiềm năng</div>
                                     </div>
                                 </div>
                             </div>

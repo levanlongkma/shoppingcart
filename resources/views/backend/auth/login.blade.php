@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Page</title>
+    <title>Đăng nhập admin eshoper</title>
    <!--Made with love by Mutiullah Samim -->
    
     <!--Bootsrap 4 CDN-->
@@ -23,12 +23,11 @@
     <div class="d-flex justify-content-center h-100">
         <div class="card">
             <div class="card-header">
-                <h3>Login</h3>
+                <h3>Nhập Email và Mật Khẩu Để Đăng Nhập</h3>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.post_login') }}">
                     @csrf
-
                     @if ($errors->has('login_fail'))
                         <div style="color:red" class="error">{{ $errors->first('login_fail') }}</div>
                     @endif
@@ -37,7 +36,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                            <input type="text" class="form-control" name="email" placeholder="Username">
+                            <input type="text" class="form-control" name="email" placeholder="Email">
 
                             @if($errors->has('email'))
                                 <div style="color:red" class="error">{{ $errors->first('email') }}</div>
@@ -49,17 +48,13 @@
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
                         <div>
-                            <input type="password" class="form-control" name="password" placeholder="password">
+                            <input type="password" class="form-control" name="password" placeholder="Mật Khẩu">
                         </div>
 
                         @if($errors->has('password'))
                             <div style="color: red" class="error">{{ $errors->first('password') }}</div>
                         @endif
                         
-                    </div>
-                    
-                    <div class="row align-items-center remember">
-                        <input type="checkbox">Remember Me
                     </div>
                     <div class="form-group">
                         <button type="submit" name="submit" class="btn float-right login_btn">Login</button>

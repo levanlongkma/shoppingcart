@@ -47,6 +47,12 @@
             }
         });
     </script>
+    @if (session()->has('messages_error'))
+    <script>
+        toastr.error("{{session()->get('messages_error')}}");
+    </script>
+    @endif
+    
     {{-- Search tool --}}
     <script>
         $(document).ready(function() {

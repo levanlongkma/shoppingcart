@@ -50,7 +50,7 @@ class MessageNotification implements ShouldBroadcastNow
         return [
             'image' => $image,
             'message' => $this->message,
-            'link' => url('admin/orders/'.$this->order->id)
+            'link' => url('admin/orders?search='.$this->order->order_id)
         ];
     }
 }

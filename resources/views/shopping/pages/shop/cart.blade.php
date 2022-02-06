@@ -13,6 +13,7 @@
                     <li class="active">Giỏ Hàng Của Bạn</li>
                 </ol>
             </div>
+            @if (session('cart'))
             <div class="table-responsive cart_info">
                 <table class="table table-condensed">
                     <thead>
@@ -29,12 +30,10 @@
                         $total = 0;
                     @endphp
                     <tbody>
-                        @if (session('cart'))
                             @foreach (session('cart') as $id => $details)
                                 @php
                                     $total += $details['price'] * $details['quantity'];
                                 @endphp
-                                
                                 <tr data-id="{{ $id }}">
                                     <td class="cart_product">
                                         <a href=""><img width="100px" height="100px" src="{{ $details['image'] ? Storage::url($details['image']->image) : "https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png"}}" alt=""></a>
@@ -61,13 +60,7 @@
                                         <button class="btn btn-danger btn-sm remove-from-cart">X</button>
                                     </td>
                                 </tr>
-
-                                
                             @endforeach
-                            
-                        @endif
-
-                        
                     </tbody>
                     <tfoot>
                         <tr>
@@ -76,14 +69,19 @@
                         <tr>
                             <td colspan="5" class="text-right">
                                 <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Tiếp tục xem...</a>
-                                
                                 <a  class="btn btn-success" href="{{ route('shopping.checkout') }}">Đặt hàng</a>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
-                
             </div>
+            @else
+                <div style="display:flex; justify-content:center">
+                    <img style="with:40px; height:40px; " src="{{ asset('images/shop/shrug-shoulder.png')}}" alt="">
+                    <p style="padding: 8px; padding-bottom:0px">Giỏ hàng của bạn đang trống</p>
+                    <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Tiếp tục xem...</a>
+                </div>
+            @endif
         </div>
     </section>
 

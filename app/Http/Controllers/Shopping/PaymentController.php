@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
@@ -25,6 +26,8 @@ class PaymentController extends Controller
             
             $string = implode(',',$array);
 
+            DB::beginTransaction();
+
             try {
                 if (data_get($params, 'ward') != '-1') {
                     $order = Order::create([
@@ -36,17 +39,30 @@ class PaymentController extends Controller
                         'details_address' => $params['detailsAddress'],
                         'created_at' => now(),
                         'is_read' => false,
+                        'city' => DB::table('provinces')->select('name')->where('id', $params['province'])->first()->name,
+                        'district' => DB::table('districts')->select('name')->where('id', $params['district'])->first()->name,
+                        'ward' => DB::table('wards')->select('name')->where('id', $params['ward'])->first()->name,
+                        'order_id' => date("YmdHis")."-".auth()->user()->id,
+                        'subtotal' => $params['total_price'],
+                        'name' => $params['name'],
+                        'note_shipping' => $params['note'],
+                        'phone_number' => $params['phone_number'],
                     ]);
 
-                    foreach (session('cart') as $key => $value) {
-                        OrderDetail::create([
-                            'products_id' => $key,
-                            'order_id' => $order->id,
-                            'ward_id' => $order->ward_id
-                        ]);
-                    }
-                    // dd($order);
                     if($order) {
+                        foreach (session('cart') as $key => $value) {
+                            OrderDetail::create([
+                                'products_id' => $key,
+                                'name' => Product::where('id', $value['id'])->first()->name,
+                                'user_id' => auth()->user()->id,
+                                'quantity' => $value['quantity'],
+                                'order_id' => $order->order_id,
+                                'total' => $value['quantity']*$value['price'],
+                                'ward_id' => $order->ward_id,
+                                'created_at'=>now()
+                            ]);
+                        }
+                        DB::commit();
                         event(new MessageNotification($order, 'Đơn hàng từ khách hàng: '.Auth::guard('web')->user()->name));
                         session()->forget(['cart']);
                         return [
@@ -55,6 +71,7 @@ class PaymentController extends Controller
                     }
                 }
             } catch (\Exception $e) {
+                DB::rollBack();
                 Log::error($e);
 
                 return [
@@ -75,10 +92,10 @@ class PaymentController extends Controller
             }
             
             $string = implode(',',$array);
-            
+            DB::beginTransaction();
             try {
                 if (data_get($params, 'ward') != '-1') {
-                    $result = Order::create([
+                    $order = Order::create([
                         'payment_type' => "Online",
                         'checkout_status' => 0,
                         'user_id' => auth()->user()->id,
@@ -87,26 +104,38 @@ class PaymentController extends Controller
                         'details_address' => $params['detailsAddress'],
                         'created_at' => now(),
                         'is_read' => false,
+                        'city' => DB::table('provinces')->select('name')->where('id', $params['province'])->first()->name,
+                        'district' => DB::table('districts')->select('name')->where('id', $params['district'])->first()->name,
+                        'ward' => DB::table('wards')->select('name')->where('id', $params['ward'])->first()->name,
+                        'order_id' => date("YmdHis")."-".auth()->user()->id,
+                        'subtotal' => $params['total_price'],
+                        'name' => $params['name'],
+                        'note_shipping' => $params['note'],
+                        'phone_number' => $params['phone_number'],
                     ]);
 
-                    if ($result) {
-                        event(new MessageNotification($result, 'Đơn hàng từ khách hàng: '.Auth::guard('web')->user()->name));
+                    if ($order) {
+                        event(new MessageNotification($order, 'Đơn hàng từ khách hàng: '.Auth::guard('web')->user()->name));
+                        foreach (session('cart') as $key => $value) {
+                            OrderDetail::create([
+                                'products_id' => $key,
+                                'name' => Product::where('id', $value['id'])->first()->name,
+                                'user_id' => auth()->user()->id,
+                                'quantity' => $value['quantity'],
+                                'order_id' => $order->order_id,
+                                'total' => $value['quantity']*$value['price'],
+                                'ward_id' => $order->ward_id,
+                                'created_at'=>now()
+                            ]);
+                        }
+                        DB::commit();
                     }
-
-                    foreach (session('cart') as $key => $value) {
-                        OrderDetail::create([
-                            'products_id' => $key,
-                            'order_id' => $result->id,
-                            'ward_id' => $result->ward_id,
-                        ]);
-                    }
-
                     $vnp_TmnCode = "IY96RSTL"; //Mã website tại VNPAY 
                     $vnp_HashSecret = "TZWTZGJYKEUCCKCXXJKIAWRFMAJMWVUF"; //Chuỗi bí mật
                     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
                     $vnp_Returnurl = "http://shoppingcart.test:81/payments/online/vnpayreturn";
                     $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
-                    $vnp_TxnRef = $result->id;
+                    $vnp_TxnRef = $order->id;
                     $vnp_OrderInfo = "Thanh toán hóa đơn phí dich vụ. Số tiền ".number_format(request()->total_price).' đ';
                     $vnp_OrderType = 'billpayment';
                     $vnp_Amount = request()->total_price * 100;
@@ -160,6 +189,7 @@ class PaymentController extends Controller
                     return response()->json(['link'=>$vnp_Url]);
                 }
             } catch (\Exception $e) {
+                DB::rollBack();
                 Log::error($e);
                 return [
                     'status' => false,

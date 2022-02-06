@@ -1,5 +1,7 @@
 @extends('backend.layouts.main')
-
+@push('title')
+    Khách Hàng | Eshop Admin
+@endpush
 @section('content')
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
@@ -51,8 +53,7 @@
                                     <td class="small text-center">{{ $user->id }}</td>
                                     <td class="small">{{ $user->name }}</td>
                                     <td class="small text-center">{{ $user->confirmed ? 'Đã xác thực' : 'Chưa xác thực'}}</td>
-                                    <td class="small text-center"><a class="text-primary" href="#"><i class="fas fa-eye"></i></a></td> 
-                                    {{-- {{ route('admin.orders',['search' => $user->id]) }} --}}
+                                    <td class="small text-center"><a class="text-primary" href="{{ route('admin.orders.index', ['customer_id' => $user->id]) }}"><i class="fas fa-eye"></i></a></td>
                                     <td class="small text-center">{{ $user->phone_number }}</td>
                                     <td class="small text-center">{{ $user->created_at }}</td>
                                     <td class="small text-center">

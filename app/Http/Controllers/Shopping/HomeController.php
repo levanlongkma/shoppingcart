@@ -160,9 +160,12 @@ class HomeController extends Controller
 
     public function Checkout()
     {
-        $provinces = DB::select('SELECT id, name FROM provinces');
+        if (session()->has('cart')) {
+            $provinces = DB::select('SELECT id, name FROM provinces');
+            return view('shopping.pages.shop.checkout', compact(['provinces']));
+        }
 
-        return view('shopping.pages.shop.checkout', compact(['provinces']));
+        return redirect()->back()->with('messages_error','Không thể thanh toán bởi giỏ hàng của bạn đang trống');
     }
 
     public function Cart()

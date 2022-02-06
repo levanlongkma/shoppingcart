@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>E-shop Admin</title>
+    <title>
+        @stack('title')
+    </title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>​
@@ -66,13 +68,11 @@
     <script src="{{ asset('/backend/assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/main.js') }}"></script>
-    <script src="js/app.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/jquery.matchHeight.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/toastr.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/sweetalert2.all.min.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>    
-    @stack('js')
-
     <script>
         $.ajaxSetup({
             headers: {
@@ -80,6 +80,7 @@
             }
         });
     </script>
+    @stack('js')
     {{-- Broadcast --}}
     <script>
         $(document).ready(function(){
@@ -99,7 +100,7 @@
                         $('.notification-count').text($notificationCount);
                         $('.notification-count').show();
                         $('#dropdownNotification').prepend(`
-                        <a class="dropdown-item media" href="#">
+                        <a class="dropdown-item media" href="`+e.link+`">
                             <span class="photo media-left"><img alt="avatar" src="`+e.image+`"></span>
                             <div class="message media-body">
                                 <span class="name float-left">`+e.message+`</span>

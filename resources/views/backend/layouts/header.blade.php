@@ -8,11 +8,11 @@
                 <li class="text-capitalize {{ isset($active) ? ($active == "categories" ? "active" : "" ) : ''  }}">
                     <a href="{{ route('admin.categories.index') }}"><i class="menu-icon ti-menu"></i>Danh mục</a>
                 </li>
-                <li class="text-capitalize ">
+                <li class="text-capitalize {{ isset($active) ? ($active == "products" ? "active" : "" ) : ''  }}">
                     <a href="{{ route('admin.product') }}"><i class="menu-icon ti-bag"></i>Sản phẩm</a>
                 </li>
-                <li class="text-capitalize ">
-                    <a href="#"><i class="menu-icon ti-truck"></i>Đơn hàng</a>
+                <li class="text-capitalize {{ isset($active) ? ($active == "orders" ? "active" : "" ) : ''  }}">
+                    <a href="{{ route('admin.orders.index') }}"><i class="menu-icon ti-truck"></i>Đơn hàng</a>
                 </li>
                 <li class="text-capitalize {{ isset($active) ? ($active == "users" ? "active" : "" ) : ''  }}">
                     <a href="{{ route('admin.users.index') }}"><i class="menu-icon ti-user"></i>Khách hàng</a>
@@ -63,7 +63,7 @@
                                         $path = asset('images/shop/no-avatar.png');
                                     }
                                 @endphp
-                                <a class="dropdown-item media" href="#"> {{-- Nhấn link ra order --}}
+                                <a class="dropdown-item media" href="{{ route('admin.orders.index', ['search' => $item->order_id]) }}">
                                     <span class="photo media-left"><img alt="avatar" src="{{$path}}"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Đơn hàng mới từ {{$item->user->name}}</span>
@@ -91,7 +91,7 @@
                             <img class="user-avatar rounded-circle" src="{{ asset('backend/images/admin.jpg') }}" alt="User Avatar">
                         </a>
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fa fa-power -off"></i>Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
