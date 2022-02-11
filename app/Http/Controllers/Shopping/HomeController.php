@@ -161,7 +161,7 @@ class HomeController extends Controller
     public function Checkout()
     {
         if (session()->has('cart')) {
-            $provinces = DB::select('SELECT id, name FROM provinces');
+            $provinces = DB::select('SELECT matp, name FROM devvn_tinhthanhpho');
             return view('shopping.pages.shop.checkout', compact(['provinces']));
         }
 

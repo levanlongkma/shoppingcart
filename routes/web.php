@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\Shopping\AccountController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
@@ -37,6 +38,9 @@ Route::group(['as' => 'shopping.'], function() {
     Route::get('/contact', [HomeController::class, 'ContactUs'])->name('contact');
     Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
     Route::post('/login', [AuthController::class, 'logIn'])->name('login_post');
+
+    Route::get('/login-fb', [FacebookController::class, 'loginFacebook'])->name('login_fb');
+    Route::get('/callback', [FaceBookController::class, 'callbackFromFacebook'])->name('callback');
 
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/register/verify/{code}', [AuthController::class, 'verify'])->name('verify');

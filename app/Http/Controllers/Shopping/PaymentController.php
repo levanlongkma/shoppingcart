@@ -26,27 +26,31 @@ class PaymentController extends Controller
             
             $string = implode(',',$array);
 
+            $paramID = auth()->id();
+            $string = date("YmdHis");
+            $order_id = $string."-".$paramID;
             DB::beginTransaction();
 
             try {
+                
                 if (data_get($params, 'ward') != '-1') {
+                    
                     $order = Order::create([
                         'payment_type' => "COD",
                         'checkout_status' => 0,
                         'user_id' => auth()->user()->id,
-                        'ward_id' => $params['ward'],
-                        'type' => $string,
                         'details_address' => $params['detailsAddress'],
                         'created_at' => now(),
                         'is_read' => false,
-                        'city' => DB::table('provinces')->select('name')->where('id', $params['province'])->first()->name,
-                        'district' => DB::table('districts')->select('name')->where('id', $params['district'])->first()->name,
-                        'ward' => DB::table('wards')->select('name')->where('id', $params['ward'])->first()->name,
-                        'order_id' => date("YmdHis")."-".auth()->user()->id,
+                        'city' => DB::table('devvn_tinhthanhpho')->select('name')->where('matp', $params['province'])->first()->name,
+                        'district' => DB::table('devvn_quanhuyen')->select('name')->where('maqh', $params['district'])->first()->name,
+                        'ward' => DB::table('devvn_xaphuongthitran')->select('name')->where('xaid', $params['ward'])->first()->name,
+                        'order_id'=> $order_id,
                         'subtotal' => $params['total_price'],
                         'name' => $params['name'],
                         'note_shipping' => $params['note'],
-                        'phone_number' => $params['phone_number'],
+                        'phone_number' => $params['phone_number']
+                        
                     ]);
 
                     if($order) {
@@ -58,7 +62,7 @@ class PaymentController extends Controller
                                 'quantity' => $value['quantity'],
                                 'order_id' => $order->order_id,
                                 'total' => $value['quantity']*$value['price'],
-                                'ward_id' => $order->ward_id,
+                                
                                 'created_at'=>now()
                             ]);
                         }
@@ -124,7 +128,7 @@ class PaymentController extends Controller
                                 'quantity' => $value['quantity'],
                                 'order_id' => $order->order_id,
                                 'total' => $value['quantity']*$value['price'],
-                                'ward_id' => $order->ward_id,
+                                
                                 'created_at'=>now()
                             ]);
                         }

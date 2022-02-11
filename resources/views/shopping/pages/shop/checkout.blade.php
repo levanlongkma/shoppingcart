@@ -52,7 +52,7 @@
                             <select class="form-control" name="province" id="provinces" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                                 @foreach ($provinces as  $province)
-                                    <option value="{{$province->id}}">{{$province->name}}</option>
+                                    <option value="{{$province->matp}}">{{$province->name}}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback text-danger" id="errorProvince">
@@ -230,7 +230,7 @@
                 type: "POST",
                 dataType: "json",
                 url: "{{ route('shopping.getDistricts') }}",
-                data: { province_id: $('#provinces').find(":selected").val() },
+                data: { matp: $('#provinces').find(":selected").val() },
                 success: function(data) {
                     $('#districts').empty()
                     $('#districts').prepend(`<option value="-1" selected="selected">Chọn ...</option>`)
@@ -240,7 +240,7 @@
                     if (data.status) {
                         Object.keys(data.districts).forEach(key => {
                             $('#districts').append(`
-                                <option value="`+data.districts[key]['id']+`">`+data.districts[key]['name']+`</option>
+                                <option value="`+data.districts[key]['maqh']+`">`+data.districts[key]['name']+`</option>
                             `)
                         })
                     }
@@ -262,7 +262,7 @@
                 type: "POST",
                 dataType: "json",
                 url: "{{ route('shopping.getWards') }}",
-                data: { district_id: $('#districts').find(":selected").val() },
+                data: { maqh: $('#districts').find(":selected").val() },
                 success: function(data) {
                     $('#wards').empty()
                     $('#wards').prepend(`<option value="-1" selected="selected">Chọn ...</option>`)
@@ -270,7 +270,7 @@
                     if (data.status) {
                         Object.keys(data.wards).forEach(key => {
                             $('#wards').append(`
-                                <option value="`+data.wards[key]['id']+`">`+data.wards[key]['name']+`</option>
+                                <option value="`+data.wards[key]['xaid']+`">`+data.wards[key]['name']+`</option>
                             `)
                         })
                     }

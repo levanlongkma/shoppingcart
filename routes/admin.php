@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PrintController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UserController;
@@ -54,9 +55,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
         Route::group(['prefix' => 'orders', 'as' => 'orders.'], function() {
             Route::get('/', [OrderController::class, 'index'])->name('index');
-            Route::get('/{order:order_id}', [OrderController::class, 'orderDetail'])->name('cart_detail');
+            Route::get('/order-deatail/{id}', [OrderController::class, 'orderDetail'])->name('cart_detail');
             Route::post('/delete', [OrderController::class, 'delete'])->name('delete');
             Route::post('/confirm', [OrderController::class, 'confirm'])->name('confirm');
+            Route::get('/print/{id}', [PrintController::class, 'print'])->name('print');
         });
+
+
     });
 });

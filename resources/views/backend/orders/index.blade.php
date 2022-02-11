@@ -71,7 +71,7 @@
                                         <td class="small text-center">{{ $order->updated_at }}</td>
                                         <td class="small text-center">
                                             <div class="btn-group-vertical" role="group" aria-label="Basic outlined example">
-                                                <a href="{{ route('admin.orders.cart_detail',$order->order_id) }}" class="btn btn-outline-primary">Xem</a>
+                                                <a href="{{ route('admin.orders.cart_detail',$order->id) }}" class="btn btn-outline-primary">Xem</a>
                                                 <a href="javascript:;" data-id="{{ $order->id }}" class="btn btn-outline-primary deletedOrder">Xóa</a>
                                                 @if ($order->checkout_status == 0)
                                                     <a href="javascript:;" data-id="{{ $order->id }}"  class="btn btn-outline-primary confirm">Xác nhận</a>

@@ -1,5 +1,7 @@
 @extends('backend.layouts.main')
-
+@push('title')
+    Chi tiết | Eshop Admin
+@endpush
 @section('content')
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
@@ -31,6 +33,9 @@
                         <div class="float-left">
                             <strong class="card-title text-dark">Chi tiết đơn hàng</strong>
                         </div>
+                        <div class="float-right">
+                            <strong class="card-title text-dark"><a class="btn  btn-success print" href="{{ route('admin.orders.print', $order->id) }}">Print</a></strong>
+                        </div>
                         
                     </div>
                     <div class="card-body">
@@ -40,7 +45,7 @@
                                 <p style="font-size: 12px"> Lê Văn Tưởng <br>
                                     SĐT: 0972630235 <br>
                                     Email: vantuongno1@gmail.com <br>
-                                    Địa chỉ:: Mê Linh - Hà Nội <br>
+                                    Địa chỉ: Mê Linh - Hà Nội <br>
                                 </p>
                             </div>  
                                 
@@ -95,3 +100,11 @@
 
 <div class="clearfix"></div>
 @endsection
+@push('js')
+<script src="{{ asset('/backend/assets/js/jquery.printPage.js') }}"></script>
+<script>
+    $(function(){
+        $('.print').printPage();
+    })
+</script>
+@endpush

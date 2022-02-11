@@ -23,6 +23,7 @@ class AuthController extends Controller
             $confirmation_code = time().uniqid(true);
             
             $data = $request->all();
+            
             $users = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -30,7 +31,7 @@ class AuthController extends Controller
                 'confirmation_code' => $confirmation_code,
                 'confirmed' => 0
             ]);
-
+            
             $data['confirmation_code'] = $users->confirmation_code;
             
             Mail::send('emails.verify', $data, function($message) use ($data){
@@ -70,7 +71,7 @@ class AuthController extends Controller
 
     public function logIn(Request $request)
     {
-
+        
         if (!Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'confirmed'=>1])) {
 
             session()->flash('error_login', "Vui lòng kiểm tra lại mật khẩu hoặc email !");

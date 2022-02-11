@@ -11,10 +11,10 @@ class LocationController extends Controller
 {
     public function getDistricts() {
         $params = request()->all();
-
+        
         try {
-            if (data_get($params, 'province_id')) {
-                $districts = DB::select('SELECT id,name FROM districts WHERE province_id = ?', [$params['province_id']]);
+            if (data_get($params, 'matp')) {
+                $districts = DB::select('SELECT maqh,name FROM devvn_quanhuyen WHERE matp = ?', [$params['matp']]);
                 
                 return [
                     'status' => true,
@@ -34,8 +34,8 @@ class LocationController extends Controller
         $params = request()->all();
         
         try {
-            if (data_get($params, 'district_id')) {
-                $wards = DB::select('SELECT id,name FROM wards WHERE district_id = ?', [$params['district_id']]);
+            if (data_get($params, 'maqh')) {
+                $wards = DB::select('SELECT xaid,name FROM devvn_xaphuongthitran WHERE maqh = ?', [$params['maqh']]);
                 
                 return [
                     'status' => true,

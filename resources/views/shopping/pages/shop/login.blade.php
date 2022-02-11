@@ -40,7 +40,12 @@
                         </span> --}}
                             <button type="submit" class="btn btn-default">Đăng Nhập</button>
                         </form>
+                        
                     </div>
+                    <a href="{{ route('shopping.login_fb') }}" class="btn btn-block">
+                        <i class="fab fa-facebook-f fa-fw"></i>
+                        Login with Facebook
+                     </a>
                     <!--/login form-->
                 </div>
                 <div class="col-sm-1">
@@ -71,7 +76,7 @@
                             @enderror
 
 
-                            <button type="submit" class="btn btn-default">Đăng Ký Tài Khoản</button>
+                            <button type="submit" name="submit" class="btn btn-default">Đăng Ký Tài Khoản</button>
                         </form>
                     </div>
                     <!--/sign up form-->

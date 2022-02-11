@@ -18,10 +18,12 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
         'password',
+        'facebook_id',
         'confirmation_code',
         'confirmed'
     ];

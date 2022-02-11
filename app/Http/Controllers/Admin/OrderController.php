@@ -30,10 +30,10 @@ class OrderController extends Controller
     public function orderDetail($id)
     {
         $active = "orders";
-        $order = Order::where('order_id', $id )->first();
-        $order_id = $order->order_id;
+        $order = Order::where('id', $id )->first();
         
-        $orderDetails = OrderDetail::where('order_id', $order_id)->get();
+        
+        $orderDetails = OrderDetail::where('order_id', $order->order_id)->get();
         
         return view('backend.orders.view', compact('order', 'orderDetails', 'active'));
     }
