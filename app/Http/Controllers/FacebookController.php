@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -21,13 +22,13 @@ class FacebookController extends Controller
         
         try {
             $user = Socialite::driver('facebook')->user();
-            dd($user);
+            
             $saveUser = User::updateOrCreate([
                 'facebook_id' => $user->getId(),
             ],[
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
-                'password' => $user->Hash::make($user->getName()),
+                'password' => Hash::make($user->getName()),
                 'confirmed' => 1
             ]);
 

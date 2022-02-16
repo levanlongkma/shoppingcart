@@ -38,7 +38,7 @@
                             <input type="checkbox" class="checkbox"> 
                             Keep me signed in
                         </span> --}}
-                            <button type="submit" class="btn btn-default">Đăng Nhập</button>
+                            <button style="width:100%" type="submit" class="btn btn-default">Đăng Nhập</button>
                         </form>
                         
                     </div>
@@ -76,7 +76,7 @@
                             @enderror
 
 
-                            <button type="submit" name="submit" class="btn btn-default">Đăng Ký Tài Khoản</button>
+                            <button style="width:100%" type="submit" name="submit" class="btn btn-default">Đăng Ký Tài Khoản</button>
                         </form>
                     </div>
                     <!--/sign up form-->
