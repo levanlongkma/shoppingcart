@@ -1,5 +1,7 @@
 @extends('backend.layouts.main')
-
+@push('title')
+    Thông Tin Doanh Nghiệp | Eshop Admin
+@endpush
 @section('content')
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">

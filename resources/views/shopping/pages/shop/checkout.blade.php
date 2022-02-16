@@ -1,7 +1,7 @@
 @extends('shopping.index')
 
 @push('title')
-    Checkout | E-Shopper
+    Trang Thanh Toán | E-Shopper
 @endpush
 
 @section('content')
@@ -9,65 +9,81 @@
     <div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-              <li><a href="#">Trang</a></li>
-              <li class="active">Thanh toán</li>
+                <li><a href="#">Trang</a></li>
+                <li class="active">Thanh toán</li>
             </ol>
         </div><!--/breadcrums-->
 
         <div class="step-one">
-            <h2 class="heading">Nhập địa chỉ giao hàng</h2>
+            <h2 class="heading">Nhập địa chỉ nhận hàng</h2>
             <form id="form-order-info">
                 @csrf
                 <div class="row">
                     <input type="hidden" name="total_price"/>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                            <label>Họ và tên: <label style="font-weight:bolder;color:black">{{Auth::guard('web')->user()->name}}</label></label>
+                            <label style="font-weight:bolder;color:black" >Họ và tên<span class="text-danger">*</span> </label>
+                            <input type="text" class="form-control" name="name" placeholder="Tên người nhận">
+                            <div class="invalid-feedback text-danger" id="errorName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight:bolder;color:black" >Số điện thoại<span class="text-danger">*</span>  </label>
+                            <input type="number" class="form-control" name="phone_number" placeholder="SĐT người nhận">
+                            <div class="invalid-feedback text-danger" id="errorPhonenumber">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight:bolder;color:black" >Email<span class="text-danger">*</span>  </label>
+                            <input type="text" class="form-control" name="email" placeholder="Email của người nhận hàng">
+                            <div class="invalid-feedback text-danger" id="errorEmail">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight:bolder;color:black" >Ghi chú<span class="text-danger">*</span>  </label>
+                            <textarea type="text" rows="4" class="form-control" name="note" placeholder="Bạn muốn giao hàng lúc nào?"></textarea>
+                            <div class="invalid-feedback text-danger" id="errorNote">
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                            <label>Số điện thoại: <label style="font-weight:bolder;color:black" id="phonenumber">@if(Auth::guard('web')->user()->phone_number == null) <a href="" style="color: red">Cập nhật số điện thoại</a> @else {{Auth::guard('web')->user()->phone_number}} @endif</label></label>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-12">
-                        <div class="form-group">
-                            <label>Tỉnh / Thành phố<span>*</span></label>
+                            <label>Tỉnh / Thành phố<span class="text-danger">*</span></label>
                             <select class="form-control" name="province" id="provinces" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                                 @foreach ($provinces as  $province)
                                     <option value="{{$province->id}}">{{$province->name}}</option>
                                 @endforeach
                             </select>
-                            <div class="invalid-feedback" id="errorProvince">
+                            <div class="invalid-feedback text-danger" id="errorProvince">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                            <label>Quận / Huyện<span>*</span></label>
+                            <label>Quận / Huyện<span class="text-danger">*</span></label>
                             <select class="form-control" name="district" id="districts" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                             </select>
-                            <div class="invalid-feedback" id="errorDistrict">
+                            <div class="invalid-feedback text-danger" id="errorDistrict">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                            <label>Xã / Phường<span>*</span></label>
+                            <label>Xã / Phường<span class="text-danger">*</span></label>
                             <select class="form-control" name="ward" id="wards" required>
                                 <option value="-1" selected="selected">Chọn ...</option>
                             </select>
-                            <div class="invalid-feedback" id="errorWard">
+                            <div class="invalid-feedback text-danger" id="errorWard">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                            <label>Cụ thể<span>*</span></label>
-                            <input class="form-control" type="text" name="detailsAddress" placeholder="Số nhà, tên đường, ..." required>
-                            <div class="invalid-feedback" id="errorDetails">
+                            <label>Cụ thể<span class="text-danger">*</span></label>
+                            <textarea class="form-control" type="text" name="detailsAddress" rows="4" placeholder="Số nhà, tên đường, ..." required></textarea>
+                            <div class="invalid-feedback text-danger" id="errorDetails">
                             </div>
                         </div>
                     </div>
@@ -229,7 +245,7 @@
                         })
                     }
                     else {
-                        toastr.error('Không thể tải lên dữ liệu vị trí, hãy thửu lại')
+                        toastr.error('Không thể tải lên dữ liệu vị trí, hãy thử lại')
                     }
                 },
                 error: function(xhr) {
@@ -273,8 +289,20 @@
         $(document).on('change','#wards', function() {
             $("#errorWard").text("")
         })
-        $(document).on('keydown', 'input[name=detailsAddress]',function() {
+        $(document).on('keydown', '[name="detailsAddress"]',function() {
             $("#errorDetails").text("")
+        })
+        $(document).on('keydown', '[name="name"]',function() {
+            $("#errorName").text("")
+        })
+        $(document).on('keydown', '[name="email"]',function() {
+            $("#errorEmail").text("")
+        })
+        $(document).on('keydown', '[name="phone_number"]',function() {
+            $("#errorPhonenumber").text("")
+        })
+        $(document).on('keydown', '[name="note"]',function() {
+            $("#errorNote").text("")
         })
     })
 </script>
@@ -287,7 +315,11 @@
             let formData = new FormData($('#form-order-info')[0]) 
             let count = 0;
 
-            $detailAddress = $('input[name=detailsAddress]')
+            let $name = $('[name="name"]')
+            let $phone_number = $('[name="phone_number"]')
+            let $email = $('[name="email"]')
+            let $note = $('[name="note"]')
+            let $detailAddress = $('[name="detailsAddress"]')
             let $province = $('#provinces')
             let $district = $('#districts')
             let $ward = $('#wards')
@@ -314,18 +346,42 @@
                 count +=1
             }
 
-            if ($detailAddress.val() == ''){
-                $("#errorDetails").text("Trường này không được để trống") 
-            } else {
+            if ($detailAddress.val().trim().length){
                 $("#errorDetails").text("")
                 count +=1
+            } else {
+                $("#errorDetails").text("Trường này không được để trống")
             }
 
-            if ($.isNumeric($phonenumber)){
+            if ($.isNumeric($phone_number.val())){
+                $("#errorPhonenumber").text("")
                 count+=1
+            } else {
+                $("#errorPhonenumber").text("Vui lòng kiểm tra lại SĐT trường này!")
+            }
+
+            if ($name.val().trim().length) {
+                $("#errorName").text("")
+                count +=1
+            } else {
+                $("#errorName").text("Trường này không được để trống")
             }
             
-            if (count == 5) {
+            if ($email.val().trim().length) {
+                $("#errorEmail").text("")
+                count +=1
+            } else {
+                $("#errorEmail").text("Trường này không được để trống")
+            }
+            
+            if ($note.val().trim().length) {
+                $("#errorNote").text("")
+                count +=1
+            } else {
+                $("#errorNote").text("Trường này không được để trống")
+            }
+            
+            if (count == 8) {
                 if ($('[name="payment"]').find(":selected").val() == "cod") {
                     $.ajax({
                         type: "POST",

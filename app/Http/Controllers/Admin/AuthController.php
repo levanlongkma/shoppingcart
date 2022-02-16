@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    // }
     
     public function showLoginForm() 
     {
@@ -31,7 +31,7 @@ class AuthController extends Controller
         ])) {
             return redirect()->route('admin.dashboard');
         }
-        $message ="Fail Login";
+        $message = "Đăng nhập thất bại";
         
         return Redirect::back()->withErrors(['login_fail' => $message]);
     }

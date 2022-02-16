@@ -19,9 +19,10 @@ class ProductController extends Controller
 {
     public function showCreateForm()
     {
+        $active = "products";
         $categories = Category::all();
 
-        return view('backend.products.form-create', compact('categories'));
+        return view('backend.products.form-create', compact('categories', 'active'));
     }
 
     public function create(ProductValidator $request)
@@ -56,10 +57,11 @@ class ProductController extends Controller
 
     public function showEditForm($id)
     {
+        $active = "products";
         $product = Product::where('id', $id)->first();
         $categories = Category::all();
 
-        return view('backend.products.form-edit', compact('product','categories'));
+        return view('backend.products.form-edit', compact('product','categories', 'active'));
     }
 
     public function update(ProductValidator $request, ProductImage $productImage,  $id)
@@ -112,11 +114,12 @@ class ProductController extends Controller
     
     public function index()
     {
+        $active = 'products';
         $params = request()->all();
         $search = $params['search'] ?? '';
         $products = Product::where('name', 'LIKE', "%{$search}%")->paginate(10);
         $categories = Category::all();
 
-        return view('backend.products.index', compact('products', 'search', 'categories', ));
+        return view('backend.products.index', compact('products', 'search', 'categories', 'active'));
     }
 }

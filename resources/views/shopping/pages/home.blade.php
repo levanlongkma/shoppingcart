@@ -105,14 +105,14 @@ Trang Chủ | E-Shop
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a href="javascript:;" class="add-to-wishlist" data-product-id="{{$product->id}}" data-user-id="{{ isset(auth()->user()->id) ? auth()->user()->id : ""  }}"><i class="fa fa-plus-square"></i>Thêm vào wishlist</a></li>
+                                        <li><a href="javascript:;" class="add-to-wishlist" data-product-id="{{$product->id}}" data-user-id="{{ isset(auth()->user()->id) ? auth()->user()->id : ""  }}"><i class="fa fa-plus-square"></i>Thêm vào yêu thích</a></li>
                                         <li><a href="{{url('products/'.$product->slug)}}"><i class="fas fa-eye"></i>Xem chi tiết</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         @empty
-                            <div>Không thấy sản phẩm</div>
+                            <div><img style="width: 30px; height: 30px;" src="{{ asset('images/shop/think-face.png')}}" alt="think-face"></img> Hiện chưa có sản phẩm phù hợp với yêu cầu của bạn!</div>
                         @endforelse
                     </div>
                 </div>
@@ -123,7 +123,6 @@ Trang Chủ | E-Shop
     
 @endsection    
 @push('js') 
-@stack('search-js') 
 
 @if (session()->has('success'))
     <script>

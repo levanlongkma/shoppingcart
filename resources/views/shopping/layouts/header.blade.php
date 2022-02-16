@@ -4,13 +4,20 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="contactinfo">
-                        <ul class="nav nav-pills">
+                        {{-- <ul class="nav nav-pills">
                             <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
                             <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    @auth
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills" style="float:right">
+                            <li><a href="{{route('shopping.accounts.index')}}"> {{ auth()->user()->name }}</a></li>
+                        </ul>
+                    </div>
+                    @else
                     <div class="social-icons pull-right">
                         <ul class="nav navbar-nav">
                             
@@ -20,12 +27,11 @@
                             <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
                             <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                             <li>
-                                @auth
-                                    {{ auth()->user()->name }}
-                                @endauth
+                                
                             </li>
                         </ul>
                     </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -43,9 +49,15 @@
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
+                            @php
+                                $userFavoriteItems = NULL;
+                                if(isset(auth()->user()->id)) {
+                                    $userFavoriteItems = App\Models\Favorite::with('favoriteProducts')->where('user_id', auth()->user()->id)->get();
+                                }
+                            @endphp
                             @auth
-                            <li><a href=""><i class="fa fa-user"></i> Tài Khoản</a></li>
-                            <li><a href="#" data-target="#wishlist" data-toggle="modal" ><i class="fa fa-star"></i> Danh Sách Wishlist</a></li>
+                            <li><a href="{{ route('shopping.accounts.index') }}"><i class="fa fa-user"></i> Tài Khoản</a></li>
+                            <li><a href="#" data-target="#wishlist" data-toggle="modal">Yêu thích <span id="count-favorite" class="badge badge-pill badge-danger @if($userFavoriteItems->count() == 0) hidden @endif" >{{ $userFavoriteItems->count() }}</span></a></li>
                             <li><a href="{{ route('shopping.checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán </a></li>
                             <li><a href="{{ route('shopping.cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span></a></li>
                             <li><a href="{{ route('shopping.logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
@@ -83,13 +95,13 @@
                                     <li><a href="{{ route('shopping.login') }}">Login</a></li> 
                                 </ul> --}}
                             </li> 
-                            <li class="dropdown"><a href="{{ route('shopping.blog_list') }}">Blog Thời Trang</a>
+                            {{-- <li class="dropdown"><a href="{{ route('shopping.blog_list') }}">Blog Thời Trang</a> --}}
                                 {{-- <ul role="menu" class="sub-menu">
                                     <li><a href="">Blog List</a></li>
                                     <li><a href="{{ route('shopping.blog_single') }}">Blog Single</a></li>
                                 </ul> --}}
-                            </li> 
-                            <li><a href="{{ route('shopping.contact') }}">Liên Hệ</a></li>
+                            {{-- </li>  --}}
+                            {{-- <li><a href="{{ route('shopping.contact') }}">Liên Hệ</a></li> --}}
                         </ul>
                     </div>
                 </div>

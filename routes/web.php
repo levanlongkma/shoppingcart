@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Shopping\AccountController;
 use App\Http\Controllers\Shopping\HomeController;
 use App\Http\Controllers\Shopping\HomeController as ShoppingHomeController;
 use App\Http\Controllers\Shopping\LocationController;
@@ -60,6 +61,11 @@ Route::group(['as' => 'shopping.'], function() {
             Route::post('/cod', [PaymentController::class, 'cod'])->name('cod');
             Route::post('/online', [PaymentController::class, 'create'])->name('vnpaycreate');
             Route::get('/online/vnpayreturn', [PaymentController::class, 'return'])->name('vnpayreturn');
+        });
+
+        Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function() {
+            Route::get('/', [AccountController::class, 'index'])->name('index');
+            Route::post('/update', [AccountController::class, 'update'])->name('update');
         });
     });
 
